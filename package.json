@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Toko Ria Sigli Server",
   "main": "",
-  "devDependencies": {},
   "dependencies": {
-    "fastify": "^4.25.1"
+    "fastify": "^4.25.2"
   },
   "scripts": {},
   "type": "module",
