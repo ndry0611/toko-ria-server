@@ -4,10 +4,22 @@
   "description": "Toko Ria Sigli Server",
   "main": "",
   "dependencies": {
-    "fastify": "^4.25.2"
+    "@prisma/client": "^5.8.1",
+    "dotenv": "^16.4.1",
+    "fastify": "^4.25.2",
+    "nodemon": "^3.0.3",
+    "yup": "^1.3.3"
   },
-  "scripts": {},
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "scripts": {
+    "start": "node src/app"
+  },
   "type": "module",
   "author": "andry",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.8.1"
+  }
 }
