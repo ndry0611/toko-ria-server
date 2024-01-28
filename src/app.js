@@ -1,19 +1,20 @@
 import Fastify from "fastify";
-import router from "./routers";
+import userRoute from "./modules/users/UsersHandler.js";
+import 'dotenv/config'
 
 const fastify = Fastify({
     logger: true
 })
 
-fastify.register(router)
+fastify.register(userRoute, { prefix: "/user" });
 
-const start = async () => {
+async function start() {
     try {
-        await fastify.listen({ port: 3000 })
+        await fastify.listen({ port: process.env.PORT });
+        fastify.log.info(`API is running on port ${fastify.server.address().port}`)
     } catch (err) {
-        fastify.log.error(err)
-        process.exit(1)
+        fastify.log.error(err);
+        process.exit(1);
     }
 }
-
 start()
