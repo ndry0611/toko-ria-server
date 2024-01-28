@@ -1,4 +1,4 @@
-import prisma from '../src/utils/prisma';
+import prisma from '../src/utils/prisma.js';
 
 async function main() {
     const admin = await prisma.role.upsert({
