@@ -1,12 +1,22 @@
-import { createUser } from "./UsersRepository.js";
+import {
+    createUser,
+    getAllUser
+} from "./UsersRepository.js";
 
-// export async function getAllUsers(request, reply) {
-//     try {
-//         reply.code(200).send('hello');
-//     } catch (error) {
-//         reply.code(500).send(error);
-//     }
-// }
+export async function getAllUserController(request, reply) {
+    try {
+        const users = await getAllUser();
+        const response = users.map(({ idRole, createdAt, updatedAt, ...rest }) => ({
+            ...rest,
+            id_role: idRole,
+            created_at: createdAt,
+            updated_at: updatedAt,
+        }));
+        reply.code(200).send(response);
+    } catch (error) {
+        reply.code(500).send(error);
+    }
+}
 
 export async function createUserController(request, reply) {
     const body = request.body;
@@ -22,8 +32,7 @@ export async function createUserController(request, reply) {
         }
         return reply.code(201).send(response);
     } catch (error) {
-        reply.code(400)
+        reply.code(500)
         throw new Error(error.message);
     }
-
 }

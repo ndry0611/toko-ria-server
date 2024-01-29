@@ -1,7 +1,35 @@
-import { createUserController } from './UsersController.js'
+import {
+    createUserController,
+    getAllUserController
+} from './UsersController.js'
 
 async function userRoute(fastify, options, next) {
-    // fastify.get('/', getAllUsers);
+
+    const getAllUserSchema = {
+        schema: {
+            response: {
+                200: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            id: { type: "integer" },
+                            username: { type: "string" },
+                            name: { type: "string" },
+                            phone: { type: "string" },
+                            address: { type: "string" },
+                            status: { type: "boolean" },
+                            id_role: { type: "integer" },
+                            created_at: { type: "string", format: "date-time" },
+                            updated_at: { type: "string", format: "date-time" },
+                        },
+                        required: ['id', 'username', 'name', 'phone', 'address', 'status', 'id_role', 'created_at', 'updated_at']
+                    },
+                }
+            }
+        }
+    }
+    fastify.get('/', getAllUserSchema, getAllUserController);
 
     const createUserSchema = {
         schema: {
@@ -35,6 +63,7 @@ async function userRoute(fastify, options, next) {
         }
     };
     fastify.post('/', createUserSchema, createUserController);
+
     next()
 }
 
