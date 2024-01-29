@@ -3,14 +3,14 @@ import { hashPassword } from '../src/utils/bcrypt.js';
 
 
 async function main() {
-    const admin = await prisma.role.upsert({
+    await prisma.role.upsert({
         where: { id: 1 },
         update: {},
         create: {
             name: 'admin'
         }
     });
-    const customer = await prisma.role.upsert({
+    await prisma.role.upsert({
         where: { id: 2 },
         update: {},
         create: {
