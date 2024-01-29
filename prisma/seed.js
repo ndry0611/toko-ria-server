@@ -1,4 +1,6 @@
 import prisma from '../src/utils/prisma.js';
+import { hashPassword } from '../src/utils/bcrypt.js';
+
 
 async function main() {
     const admin = await prisma.role.upsert({
@@ -15,7 +17,24 @@ async function main() {
             name: 'customer'
         }
     });
-    console.log({ admin, customer })
+
+    const userAdmin = await prisma.user.findUnique({
+        where: { id: 1 }
+    });
+    if (!userAdmin) {
+        const hash = await hashPassword(process.env.ADMIN_PASSWORD);
+        await prisma.user.create({
+            data: {
+                name: 'admin',
+                idRole: 1,
+                username: 'admin',
+                password: hash,
+                phone: "081328282727",
+                address: "Jalan Iskandar Muda No 5 Sigli",
+                status: true
+            }
+        });
+    }
 }
 main()
     .then(async () => {
