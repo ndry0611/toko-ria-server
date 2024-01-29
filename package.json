@@ -5,6 +5,7 @@
   "main": "",
   "dependencies": {
     "@prisma/client": "^5.8.1",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.1",
     "fastify": "^4.25.2",
     "nodemon": "^3.0.3"
@@ -14,7 +15,8 @@
   },
   "scripts": {
     "start": "node src/app",
-    "dev": "node_modules/.bin/nodemon src/app.js"
+    "dev-mac": "node_modules/.bin/nodemon src/app.js",
+    "dev-win": "nodemon src/app"
   },
   "type": "module",
   "author": "andry",
