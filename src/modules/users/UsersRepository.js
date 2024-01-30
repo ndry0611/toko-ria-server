@@ -1,7 +1,7 @@
 import prisma from '../../utils/prisma.js'
 import { hashPassword } from '../../utils/bcrypt.js';
 
-export async function getAllUser() {
+export async function findAllUser() {
     try {
         const allUser = await prisma.user.findMany({
             select: {
@@ -11,13 +11,26 @@ export async function getAllUser() {
                 phone: true,
                 address: true,
                 status: true,
-                idRole: true,
-                createdAt: true,
-                updatedAt: true
+                id_role: true,
+                created_at: true,
+                updated_at: true
             }
         });
         return allUser;
     } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
+export async function findUserByUsername(username) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                username
+            }
+        });
+        return user;
+    } catch (error) {
         throw new Error(err.message);
     }
 }
@@ -29,7 +42,7 @@ export async function createUser(inputs) {
         let newUser = {
             ...inputs,
             password: hashedPassword,
-            idRole: 2,
+            id_role: 2,
             status: false,
         }
         const user = await prisma.user.create({

@@ -1,10 +1,23 @@
 import Fastify from "fastify";
 import userRoute from "./modules/users/UsersHandler.js";
-import 'dotenv/config'
+import fjwt from '@fastify/jwt';
+import 'dotenv/config';
 
-const fastify = Fastify({
+export const fastify = Fastify({
     logger: true
 })
+
+fastify.register(fjwt, {
+    secret: process.env.JWT_SECRET
+});
+
+fastify.decorate("authenticate", async (request, reply) => {
+    try {
+        await request.jwtVerify();
+    } catch (error) {
+        return reply.send(error)
+    }
+});
 
 fastify.register(userRoute, { prefix: "/user" });
 

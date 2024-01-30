@@ -1,10 +1,10 @@
 import {
     createUserController,
-    getAllUserController
+    getAllUserController,
+    loginController
 } from './UsersController.js'
 
 async function userRoute(fastify, options, next) {
-
     const getAllUserSchema = {
         schema: {
             response: {
@@ -64,6 +64,29 @@ async function userRoute(fastify, options, next) {
     };
     fastify.post('/', createUserSchema, createUserController);
 
+    const loginSchema = {
+        schema: {
+            body: {
+                type: "object",
+                required: ["username", "password"],
+                properties: {
+                    username: { type: "string" },
+                    password: { type: "string" }
+                },
+                additionalProperties: false
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        token: { type: "string" }
+                    },
+                    required: ['token']
+                },
+            }
+        }
+    }
+    fastify.post('/login', loginSchema, loginController);
     next()
 }
 

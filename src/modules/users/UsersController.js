@@ -1,20 +1,17 @@
 import {
     createUser,
-    getAllUser
+    findAllUser,
+    findUserByUsername
 } from "./UsersRepository.js";
+import { comparePassword } from "../../utils/bcrypt.js";
+import { fastify } from "../../app.js";
 
 export async function getAllUserController(request, reply) {
     try {
-        const users = await getAllUser();
-        const response = users.map(({ idRole, createdAt, updatedAt, ...rest }) => ({
-            ...rest,
-            id_role: idRole,
-            created_at: createdAt,
-            updated_at: updatedAt,
-        }));
-        reply.code(200).send(response);
+        const users = await findAllUser();
+        reply.code(200).send(users);
     } catch (error) {
-        reply.code(500).send(error);
+        reply.code(500).send(Error(error.message));
     }
 }
 
@@ -28,11 +25,38 @@ export async function createUserController(request, reply) {
             name: user.name,
             phone: user.phone,
             address: user.address,
-            created_at: user.createdAt,
+            created_at: user.created_at,
         }
         return reply.code(201).send(response);
     } catch (error) {
-        reply.code(500)
-        throw new Error(error.message);
+        reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function loginController(request, reply) {
+    const body = request.body;
+    try {
+        const user = await findUserByUsername(body.username)
+        if (!user) {
+            return reply.code(401).send(Error("Username is not found!"));
+        }
+
+        const isCorrect = await comparePassword(body.password, user.password);
+        if (!isCorrect) {
+            return reply.code(401).send(Error("Wrong Password!"));
+        }
+
+        if (!user.status) {
+            return reply.code(403).send(Error("Account is not active!"));
+        }
+
+        const payload = {
+            id: user.id,
+            id_role: user.id_role,
+            status: user.status
+        }
+        return reply.code(200).send({ token: fastify.jwt.sign(payload) });
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
     }
 }
