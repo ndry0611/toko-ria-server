@@ -4,6 +4,7 @@
   "description": "Toko Ria Sigli Server",
   "main": "",
   "dependencies": {
+    "@fastify/jwt": "^8.0.0",
     "@prisma/client": "^5.8.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.1",
