@@ -53,7 +53,8 @@ export async function loginController(request, reply) {
         const payload = {
             id: user.id,
             id_role: user.id_role,
-            status: user.status
+            status: user.status,
+            exp: Math.floor(Date.now() / 1000) + 3600
         }
         return reply.code(200).send({ token: fastify.jwt.sign(payload) });
     } catch (error) {
