@@ -27,7 +27,8 @@ async function userRoute(fastify, options, next) {
                     },
                 }
             }
-        }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.get('/', getAllUserSchema, getAllUserController);
 
