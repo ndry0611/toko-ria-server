@@ -17,8 +17,8 @@ export async function findAllUser() {
             }
         });
         return allUser;
-    } catch (err) {
-        throw new Error(err.message);
+    } catch (error) {
+        throw new Error(error.message);
     }
 }
 
@@ -49,7 +49,21 @@ export async function createUser(inputs) {
             data: newUser
         });
         return user;
-    } catch (err) {
-        throw new Error(err.message);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function updateUser(id, inputs) {
+    try {
+        const user = await prisma.user.update({
+            where: {
+                id: Number(id)
+            },
+            data: inputs
+        });
+        return user;
+    } catch (error) {
+        throw new Error(error.message);
     }
 }

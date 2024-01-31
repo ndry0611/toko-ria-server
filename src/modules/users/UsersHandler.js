@@ -1,7 +1,8 @@
 import {
     createUserController,
     getAllUserController,
-    loginController
+    loginController,
+    updateUserController
 } from './UsersController.js'
 
 async function userRoute(fastify, options, next) {
@@ -88,6 +89,35 @@ async function userRoute(fastify, options, next) {
         }
     }
     fastify.post('/login', loginSchema, loginController);
+
+    const updateUserSchema = {
+        schema: {
+            body: {
+                type: "object",
+                properties: {
+                    name: { type: "string" },
+                    phone: { type: "string" },
+                    address: { type: "string" },
+                    status: { type: "boolean" }
+                },
+                additionalProperties: false
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        status: { type: "boolean" }
+                    }
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isUserOrAdmin]
+    }
+    fastify.put('/:id', updateUserSchema, updateUserController);
+
     next()
 }
 

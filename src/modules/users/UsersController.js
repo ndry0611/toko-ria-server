@@ -1,7 +1,8 @@
 import {
     createUser,
     findAllUser,
-    findUserByUsername
+    findUserByUsername,
+    updateUser
 } from "./UsersRepository.js";
 import { comparePassword } from "../../utils/bcrypt.js";
 import { fastify } from "../../app.js";
@@ -59,5 +60,31 @@ export async function loginController(request, reply) {
         return reply.code(200).send({ token: fastify.jwt.sign(payload) });
     } catch (error) {
         return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function updateUserController(request, reply) {
+    const body = request.body;
+
+    if (typeof body.status !== undefined) {
+        if (request.user.id_role != 1) {
+            delete body.status;
+        }
+    }
+    
+    try {
+        const user = await updateUser(request.params.id, body);
+        const response = {
+            id: user.id,
+            username: user.username,
+            name: user.name,
+            phone: user.phone,
+            address: user.address,
+            status: user.status,
+            updated_at: user.updated_at
+        };
+        return reply.code(200).send(response);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
     }
 }
