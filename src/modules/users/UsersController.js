@@ -16,8 +16,29 @@ export async function getAllUserController(request, reply) {
     }
 }
 
+export async function registerController(request, reply) {
+    const body = request.body;
+    body.id_role = 2;
+    body.status = false;
+    try {
+        const user = await createUser(body);
+        const response = {
+            id: user.id,
+            username: user.username,
+            name: user.name,
+            phone: user.phone,
+            address: user.address,
+            created_at: user.created_at,
+        }
+        return reply.code(201).send(response);
+    } catch (error) {
+        reply.code(500).send(Error(error.message));
+    }
+}
+
 export async function createUserController(request, reply) {
     const body = request.body;
+    body.status = true;
     try {
         const user = await createUser(body);
         const response = {
@@ -71,7 +92,7 @@ export async function updateUserController(request, reply) {
             delete body.status;
         }
     }
-    
+
     try {
         const user = await updateUser(request.params.id, body);
         const response = {

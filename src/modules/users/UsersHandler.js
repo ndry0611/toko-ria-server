@@ -2,6 +2,7 @@ import {
     createUserController,
     getAllUserController,
     loginController,
+    registerController,
     updateUserController
 } from './UsersController.js'
 
@@ -37,14 +38,14 @@ async function userRoute(fastify, options, next) {
         schema: {
             body: {
                 type: "object",
-                required: ["name", "username", "password", "phone", "address"],
+                required: ["name", "username", "password", "phone", "address", "id_role"],
                 properties: {
                     name: { type: "string" },
                     username: { type: "string" },
                     password: { type: "string" },
-                    address: { type: "string" },
                     phone: { type: "string" },
-                    id_role: { type: "integer", minimum: 1 }
+                    address: { type: "string" },
+                    id_role: { type: "integer" }
                 },
                 additionalProperties: false,
             },
@@ -62,9 +63,42 @@ async function userRoute(fastify, options, next) {
                     required: ["id", "username", "phone", "address", "created_at"]
                 }
             }
-        }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
     };
     fastify.post('/', createUserSchema, createUserController);
+
+    const registerSchema = {
+        schema: {
+            body: {
+                type: "object",
+                required: ["name", "username", "password", "phone", "address"],
+                properties: {
+                    name: { type: "string" },
+                    username: { type: "string" },
+                    password: { type: "string" },
+                    phone: { type: "string" },
+                    address: { type: "string" },
+                },
+                additionalProperties: false,
+            },
+            response: {
+                201: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer", minimum: 1 },
+                        username: { type: "string" },
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        created_at: { type: "string", format: "date-time" }
+                    },
+                    required: ["id", "username", "phone", "address", "created_at"]
+                }
+            }
+        },
+    };
+    fastify.post('/register', registerSchema, registerController);
 
     const loginSchema = {
         schema: {

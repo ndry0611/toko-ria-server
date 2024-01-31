@@ -37,13 +37,10 @@ export async function findUserByUsername(username) {
 
 export async function createUser(inputs) {
     try {
-        //insert conditional if user is created by admin, then set the role to whatever admin give. and status
         const hashedPassword = await hashPassword(inputs.password)
         let newUser = {
             ...inputs,
             password: hashedPassword,
-            id_role: 2,
-            status: false,
         }
         const user = await prisma.user.create({
             data: newUser
