@@ -2,6 +2,7 @@ import {
     createUser,
     findAllUser,
     findUserByUsername,
+    findUserById,
     updateUser
 } from "./UsersRepository.js";
 import { comparePassword } from "../../utils/bcrypt.js";
@@ -91,6 +92,10 @@ export async function updateUserController(request, reply) {
         if (request.user.id_role != 1) {
             delete body.status;
         }
+    }
+
+    if (!await findUserById(request.params.id)) {
+        return reply.code(404).send(Error("User is not found!"));
     }
 
     try {

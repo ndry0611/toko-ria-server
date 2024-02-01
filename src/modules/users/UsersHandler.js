@@ -126,6 +126,13 @@ async function userRoute(fastify, options, next) {
 
     const updateUserSchema = {
         schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
             body: {
                 type: "object",
                 properties: {
