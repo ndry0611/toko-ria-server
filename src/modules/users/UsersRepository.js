@@ -35,6 +35,17 @@ export async function findUserByUsername(username) {
     }
 }
 
+export async function findUserById(id) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id }
+        });
+        return user;
+    } catch (error) {
+        throw new Error(err.message);
+    }
+}
+
 export async function createUser(inputs) {
     try {
         const hashedPassword = await hashPassword(inputs.password)
@@ -60,6 +71,17 @@ export async function updateUser(id, inputs) {
             data: inputs
         });
         return user;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function deleteUser(id) {
+    try {
+        await prisma.user.delete({
+            where: { id: Number(id) }
+        });
+        return;
     } catch (error) {
         throw new Error(error.message);
     }

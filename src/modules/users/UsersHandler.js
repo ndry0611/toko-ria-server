@@ -1,5 +1,6 @@
 import {
     createUserController,
+    deleteUserController,
     getAllUserController,
     loginController,
     registerController,
@@ -126,6 +127,13 @@ async function userRoute(fastify, options, next) {
 
     const updateUserSchema = {
         schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
             body: {
                 type: "object",
                 properties: {
@@ -151,6 +159,29 @@ async function userRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isUserOrAdmin]
     }
     fastify.put('/:id', updateUserSchema, updateUserController);
+
+    const deleteUserSchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    },
+                    required: ['message']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.delete('/:id', deleteUserSchema, deleteUserController);
 
     next()
 }

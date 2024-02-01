@@ -2,7 +2,9 @@ import {
     createUser,
     findAllUser,
     findUserByUsername,
-    updateUser
+    findUserById,
+    updateUser,
+    deleteUser
 } from "./UsersRepository.js";
 import { comparePassword } from "../../utils/bcrypt.js";
 import { fastify } from "../../app.js";
@@ -93,6 +95,10 @@ export async function updateUserController(request, reply) {
         }
     }
 
+    if (!await findUserById(request.params.id)) {
+        return reply.code(404).send(Error("User is not found!"));
+    }
+
     try {
         const user = await updateUser(request.params.id, body);
         const response = {
@@ -105,6 +111,15 @@ export async function updateUserController(request, reply) {
             updated_at: user.updated_at
         };
         return reply.code(200).send(response);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
+export async function deleteUserController(request, reply) {
+    try {
+        await deleteUser(request.params.id);
+        return reply.code(200).send({message: `User with id: ${request.params.id} successfully deleted`});
     } catch (error) {
         return reply.code(500).send(Error(error.message))
     }
