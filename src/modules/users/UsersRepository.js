@@ -75,3 +75,14 @@ export async function updateUser(id, inputs) {
         throw new Error(error.message);
     }
 }
+
+export async function deleteUser(id) {
+    try {
+        await prisma.user.delete({
+            where: { id: Number(id) }
+        });
+        return;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}

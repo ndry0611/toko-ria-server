@@ -3,7 +3,8 @@ import {
     findAllUser,
     findUserByUsername,
     findUserById,
-    updateUser
+    updateUser,
+    deleteUser
 } from "./UsersRepository.js";
 import { comparePassword } from "../../utils/bcrypt.js";
 import { fastify } from "../../app.js";
@@ -110,6 +111,15 @@ export async function updateUserController(request, reply) {
             updated_at: user.updated_at
         };
         return reply.code(200).send(response);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
+export async function deleteUserController(request, reply) {
+    try {
+        await deleteUser(request.params.id);
+        return reply.code(200).send({message: `User with id: ${request.params.id} successfully deleted`});
     } catch (error) {
         return reply.code(500).send(Error(error.message))
     }
