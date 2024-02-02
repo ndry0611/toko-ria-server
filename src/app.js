@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import Fastify from "fastify";
+import formbody from '@fastify/formbody';
 import userRoute from "./modules/users/UsersHandler.js";
 import carRoute from "./modules/cars/CarsHandler.js";
 import authenticate from "./middleware/authenticate.js";
@@ -8,6 +9,7 @@ import authorization from "./middleware/authorization.js";
 export const fastify = Fastify({
     logger: true
 })
+fastify.register(formbody);
 
 fastify.register(authenticate)
 fastify.register(authorization)
