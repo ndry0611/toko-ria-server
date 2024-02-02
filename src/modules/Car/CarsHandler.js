@@ -41,7 +41,9 @@ async function carRoute(fastify, options, next) {
                     production_year: { type: "string" },
                     type: { type: "string" }
                 },
+                additionalProperties: false,
                 required: ['name', 'id_car_brand', 'production_year', 'type']
+                
             },
             response: {
                 201: {
@@ -80,6 +82,7 @@ async function carRoute(fastify, options, next) {
                     production_year: { type: "string" },
                     type: { type: "string" }
                 },
+                additionalProperties: false,
                 required: ['name', 'id_car_brand', 'production_year', 'type']
             },
             response: {
@@ -123,6 +126,8 @@ async function carRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.delete('/:id', deleteCarSchema, deleteCarController)
+
+    next()
 }
 
 export default carRoute
