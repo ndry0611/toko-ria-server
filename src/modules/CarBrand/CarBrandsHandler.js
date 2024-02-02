@@ -1,12 +1,12 @@
 import {
-    getAllCarController,
-    createCarController,
-    updateCarController,
-    deleteCarController
-} from "./CarsController.js";
+    getAllCarBrandController,
+    createCarBrandController,
+    updateCarBrandController,
+    deleteCarBrandController
+} from './CarBrandsController.js';
 
-async function carRoute(fastify, options, next) {
-    const getAllCarSchema = {
+async function carBrandRoute(fastify, options, next) {
+    const getAllCarBrandSchema = {
         schema: {
             response: {
                 200: {
@@ -15,57 +15,50 @@ async function carRoute(fastify, options, next) {
                         type: "object",
                         properties: {
                             id: { type: "integer" },
-                            id_car_brand: { type: "integer" },
                             name: { type: "string" },
-                            production_year: { type: "string" },
-                            type: { type: "string" },
+                            manufacture: { type: "string" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'id_car_brand', 'name', 'production_year', 'type', 'created_at', 'updated_at']
+                        required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
                     }
                 }
             }
         },
         preHandler: [fastify.authenticate]
     }
-    fastify.get('/', getAllCarSchema, getAllCarController);
+    fastify.get('/', getAllCarBrandSchema, getAllCarBrandController);
 
-    const createCarSchema = {
+    const createCarBrandSchema = {
         schema: {
             body: {
                 type: "object",
                 properties: {
                     name: { type: "string" },
-                    id_car_brand: { type: "integer" },
-                    production_year: { type: "string" },
-                    type: { type: "string" }
+                    manufacture: { type: "string" }
                 },
+                required: ['name', 'manufacture'],
                 additionalProperties: false,
-                required: ['name', 'id_car_brand', 'production_year', 'type']
-                
             },
             response: {
-                201: {
+                200: {
                     type: "object",
                     properties: {
                         id: { type: "integer" },
-                        id_car_brand: { type: "integer" },
                         name: { type: "string" },
-                        production_year: { type: "string" },
-                        type: { type: "string" },
+                        manufacture: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
-                        updated_at: { type: "string", format: "date-time" }
+                        updated_at: { type: "string", format: "date-time" },
                     },
-                    required: ['id', 'id_car_brand', 'name', 'production_year', 'type', 'created_at', 'updated_at']
+                    required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
                 }
             }
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.post('/', createCarSchema, createCarController);
+    fastify.post('/', createCarBrandSchema, createCarBrandController);
 
-    const updateCarSchema = {
+    const updateCarBrandSchema = {
         schema: {
             params: {
                 type: "object",
@@ -78,33 +71,30 @@ async function carRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     name: { type: "string" },
-                    id_car_brand: { type: "integer" },
-                    production_year: { type: "string" },
-                    type: { type: "string" }
+                    manufacture: { type: "string" }
                 },
+                required: ['name', 'manufacture'],
                 additionalProperties: false,
-                required: ['name', 'id_car_brand', 'production_year', 'type']
             },
             response: {
                 200: {
                     type: "object",
                     properties: {
                         id: { type: "integer" },
-                        id_car_brand: { type: "integer" },
                         name: { type: "string" },
-                        production_year: { type: "string" },
-                        type: { type: "string" },
+                        manufacture: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
-                        updated_at: { type: "string", format: "date-time" }
+                        updated_at: { type: "string", format: "date-time" },
                     },
+                    required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
                 }
             }
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.put('/:id', updateCarSchema, updateCarController);
+    fastify.put('/:id', updateCarBrandSchema, updateCarBrandController);
 
-    const deleteCarSchema = {
+    const deleteCarBrandSchema = {
         schema: {
             params: {
                 type: "object",
@@ -125,9 +115,9 @@ async function carRoute(fastify, options, next) {
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.delete('/:id', deleteCarSchema, deleteCarController)
+    fastify.delete('/:id', deleteCarBrandController)
 
     next()
 }
 
-export default carRoute
+export default carBrandRoute;

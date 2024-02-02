@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
-import userRoute from "./modules/users/UsersHandler.js";
-import carRoute from "./modules/cars/CarsHandler.js";
+import userRoute from "./modules/User/UsersHandler.js";
+import carRoute from "./modules/Car/CarsHandler.js";
+import carBrandRoute from './modules/CarBrand/CarBrandsHandler.js';
 import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
 
@@ -16,6 +17,7 @@ fastify.register(authorization)
 
 fastify.register(userRoute, { prefix: "/user" });
 fastify.register(carRoute, { prefix: "/car" });
+fastify.register(carBrandRoute, {prefix: "/car-brand"})
 
 async function start() {
     try {
