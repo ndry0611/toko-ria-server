@@ -31,7 +31,7 @@ export async function createCar(inputs) {
 
 export async function updateCar(id, inputs) {
     try {
-        const car = await prisma.update({
+        const car = await prisma.car.update({
             where: {
                 id: Number(id)
             },
@@ -45,7 +45,7 @@ export async function updateCar(id, inputs) {
 
 export async function deleteCar(id) {
     try {
-        await prisma.user.delete({
+        await prisma.car.delete({
             where: { id: Number(id) }
         });
         return;
