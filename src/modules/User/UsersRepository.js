@@ -31,7 +31,7 @@ export async function findUserByUsername(username) {
         });
         return user;
     } catch (error) {
-        throw new Error(err.message);
+        throw new Error(error.message);
     }
 }
 
@@ -42,7 +42,7 @@ export async function findUserById(id) {
         });
         return user;
     } catch (error) {
-        throw new Error(err.message);
+        throw new Error(error.message);
     }
 }
 
