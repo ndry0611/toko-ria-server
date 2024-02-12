@@ -55,3 +55,14 @@ export async function updateCategory(id, inputs) {
         throw new Error(error.message);
     }
 }
+
+export async function deleteCategory(id) {
+    try {
+        await prisma.category.delete({
+            where: { id: Number(id) }
+        });
+        return;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}

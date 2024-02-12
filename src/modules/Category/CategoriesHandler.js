@@ -2,6 +2,7 @@ import {
     getAllCategoryController,
     createCategoryController,
     updateCategoryController,
+    deleteCategoryController
 } from "./CategoriesController.js";
 
 async function categoryRoute(fastify, options, next) {
@@ -92,6 +93,29 @@ async function categoryRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.put('/:id', updateCategorySchema, updateCategoryController)
+
+    const deleteCategorySchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    },
+                    required: ['message']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.delete('/:id', deleteCategoryController)
 
     next()
 }

@@ -2,7 +2,8 @@ import {
     findAllCategory,
     findCategoryById,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 } from './CategoriesRepository.js';
 
 export async function getAllCategoryController(request, reply) {
@@ -32,6 +33,15 @@ export async function updateCategoryController(request, reply) {
     try {
         const category = await updateCategory(request.params.id, body);
         return reply.code(200).send(category);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function deleteCategoryController(request, reply) {
+    try {
+        await deleteCategory(request.params.id);
+        return reply.code(200).send({ message: `Category with id: ${request.params.id} successfully deleted` });
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }
