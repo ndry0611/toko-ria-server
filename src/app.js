@@ -18,10 +18,10 @@ fastify.register(multipart);
 fastify.register(authenticate)
 fastify.register(authorization)
 
-fastify.register(userRoute, { prefix: "/user" });
-fastify.register(carRoute, { prefix: "/car" });
-fastify.register(carBrandRoute, { prefix: "/car-brand" });
-fastify.register(categoryRoute, { prefix: "/category" });
+fastify.register(userRoute, { prefix: "/api/v1/user" });
+fastify.register(carRoute, { prefix: "api/v1/car" });
+fastify.register(carBrandRoute, { prefix: "api/v1/car-brand" });
+fastify.register(categoryRoute, { prefix: "api/v1/category" });
 
 async function start() {
     try {
