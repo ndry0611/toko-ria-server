@@ -22,3 +22,14 @@ export async function findAllCategory() {
         throw new Error(error.message);
     }
 }
+
+export async function createCategory(inputs) {
+    try {
+        const category = await prisma.category.create({
+            data: inputs
+        });
+        return category;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
