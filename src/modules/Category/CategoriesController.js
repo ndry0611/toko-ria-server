@@ -1,6 +1,8 @@
 import {
     findAllCategory,
-    createCategory
+    findCategoryById,
+    createCategory,
+    updateCategory
 } from './CategoriesRepository.js';
 
 export async function getAllCategoryController(request, reply) {
@@ -17,6 +19,19 @@ export async function createCategoryController(request, reply) {
     try {
         const category = await createCategory(body);
         return reply.code(201).send(category)
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function updateCategoryController(request, reply) {
+    const body = request.body;
+    if (!await findCategoryById(request.params.id)) {
+        return reply.code(404).send(Error("Category is not found!"));
+    }
+    try {
+        const category = await updateCategory(request.params.id, body);
+        return reply.code(200).send(category);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }

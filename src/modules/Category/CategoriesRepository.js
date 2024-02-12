@@ -23,12 +23,34 @@ export async function findAllCategory() {
     }
 }
 
+export async function findCategoryById(id) {
+    try {
+        return await prisma.category.findUnique({
+            where: { id: Number(id) }
+        })
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 export async function createCategory(inputs) {
     try {
         const category = await prisma.category.create({
             data: inputs
         });
         return category;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function updateCategory(id, inputs) {
+    try {
+        const category = await prisma.category.update({
+            where: { id: Number(id) },
+            data: inputs
+        });
+        return category
     } catch (error) {
         throw new Error(error.message);
     }

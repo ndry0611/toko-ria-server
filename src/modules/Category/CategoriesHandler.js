@@ -1,6 +1,7 @@
-import { 
+import {
     getAllCategoryController,
-    createCategoryController
+    createCategoryController,
+    updateCategoryController,
 } from "./CategoriesController.js";
 
 async function categoryRoute(fastify, options, next) {
@@ -36,6 +37,7 @@ async function categoryRoute(fastify, options, next) {
                     name: { type: "string" },
                     description: { type: "string" },
                 },
+                additionalProperties: false,
                 required: ['name', 'description']
             },
             response: {
@@ -45,7 +47,6 @@ async function categoryRoute(fastify, options, next) {
                         id: { type: "integer" },
                         name: { type: "string" },
                         description: { type: "string" },
-                        file_name: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" },
                     },
@@ -56,6 +57,41 @@ async function categoryRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.post('/', createCategorySchema, createCategoryController)
+
+    const updateCategorySchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            body: {
+                type: "object",
+                properties: {
+                    name: { type: "string" },
+                    description: { type: "string" }
+                },
+                additionalProperties: false
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        name: { type: "string" },
+                        description: { type: "string" },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" },
+                    },
+                    required: ['id', 'name', 'description', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.put('/:id', updateCategorySchema, updateCategoryController)
 
     next()
 }
