@@ -73,7 +73,6 @@ async function carBrandRoute(fastify, options, next) {
                     name: { type: "string" },
                     manufacture: { type: "string" }
                 },
-                required: ['name', 'manufacture'],
                 additionalProperties: false,
             },
             response: {
