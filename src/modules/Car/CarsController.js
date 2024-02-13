@@ -9,9 +9,9 @@ import {
 export async function getAllCarController(request, reply) {
     try {
         const cars = await findAllCar();
-        reply.code(200).send(cars);
+        return reply.code(200).send(cars);
     } catch (error) {
-        reply.code(500).send(Error(error.message));
+        return reply.code(500).send(Error(error.message));
     }
 }
 

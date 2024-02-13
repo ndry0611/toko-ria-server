@@ -10,9 +10,9 @@ import {
 export async function getAllCarBrandController(request, reply) {
     try {
         const carBrands = await findAllCarBrand();
-        reply.code(200).send(carBrands);
+        return reply.code(200).send(carBrands);
     } catch (error) {
-        reply.code(500).send(Error(error.message));
+        return reply.code(500).send(Error(error.message));
     }
 }
 

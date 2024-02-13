@@ -49,9 +49,8 @@ async function categoryRoute(fastify, options, next) {
                         name: { type: "string" },
                         description: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
-                        updated_at: { type: "string", format: "date-time" },
                     },
-                    required: ['id', 'name', 'description', 'file_name', 'created_at', 'updated_at']
+                    required: ['id', 'name', 'description', 'file_name', 'created_at']
                 }
             }
         },
@@ -83,10 +82,9 @@ async function categoryRoute(fastify, options, next) {
                         id: { type: "integer" },
                         name: { type: "string" },
                         description: { type: "string" },
-                        created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" },
                     },
-                    required: ['id', 'name', 'description', 'created_at', 'updated_at']
+                    required: ['id', 'name', 'description', 'updated_at']
                 }
             }
         },

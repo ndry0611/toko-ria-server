@@ -41,16 +41,15 @@ async function carBrandRoute(fastify, options, next) {
                 additionalProperties: false,
             },
             response: {
-                200: {
+                201: {
                     type: "object",
                     properties: {
                         id: { type: "integer" },
                         name: { type: "string" },
                         manufacture: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
-                        updated_at: { type: "string", format: "date-time" },
                     },
-                    required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
+                    required: ['id', 'name', 'manufacture', 'created_at']
                 }
             }
         },
@@ -82,10 +81,9 @@ async function carBrandRoute(fastify, options, next) {
                         id: { type: "integer" },
                         name: { type: "string" },
                         manufacture: { type: "string" },
-                        created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" },
                     },
-                    required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
+                    required: ['id', 'name', 'manufacture', 'updated_at']
                 }
             }
         },
