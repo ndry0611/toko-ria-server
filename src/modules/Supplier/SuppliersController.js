@@ -2,7 +2,8 @@ import {
     findAllSupplier,
     createSupplier,
     findSupplierById,
-    updateSupplier
+    updateSupplier,
+    deleteSupplier
 } from './SuppliersRepository.js'
 
 export async function getAllSupplierController(request, reply) {
@@ -32,6 +33,15 @@ export async function updateSupplierController(request, reply) {
     try {
         const supplier = await updateSupplier(request.params.id, body);
         return reply.code(200).send(supplier);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function deleteSupplierController(request, reply) {
+    try {
+        await deleteSupplier(request.params.id);
+        return reply.code(200).send({message: `Supplier with id: ${request.params.id} successfully deleted`});
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }

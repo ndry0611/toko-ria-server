@@ -2,6 +2,7 @@ import {
     getAllSupplierController,
     createSupplierController,
     updateSupplierController,
+    deleteSupplierController,
 } from './SuppliersController.js'
 
 async function supplierRoute(fastify, options, next) {
@@ -115,6 +116,29 @@ async function supplierRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.put('/:id', updateSupplierSchema, updateSupplierController)
+
+    const deleteSupplierSchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" },
+                    },
+                    required: ['message']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.delete('/:id', deleteSupplierSchema, deleteSupplierController)
 
     next()
 }

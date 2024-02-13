@@ -40,3 +40,13 @@ export async function updateSupplier(id, inputs) {
         throw new Error(error.message);
     }
 }
+
+export async function deleteSupplier(id) {
+    try {
+        await prisma.supplier.delete({
+            where: { id: Number(id) }
+        });
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
