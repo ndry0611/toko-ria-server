@@ -1,6 +1,7 @@
 import {
     getAllSupplierController,
-    createSupplierController
+    createSupplierController,
+    updateSupplierController,
 } from './SuppliersController.js'
 
 async function supplierRoute(fastify, options, next) {
@@ -53,6 +54,7 @@ async function supplierRoute(fastify, options, next) {
                     type: "object",
                     properties: {
                         id: { type: "integer" },
+                        company_name: { type: "string" },
                         company_phone: { type: "string" },
                         pic_name: { type: "string" },
                         pic_phone: { type: "string" },
@@ -60,13 +62,59 @@ async function supplierRoute(fastify, options, next) {
                         bank_account_name: { type: "string" },
                         address: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
-                    }
+                    },
+                    required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at']
                 }
             }
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.post('/', createSupplierSchema, createSupplierController);
+
+    const updateSupplierSchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            body: {
+                type: "object",
+                properties: {
+                    company_name: { type: "string" },
+                    company_phone: { type: "string" },
+                    pic_name: { type: "string" },
+                    pic_phone: { type: "string" },
+                    bank_account: { type: "string" },
+                    bank_account_name: { type: "string" },
+                    address: { type: "string" },
+                },
+                additionalProperties: false,
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        company_name: { type: "string" },
+                        company_phone: { type: "string" },
+                        pic_name: { type: "string" },
+                        pic_phone: { type: "string" },
+                        bank_account: { type: "string" },
+                        bank_account_name: { type: "string" },
+                        address: { type: "string" },
+                        updated_at: { type: "string", format: "date-time" }
+                    },
+                    additionalProperties: false,
+                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.put('/:id', updateSupplierSchema, updateSupplierController)
 
     next()
 }

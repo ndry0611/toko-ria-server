@@ -1,6 +1,8 @@
 import {
     findAllSupplier,
-    createSupplier
+    createSupplier,
+    findSupplierById,
+    updateSupplier
 } from './SuppliersRepository.js'
 
 export async function getAllSupplierController(request, reply) {
@@ -17,6 +19,19 @@ export async function createSupplierController(request,reply) {
     try {
         const supplier = await createSupplier(body);
         return reply.code(201).send(supplier);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function updateSupplierController(request, reply) {
+    const body = request.body;
+    if (!await findSupplierById(request.params.id)) {
+        return reply.code(404).send(Error("Supplier is not found!"));
+    }
+    try {
+        const supplier = await updateSupplier(request.params.id, body);
+        return reply.code(200).send(supplier);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }
