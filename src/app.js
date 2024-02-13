@@ -8,6 +8,7 @@ import carBrandRoute from './modules/CarBrand/CarBrandsHandler.js';
 import categoryRoute from './modules/Category/CategoriesHandler.js';
 import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
+import supplierRoute from './modules/Supplier/SuppliersHandler.js';
 
 export const fastify = Fastify({
     logger: true
@@ -22,6 +23,7 @@ fastify.register(userRoute, { prefix: "/api/v1/user" });
 fastify.register(carRoute, { prefix: "api/v1/car" });
 fastify.register(carBrandRoute, { prefix: "api/v1/car-brand" });
 fastify.register(categoryRoute, { prefix: "api/v1/category" });
+fastify.register(supplierRoute, {prefix: "api/v1/supplier"});
 
 async function start() {
     try {
