@@ -7,9 +7,9 @@ async function fileRoute(fastify, options, next) {
         schema: {
             consumes: ['multipart/form-data']
         },
-        preHandler: [fastify.authenticate, fastify.isAdmin]
+        // preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.post('/upload', uploadFileSchema, uploadFileController);
+    fastify.post('/upload/:model/:id', uploadFileSchema, uploadFileController);
     next()
 }
 
