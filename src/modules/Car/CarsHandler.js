@@ -42,7 +42,7 @@ async function carRoute(fastify, options, next) {
                     type: { type: "string" }
                 },
                 additionalProperties: false,
-                required: ['name', 'id_car_brand', 'production_year', 'type']
+                required: ['name', 'id_car_brand', 'production_year']
                 
             },
             response: {
@@ -82,7 +82,7 @@ async function carRoute(fastify, options, next) {
                     type: { type: "string" }
                 },
                 additionalProperties: false,
-                required: ['name', 'id_car_brand', 'production_year', 'type']
+                required: ['name', 'id_car_brand', 'production_year']
             },
             response: {
                 200: {
