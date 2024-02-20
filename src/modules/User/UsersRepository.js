@@ -1,5 +1,7 @@
 import prisma from '../../utils/prisma.js'
 import { hashPassword } from '../../utils/bcrypt.js';
+import * as fs from 'fs'
+import * as path from 'path'
 
 export async function findAllUser() {
     try {
@@ -81,6 +83,15 @@ export async function deleteUser(id) {
         await prisma.user.delete({
             where: { id: Number(id) }
         });
+        userPhoto = await prisma.file.findFirst({
+            where: {
+                file_model: "users",
+                file_id: id
+            }
+        });
+        if (userPhoto) {
+            fs.unlinkSync(path.join('public/uploads/users', userPhoto.name));
+        }
         return;
     } catch (error) {
         throw new Error(error.message);

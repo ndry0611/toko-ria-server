@@ -48,7 +48,7 @@ async function supplierRoute(fastify, options, next) {
                     address: { type: "string" },
                 },
                 additionalProperties: false,
-                required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address']
+                required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name']
             },
             response: {
                 201: {
