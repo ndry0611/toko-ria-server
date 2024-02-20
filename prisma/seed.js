@@ -35,6 +35,9 @@ async function main() {
             }
         });
     }
+
+    await prisma.$executeRaw`COMMENT ON COLUMN suppliers.bank_account IS '(BANK)REKENING';`
+    await prisma.$executeRaw`COMMENT ON COLUMN spare_parts.sell_method IS '0=pcs,1=set';`
 }
 main()
     .then(async () => {
