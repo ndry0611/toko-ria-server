@@ -112,7 +112,7 @@ async function carBrandRoute(fastify, options, next) {
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.delete('/:id', deleteCarBrandController)
+    fastify.delete('/:id', deleteCarBrandSchema, deleteCarBrandController)
 
     next()
 }
