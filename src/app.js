@@ -10,6 +10,7 @@ import supplierRoute from './modules/Supplier/SuppliersHandler.js';
 import carBrandRoute from './modules/CarBrand/CarBrandsHandler.js';
 import categoryRoute from './modules/Category/CategoriesHandler.js';
 import sparePartRoute from './modules/SparePart/SparePartsHandler.js';
+import specialPriceRoute from './modules/SpecialPrice/SpecialPricesHandler.js'
 import sparePartBrandRoute from './modules/SparePartBrand/SparePartBrandsHandler.js';
 
 import authenticate from "./middleware/authenticate.js";
@@ -31,6 +32,7 @@ fastify.register(supplierRoute, {prefix: "api/v1/supplier"});
 fastify.register(carBrandRoute, { prefix: "api/v1/car-brand" });
 fastify.register(categoryRoute, { prefix: "api/v1/category" });
 fastify.register(sparePartRoute, {prefix: "api/v1/spare-part"});
+fastify.register(specialPriceRoute, {prefix: "api/v1/special-price"});
 fastify.register(sparePartBrandRoute, {prefix: "api/v1/spare-part-brand"});
 
 async function start() {
