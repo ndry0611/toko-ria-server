@@ -1,8 +1,23 @@
 import prisma from "../../utils/prisma.js";
+import * as fs from 'fs'
+import * as path from 'path'
 
 export async function findAllSparePart() {
     try {
-        return await prisma.spareParts.findMany();
+        const spareParts = await prisma.sparePart.findMany();
+        const sparePartsWithImage = await Promise.all(spareParts.map(async (sparePart) => {
+            const file = await prisma.file.findUnique({
+                where: {
+                    file_model: "spare_parts",
+                    file_id: sparePart.id
+                }
+            });
+            return {
+                sparePart,
+                file_name: file ? file.name : null
+            };
+        }));
+        return sparePartsWithImage;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -10,9 +25,19 @@ export async function findAllSparePart() {
 
 export async function findSparePartById(id) {
     try {
-        return await prisma.sparePart.findUnique({
+        const sparePart = await prisma.sparePart.findUnique({
             where: { id: Number(id) }
         });
+        if (sparePart) {
+            const sparePartPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "spare_parts",
+                    file_id: sparePart.id
+                }
+            });
+            sparePart.file_name = sparePartPhoto ? sparePartPhoto.name : null;
+        }
+        return sparePart;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -46,6 +71,15 @@ export async function deleteSparePart(id) {
         await prisma.sparePart.delete({
             where: { id: Number(id) }
         });
+        sparePartPhoto = await prisma.file.findFirst({
+            where: {
+                file_model: "spare_parts",
+                file_id: id
+            }
+        });
+        if (sparePartPhoto) {
+            fs.unlinkSync(path.join('public/uploads/spare_parts', sparePartPhoto.name));
+        }
         return;
     } catch (error) {
         throw new Error(error.message);

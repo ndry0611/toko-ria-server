@@ -1,7 +1,9 @@
 import {
     findAllSparePart,
     findSparePartById,
-    createSparePart
+    createSparePart,
+    updateSparePart,
+    deleteSparePart
 } from './SparePartsRepository.js'
 
 export async function getAllSparePartController(request, reply) {

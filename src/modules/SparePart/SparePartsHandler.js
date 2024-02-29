@@ -29,6 +29,7 @@ async function sparePartRoute(fastify, options, next) {
                             sale_price: { type: "integer" },
                             description: { type: "string" },
                             supply_date: { type: "string", format: "date-time" },
+                            file_name: { type: "string" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
