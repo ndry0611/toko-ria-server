@@ -42,6 +42,15 @@ export async function findUserById(id) {
         const user = await prisma.user.findUnique({
             where: { id }
         });
+        if (user) {
+            const userPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "users",
+                    file_id: user.id
+                }
+            });
+            user.file_name = userPhoto ? userPhoto.name : null;
+        }
         return user;
     } catch (error) {
         throw new Error(error.message);
