@@ -21,8 +21,9 @@ model User {
   status       Boolean        @default(false)
   created_at   DateTime       @default(now()) @db.Timestamptz()
   updated_at   DateTime       @updatedAt @db.Timestamptz()
-  role         Role           @relation(fields: [id_role], references: [id])
+  Role         Role           @relation(fields: [id_role], references: [id])
   SpecialPrice SpecialPrice[]
+  Complaint    Complaint[]
 
   @@map("users")
 }
@@ -45,7 +46,7 @@ model Car {
   type            String?  @db.VarChar(255)
   created_at      DateTime @default(now()) @db.Timestamptz()
   updated_at      DateTime @updatedAt @db.Timestamptz()
-  carBrand        CarBrand @relation(fields: [id_car_brand], references: [id])
+  CarBrand        CarBrand @relation(fields: [id_car_brand], references: [id])
 
   @@map("cars")
 }
@@ -62,26 +63,27 @@ model CarBrand {
 }
 
 model SparePart {
-  id                  Int            @id @default(autoincrement())
-  id_spare_part_brand Int            @db.Integer
-  id_category         Int            @db.Integer
-  id_car              Int?           @db.Integer
-  id_supplier         Int?           @db.Integer
-  name                String         @db.VarChar(255)
-  part_no             String         @db.VarChar(255)
-  genuine             Boolean        @db.Boolean
-  stock               Int            @default(0) @db.Integer
-  capital_price       BigInt         @db.BigInt
-  sell_method         Int            @default(0) @db.Integer
-  is_available        Boolean        @default(false) @db.Boolean
-  sale_price          BigInt         @db.BigInt
-  description         String         @db.Text
-  supply_date         DateTime       @db.Timestamptz()
-  created_at          DateTime       @default(now()) @db.Timestamptz()
-  updated_at          DateTime       @updatedAt @db.Timestamptz()
-  category            Category       @relation(fields: [id_category], references: [id])
-  sparePartBrand      SparePartBrand @relation(fields: [id_spare_part_brand], references: [id])
+  id                  Int               @id @default(autoincrement())
+  id_spare_part_brand Int               @db.Integer
+  id_category         Int               @db.Integer
+  id_car              Int?              @db.Integer
+  id_supplier         Int?              @db.Integer
+  name                String            @db.VarChar(255)
+  part_no             String            @db.VarChar(255)
+  genuine             Boolean           @db.Boolean
+  stock               Int               @default(0) @db.Integer
+  capital_price       BigInt            @db.BigInt
+  sell_method         Int               @default(0) @db.Integer
+  is_available        Boolean           @default(false) @db.Boolean
+  sale_price          BigInt            @db.BigInt
+  description         String            @db.Text
+  supply_date         DateTime          @db.Timestamptz()
+  created_at          DateTime          @default(now()) @db.Timestamptz()
+  updated_at          DateTime          @updatedAt @db.Timestamptz()
+  Category            Category          @relation(fields: [id_category], references: [id])
+  SparePartBrand      SparePartBrand    @relation(fields: [id_spare_part_brand], references: [id])
   SpecialPrice        SpecialPrice[]
+  StockAdjustment     StockAdjustment[]
 
   @@map("spare_parts")
 }
@@ -134,6 +136,31 @@ model SpecialPrice {
   User          User      @relation(fields: [id_user], references: [id])
 
   @@map("special_prices")
+}
+
+model Complaint {
+  id         Int      @id @default(autoincrement())
+  id_user    Int      @db.Integer
+  complaint  String   @db.Text
+  created_at DateTime @default(now()) @db.Timestamptz()
+  updated_at DateTime @updatedAt @db.Timestamptz()
+  User       User     @relation(fields: [id_user], references: [id])
+
+  @@map("complaints")
+}
+
+model StockAdjustment {
+  id            Int       @id @default(autoincrement())
+  id_spare_part Int       @db.Integer
+  code          String    @db.VarChar(255)
+  description   String    @db.Text
+  old_quantity  Int       @db.Integer
+  new_quantity  Int       @db.Integer
+  created_at    DateTime  @default(now()) @db.Timestamptz()
+  updated_at    DateTime  @updatedAt @db.Timestamptz()
+  SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
+
+  @@map("stock_adjustments")
 }
 
 model File {
