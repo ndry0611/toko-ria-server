@@ -13,6 +13,7 @@ import complaintRoute from './modules/Complaint/ComplaintsHandler.js';
 import sparePartRoute from './modules/SparePart/SparePartsHandler.js';
 import specialPriceRoute from './modules/SpecialPrice/SpecialPricesHandler.js'
 import sparePartBrandRoute from './modules/SparePartBrand/SparePartBrandsHandler.js';
+import stockAdjustmentRoute from './modules/StockAdjustment/StockAdjustmentsHandler.js';
 
 import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
@@ -36,6 +37,7 @@ fastify.register(complaintRoute, { prefix: "api/v1/complaint" });
 fastify.register(sparePartRoute, { prefix: "api/v1/spare-part" });
 fastify.register(specialPriceRoute, { prefix: "api/v1/special-price" });
 fastify.register(sparePartBrandRoute, { prefix: "api/v1/spare-part-brand" });
+fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
 
 async function start() {
     try {
