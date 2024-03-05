@@ -139,6 +139,22 @@ model SpecialPrice {
   @@map("special_prices")
 }
 
+model Purchase {
+  id              Int       @id @default(autoincrement())
+  id_supplier     Int       @db.Integer
+  code            String    @db.VarChar(255)
+  purchase_date   DateTime  @db.Timestamptz()
+  grand_total     BigInt    @db.BigInt
+  status          Int       @db.Integer
+  payment_date    DateTime? @db.Timestamptz()
+  credit_duration Int       @db.Integer
+  created_at      DateTime  @default(now()) @db.Timestamptz()
+  updated_at      DateTime  @updatedAt @db.Timestamptz()
+  Supplier        Supplier  @relation(fields: [id_supplier], references: [id])
+
+  @@map("purchases")
+}
+
 model Complaint {
   id         Int      @id @default(autoincrement())
   id_user    Int      @db.Integer
