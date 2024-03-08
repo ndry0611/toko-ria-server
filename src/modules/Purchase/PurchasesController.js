@@ -1,5 +1,6 @@
 import {
-    findManyPurchases
+    findManyPurchases,
+    createPurchase
 } from './PurchasesRepository.js'
 
 export async function getPurchasesController(request, reply) {
@@ -26,7 +27,7 @@ export async function getPurchasesController(request, reply) {
         queries.orderBy = {};
         queries.orderBy.purchase_date = 'asc';
     };
-    
+
     if (code) {
         queries.where.code = {}
         queries.where.code.contains = code
@@ -37,5 +38,15 @@ export async function getPurchasesController(request, reply) {
         return reply.code(200).send(purchases);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function createPurchaseController(request, reply) {
+    const body = request.body;
+    try {
+        const purchase = await createPurchase(body);
+        return reply.code(200).send(purchase);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
     }
 }

@@ -1,5 +1,6 @@
 import {
-    getPurchasesController
+    getPurchasesController,
+    createPurchaseController
 } from './PurchasesController.js'
 
 async function purchaseRoute(fastify, options, next) {
@@ -47,6 +48,59 @@ async function purchaseRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.get('/', getPurchasesSchema, getPurchasesController);
+
+    const createPurchaseSchema = {
+        schema: {
+            body: {
+                type: "object",
+                properties: {
+                    id_supplier: { type: "integer" },
+                    code: { type: "string" },
+                    purchase_date: { type: "string", format: "date-time" },
+                    grand_total: { type: "integer" },
+                    payment_date: { type: "string", format: "date-time" },
+                    credit_duration: { type: "integer" },
+                    status: { type: "integer" },
+                    purchase_detail: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                id_spare_part: { type: "integer" },
+                                quantity: { type: "integer" },
+                                price: { type: "integer" },
+                                discount: { type: "number" },
+                                total_price: { type: "integer" },
+                            },
+                            additionalProperties: false,
+                            required: ['id_spare_part', 'quantity', 'price', 'total_price']
+                        }
+                    }
+                },
+                additionalProperties: false,
+                required: ['id_supplier', 'code', 'purchase_date', 'grand_total', 'credit_duration', 'status', 'purchase_detail']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        id_supplier: { type: "integer" },
+                        code: { type: "string" },
+                        purchase_date: { type: "string", format: "date-time" },
+                        grand_total: { type: "integer" },
+                        payment_date: { type: "string", format: "date-time" },
+                        credit_duration: { type: "integer" },
+                        status: { type: "integer" },
+                        created_at: { type: "string", format: "date-time" }
+                    },
+                    required: ['id', 'id_supplier', 'code', 'purchase_date', 'grand_total', 'payment_date', 'credit_duration', 'status', 'created_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    };
+    fastify.post('/', createPurchaseSchema, createPurchaseController)
 
     next()
 }

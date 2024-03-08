@@ -84,6 +84,7 @@ model SparePart {
   SparePartBrand      SparePartBrand    @relation(fields: [id_spare_part_brand], references: [id])
   SpecialPrice        SpecialPrice[]
   StockAdjustment     StockAdjustment[]
+  PurchaseDetail      PurchaseDetail[]
 
   @@map("spare_parts")
 }
@@ -140,19 +141,36 @@ model SpecialPrice {
 }
 
 model Purchase {
-  id              Int       @id @default(autoincrement())
-  id_supplier     Int       @db.Integer
-  code            String    @db.VarChar(255)
-  purchase_date   DateTime  @db.Timestamptz()
-  grand_total     BigInt    @db.BigInt
-  status          Int       @db.Integer
-  payment_date    DateTime? @db.Timestamptz()
-  credit_duration Int       @db.Integer
-  created_at      DateTime  @default(now()) @db.Timestamptz()
-  updated_at      DateTime  @updatedAt @db.Timestamptz()
-  Supplier        Supplier  @relation(fields: [id_supplier], references: [id])
+  id              Int              @id @default(autoincrement())
+  id_supplier     Int              @db.Integer
+  code            String           @db.VarChar(255)
+  purchase_date   DateTime         @db.Timestamptz()
+  grand_total     BigInt           @db.BigInt
+  status          Int              @db.Integer
+  payment_date    DateTime?        @db.Timestamptz()
+  credit_duration Int              @db.Integer
+  created_at      DateTime         @default(now()) @db.Timestamptz()
+  updated_at      DateTime         @updatedAt @db.Timestamptz()
+  Supplier        Supplier         @relation(fields: [id_supplier], references: [id])
+  PurchaseDetail  PurchaseDetail[]
 
   @@map("purchases")
+}
+
+model PurchaseDetail {
+  id            Int       @id @default(autoincrement())
+  id_purchase   Int       @db.Integer
+  id_spare_part Int       @db.Integer
+  quantity      Int       @db.Integer
+  price         BigInt    @db.BigInt
+  discount      Float     @default(0) @db.DoublePrecision
+  total_price   BigInt    @db.BigInt
+  created_at    DateTime  @default(now()) @db.Timestamptz()
+  updated_at    DateTime  @updatedAt @db.Timestamptz()
+  Purchase      Purchase  @relation(fields: [id_purchase], references: [id])
+  SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
+
+  @@map("purchase_details")
 }
 
 model Complaint {
