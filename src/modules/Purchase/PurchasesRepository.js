@@ -9,6 +9,17 @@ export async function findManyPurchases(queries) {
     }
 }
 
+export async function findPurchaseById(id) {
+    try {
+        const purchase = await prisma.purchase.findFirst({
+            where: { id: Number(id) }
+        });
+        return purchase
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 export async function createPurchase(inputs) {
     try {
         //Create Purchase & Details
@@ -44,6 +55,18 @@ export async function createPurchase(inputs) {
             });
         }));
         return purchase
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function updatePurchase(id, inputs) {
+    try {
+        const purchase = await prisma.purchase.update({
+            where: { id: Number(id) },
+            data: inputs
+        });
+        return purchase;
     } catch (error) {
         throw new Error(error.message);
     }

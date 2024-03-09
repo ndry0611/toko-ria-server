@@ -1,6 +1,7 @@
 import {
     findManyPurchases,
-    createPurchase
+    createPurchase,
+    findPurchaseById
 } from './PurchasesRepository.js'
 
 export async function getPurchasesController(request, reply) {
@@ -48,5 +49,18 @@ export async function createPurchaseController(request, reply) {
         return reply.code(200).send(purchase);
     } catch (error) {
         return reply.code(500).send(Error(error.message))
+    }
+}
+
+export async function updatePurchaseController(request, reply) {
+    const body = request.body;
+    if (!await findPurchaseById(request.params.id)) {
+        return reply.code(404).send(Error("Purchase is not found!"));
+    }
+    try {
+        const purchase = await updatePurchase(request.params.id, body)
+        return reply.code(200).send(purchase);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
     }
 }
