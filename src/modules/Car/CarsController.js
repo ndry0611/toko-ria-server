@@ -1,5 +1,5 @@
 import {
-    findAllCar,
+    findManyCars,
     findCarById,
     createCar,
     updateCar,
@@ -7,8 +7,24 @@ import {
 } from './CarsRepository.js';
 
 export async function getAllCarController(request, reply) {
+    const queries = { include: { CarBrand: true }, where: {} };
+    const {id_car_brand, name, production_year} = request.query;
+    
+    if (name) {
+        queries.where.name = {};
+        queries.where.name.contains = name
+    }
+
+    if (id_car_brand) {
+        queries.where.id_car_brand = id_car_brand;
+    }
+
+    if (production_year) {
+        queries.where.production_year = production_year;
+    }
+
     try {
-        const cars = await findAllCar();
+        const cars = await findManyCars(queries);
         return reply.code(200).send(cars);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

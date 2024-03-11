@@ -1,8 +1,8 @@
 import prisma from "../../utils/prisma.js";
 
-export async function findAllCar() {
+export async function findManyCars(queries) {
     try {
-        return await prisma.car.findMany()
+        return await prisma.car.findMany(queries);
     } catch (error) {
         throw new Error(error.message);
     }
