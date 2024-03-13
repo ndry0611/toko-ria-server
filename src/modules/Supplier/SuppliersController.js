@@ -7,15 +7,23 @@ import {
 } from './SuppliersRepository.js'
 
 export async function getAllSupplierController(request, reply) {
+    const queries = { where: {} }
+    const { name_keyword } = request.query;
+    if (name_keyword) {
+        queries.where.OR = [
+            { company_name: { contains: name_keyword, mode: 'insensitive' } },
+            { pic_name: { contains: name_keyword, mode: 'insensitive' } }
+        ];
+    }
     try {
-        const suppliers = await findAllSupplier();
+        const suppliers = await findAllSupplier(queries);
         return reply.code(200).send(suppliers);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }
 }
 
-export async function createSupplierController(request,reply) {
+export async function createSupplierController(request, reply) {
     const body = request.body;
     try {
         const supplier = await createSupplier(body);
@@ -41,7 +49,7 @@ export async function updateSupplierController(request, reply) {
 export async function deleteSupplierController(request, reply) {
     try {
         await deleteSupplier(request.params.id);
-        return reply.code(200).send({message: `Supplier with id: ${request.params.id} successfully deleted`});
+        return reply.code(200).send({ message: `Supplier with id: ${request.params.id} successfully deleted` });
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }

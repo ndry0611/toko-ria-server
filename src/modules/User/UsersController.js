@@ -10,8 +10,29 @@ import { comparePassword } from "../../utils/bcrypt.js";
 import { fastify } from "../../app.js";
 
 export async function getAllUserController(request, reply) {
+    const queries = {
+        select: {
+            id: true,
+            username: true,
+            name: true,
+            phone: true,
+            address: true,
+            status: true,
+            id_role: true,
+            created_at: true,
+            updated_at: true
+        }, where: {}
+    };
+    const { name, status } = request.query;
+    if (name) {
+        queries.where.name = {};
+        queries.where.name.contains = name
+    }
+    if (status !== undefined && status !== null) {
+        queries.where.status = status;
+    };
     try {
-        const users = await findAllUser();
+        const users = await findAllUser(queries);
         reply.code(200).send(users);
     } catch (error) {
         reply.code(500).send(Error(error.message));
@@ -119,7 +140,7 @@ export async function updateUserController(request, reply) {
 export async function deleteUserController(request, reply) {
     try {
         await deleteUser(request.params.id);
-        return reply.code(200).send({message: `User with id: ${request.params.id} successfully deleted`});
+        return reply.code(200).send({ message: `User with id: ${request.params.id} successfully deleted` });
     } catch (error) {
         return reply.code(500).send(Error(error.message))
     }

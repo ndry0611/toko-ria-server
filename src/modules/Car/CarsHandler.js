@@ -8,6 +8,15 @@ import {
 async function carRoute(fastify, options, next) {
     const getAllCarSchema = {
         schema: {
+            querystring: {
+                type: "object",
+                properties: {
+                    id_car_brand: { type: "integer" },
+                    name: { type: "string" },
+                    production_year: { type: "string" }
+                },
+                additionalProperties: false
+            },
             response: {
                 200: {
                     type: "array",
@@ -16,13 +25,20 @@ async function carRoute(fastify, options, next) {
                         properties: {
                             id: { type: "integer" },
                             id_car_brand: { type: "integer" },
+                            CarBrand: {
+                                type: "object",
+                                properties: {
+                                    name: { type: "string" },
+                                    manufacture: { type: "string" }
+                                }
+                            },
                             name: { type: "string" },
                             production_year: { type: "string" },
                             type: { type: "string" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'id_car_brand', 'name', 'production_year', 'type', 'created_at', 'updated_at']
+                        required: ['id', 'id_car_brand', 'CarBrand', 'name', 'production_year', 'type', 'created_at', 'updated_at']
                     }
                 }
             }
@@ -43,7 +59,6 @@ async function carRoute(fastify, options, next) {
                 },
                 additionalProperties: false,
                 required: ['name', 'id_car_brand', 'production_year']
-                
             },
             response: {
                 201: {

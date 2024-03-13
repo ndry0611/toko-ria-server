@@ -3,21 +3,9 @@ import { hashPassword } from '../../utils/bcrypt.js';
 import * as fs from 'fs'
 import * as path from 'path'
 
-export async function findAllUser() {
+export async function findAllUser(queries) {
     try {
-        const allUser = await prisma.user.findMany({
-            select: {
-                id: true,
-                username: true,
-                name: true,
-                phone: true,
-                address: true,
-                status: true,
-                id_role: true,
-                created_at: true,
-                updated_at: true
-            }
-        });
+        const allUser = await prisma.user.findMany(queries);
         return allUser;
     } catch (error) {
         throw new Error(error.message);

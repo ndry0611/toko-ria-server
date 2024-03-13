@@ -8,6 +8,13 @@ import {
 async function supplierRoute(fastify, options, next) {
     const getAllSupplierSchema = {
         schema: {
+            querystring: {
+                type: "object",
+                properties: {
+                    name_keyword: { type: "string" }
+                },
+                additionalProperties: false
+            },
             response: {
                 200: {
                     type: "array",
