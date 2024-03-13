@@ -1,8 +1,8 @@
 import prisma from "../../utils/prisma.js";
 
-export async function findAllSupplier() {
+export async function findAllSupplier(queries) {
     try {
-        return await prisma.supplier.findMany();
+        return await prisma.supplier.findMany(queries);
     } catch (error) {
         throw new Error(error.message)
     }

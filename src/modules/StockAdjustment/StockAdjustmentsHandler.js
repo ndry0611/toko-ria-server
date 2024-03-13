@@ -6,6 +6,14 @@ import {
 async function stockAdjustmentRoute(fastify, options, next) {
     const getAllStockAdjustmentSchema = {
         schema: {
+            querystring: {
+                type: "object",
+                properties: {
+                    id_spare_part: { type: "integer" },
+                    start_date: { type: "string", format: "date-time" },
+                    end_date: { type: "string", format: "date-time" }
+                }
+            },
             response: {
                 200: {
                     type: "array",

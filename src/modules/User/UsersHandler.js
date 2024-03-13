@@ -10,6 +10,14 @@ import {
 async function userRoute(fastify, options, next) {
     const getAllUserSchema = {
         schema: {
+            querystring: {
+                type: "object",
+                properties: {
+                    name: { type: "string" },
+                    status: { type: "integer" }
+                },
+                additionalProperties: false
+            },
             response: {
                 200: {
                     type: "array",

@@ -1,14 +1,8 @@
 import prisma from "../../utils/prisma.js";
 
-export async function findAllStockAdjustment() {
+export async function findAllStockAdjustment(queries) {
     try {
-        const stockAdjustments = await prisma.stockAdjustment.findMany({
-            include: {
-                SparePart: {
-                    include: { SparePartBrand: true }
-                }
-            }
-        });
+        const stockAdjustments = await prisma.stockAdjustment.findMany(queries);
         return stockAdjustments
     } catch (error) {
         throw new Error(error.message);
