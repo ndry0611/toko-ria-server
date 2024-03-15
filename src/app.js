@@ -4,6 +4,7 @@ import formbody from '@fastify/formbody';
 import multipart from '@fastify/multipart';
 
 import carRoute from "./modules/Car/CarsHandler.js";
+import cartRoute from "./modules/Cart/CartsHandler.js"
 import userRoute from "./modules/User/UsersHandler.js";
 import fileRoute from './modules/File/FilesHandler.js';
 import purchaseRoute from './modules/Purchase/PurchasesHandler.js';
@@ -28,9 +29,10 @@ fastify.register(multipart);
 fastify.register(authenticate)
 fastify.register(authorization)
 
-fastify.register(fileRoute, { prefix: "api/v1/file" });
 fastify.register(carRoute, { prefix: "api/v1/car" });
-fastify.register(userRoute, { prefix: "/api/v1/user" });
+fastify.register(cartRoute, { prefix: "api/v1/cart" });
+fastify.register(fileRoute, { prefix: "api/v1/file" });
+fastify.register(userRoute, { prefix: "api/v1/user" });
 fastify.register(purchaseRoute, { prefix: "api/v1/purchase" });
 fastify.register(supplierRoute, { prefix: "api/v1/supplier" });
 fastify.register(categoryRoute, { prefix: "api/v1/category" });

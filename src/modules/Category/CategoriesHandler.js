@@ -17,7 +17,7 @@ async function categoryRoute(fastify, options, next) {
                             id: { type: "integer" },
                             name: { type: "string" },
                             description: { type: "string" },
-                            file_name: { type: "string" },
+                            file_name: { type: ["string", "null"] },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },

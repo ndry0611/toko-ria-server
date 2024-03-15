@@ -28,7 +28,7 @@ async function supplierRoute(fastify, options, next) {
                             pic_phone: { type: "string" },
                             bank_account: { type: "string" },
                             bank_account_name: { type: "string" },
-                            address: { type: "string" },
+                            address: { type: ["string", "null"] },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
@@ -68,7 +68,7 @@ async function supplierRoute(fastify, options, next) {
                         pic_phone: { type: "string" },
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
-                        address: { type: "string" },
+                        address: { type: ["string", "null"] },
                         created_at: { type: "string", format: "date-time" },
                     },
                     required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at']
@@ -112,7 +112,7 @@ async function supplierRoute(fastify, options, next) {
                         pic_phone: { type: "string" },
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
-                        address: { type: "string" },
+                        address: { type: ["string", "null"] },
                         updated_at: { type: "string", format: "date-time" }
                     },
                     additionalProperties: false,

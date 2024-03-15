@@ -8,6 +8,16 @@ import {
 async function sparePartRoute(fastify, options, next) {
     const getAllSparePartSchema = {
         schema: {
+            querystring: {
+                type: "object",
+                properties: {
+                    id_category: { type: "integer" },
+                    id_car_brand: { type: "integer" },
+                    id_car: { type: "integer" },
+                    name: { type: "string" }
+                },
+                additionalProperties: false
+            },
             response: {
                 200: {
                     type: "array",
@@ -16,9 +26,31 @@ async function sparePartRoute(fastify, options, next) {
                         properties: {
                             id: { type: "integer" },
                             id_spare_part_brand: { type: "integer" },
+                            SparePartBrand: {
+                                type: "object",
+                                properties: {
+                                    name: { type: "string" },
+                                    manufacture: { type: "string" }
+                                }
+                            },
                             id_category: { type: "integer" },
-                            id_car: { type: "integer" },
-                            id_supplier: { type: "integer" },
+                            id_car: { type: ["integer", "null"] },
+                            Car: {
+                                type: ["object", "null"],
+                                properties: {
+                                    id_car_brand: { type: "integer" },
+                                    CarBrand: {
+                                        type: "object",
+                                        properties: {
+                                            name: { type: "string" }
+                                        }
+                                    },
+                                    name: { type: "string" },
+                                    production_year: { type: "string" },
+                                    type: { type: "string" }
+                                }
+                            },
+                            id_supplier: { type: ["integer", "null"] },
                             name: { type: "string" },
                             part_no: { type: "string" },
                             genuine: { type: "boolean" },
@@ -29,7 +61,7 @@ async function sparePartRoute(fastify, options, next) {
                             sale_price: { type: "integer" },
                             description: { type: "string" },
                             supply_date: { type: "string", format: "date-time" },
-                            file_name: { type: "string" },
+                            file_name: { type: ["string", "null"] },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
@@ -72,8 +104,8 @@ async function sparePartRoute(fastify, options, next) {
                         id: { type: "integer" },
                         id_spare_part_brand: { type: "integer" },
                         id_category: { type: "integer" },
-                        id_car: { type: "integer" },
-                        id_supplier: { type: "integer" },
+                        id_car: { type: ["integer", "null"] },
+                        id_supplier: { type: ["integer", "null"] },
                         name: { type: "string" },
                         part_no: { type: "string" },
                         genuine: { type: "boolean" },
@@ -130,8 +162,8 @@ async function sparePartRoute(fastify, options, next) {
                         id: { type: "integer" },
                         id_spare_part_brand: { type: "integer" },
                         id_category: { type: "integer" },
-                        id_car: { type: "integer" },
-                        id_supplier: { type: "integer" },
+                        id_car: { type: ["integer", "null"] },
+                        id_supplier: { type: ["integer", "null"] },
                         name: { type: "string" },
                         part_no: { type: "string" },
                         genuine: { type: "boolean" },

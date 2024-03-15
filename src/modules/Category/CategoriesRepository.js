@@ -8,16 +8,14 @@ export async function findAllCategory() {
         const categories = await prisma.category.findMany()
         // map all categories and search for the files, thru models.
         const categoriesWithImage = await Promise.all(categories.map(async (category) => {
-            const file = await prisma.file.findUnique({
+            const file = await prisma.file.findFirst({
                 where: {
                     file_model: "categories",
                     file_id: category.id
                 }
             });
-            return {
-                ...category,
-                file_name: file ? file.name : null
-            };
+            category.file_name = file ? file.name : null
+            return category
         }));
         return categoriesWithImage;
     } catch (error) {

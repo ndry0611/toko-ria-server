@@ -20,10 +20,11 @@ model User {
   address      String         @db.Text
   status       Boolean        @default(false)
   created_at   DateTime       @default(now()) @db.Timestamptz()
-  updated_at   DateTime       @updatedAt @db.Timestamptz()
+  updated_at   DateTime       @default(now()) @updatedAt @db.Timestamptz()
   Role         Role           @relation(fields: [id_role], references: [id])
   SpecialPrice SpecialPrice[]
   Complaint    Complaint[]
+  Cart         Cart[]
 
   @@map("users")
 }
@@ -32,21 +33,22 @@ model Role {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar(255)
   created_at DateTime @default(now()) @db.Timestamptz()
-  updated_at DateTime @updatedAt @db.Timestamptz()
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz()
   User       User[]
 
   @@map("roles")
 }
 
 model Car {
-  id              Int      @id @default(autoincrement())
-  id_car_brand    Int      @db.Integer
-  name            String   @db.VarChar(255)
-  production_year String   @db.VarChar(255)
-  type            String?  @db.VarChar(255)
-  created_at      DateTime @default(now()) @db.Timestamptz()
-  updated_at      DateTime @updatedAt @db.Timestamptz()
-  CarBrand        CarBrand @relation(fields: [id_car_brand], references: [id])
+  id              Int         @id @default(autoincrement())
+  id_car_brand    Int         @db.Integer
+  name            String      @db.VarChar(255)
+  production_year String      @db.VarChar(255)
+  type            String?     @db.VarChar(255)
+  created_at      DateTime    @default(now()) @db.Timestamptz()
+  updated_at      DateTime    @default(now()) @updatedAt @db.Timestamptz()
+  CarBrand        CarBrand    @relation(fields: [id_car_brand], references: [id])
+  SparePart       SparePart[]
 
   @@map("cars")
 }
@@ -56,7 +58,7 @@ model CarBrand {
   name        String   @db.VarChar(255)
   manufacture String   @db.VarChar(255)
   created_at  DateTime @default(now()) @db.Timestamptz()
-  updated_at  DateTime @updatedAt @db.Timestamptz()
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz()
   Car         Car[]
 
   @@map("car_brands")
@@ -79,12 +81,15 @@ model SparePart {
   description         String            @db.Text
   supply_date         DateTime          @db.Timestamptz()
   created_at          DateTime          @default(now()) @db.Timestamptz()
-  updated_at          DateTime          @updatedAt @db.Timestamptz()
+  updated_at          DateTime          @default(now()) @updatedAt @db.Timestamptz()
   Category            Category          @relation(fields: [id_category], references: [id])
   SparePartBrand      SparePartBrand    @relation(fields: [id_spare_part_brand], references: [id])
+  Car                 Car?              @relation(fields: [id_car], references: [id])
+  Supplier            Supplier?         @relation(fields: [id_supplier], references: [id])
   SpecialPrice        SpecialPrice[]
   StockAdjustment     StockAdjustment[]
   PurchaseDetail      PurchaseDetail[]
+  CartDetail          CartDetail[]
 
   @@map("spare_parts")
 }
@@ -94,7 +99,7 @@ model SparePartBrand {
   name        String      @db.VarChar(255)
   manufacture String      @db.VarChar(255)
   created_at  DateTime    @default(now()) @db.Timestamptz()
-  updated_at  DateTime    @updatedAt @db.Timestamptz()
+  updated_at  DateTime    @default(now()) @updatedAt @db.Timestamptz()
   SparePart   SparePart[]
 
   @@map("spare_part_brands")
@@ -105,24 +110,25 @@ model Category {
   name        String      @db.VarChar(255)
   description String      @db.VarChar(255)
   created_at  DateTime    @default(now()) @db.Timestamptz()
-  updated_at  DateTime    @updatedAt @db.Timestamptz()
+  updated_at  DateTime    @default(now()) @updatedAt @db.Timestamptz()
   SparePart   SparePart[]
 
   @@map("categories")
 }
 
 model Supplier {
-  id                Int        @id @default(autoincrement())
-  company_name      String     @db.VarChar(255)
-  company_phone     String     @db.VarChar(255)
-  pic_name          String     @db.VarChar(255)
-  pic_phone         String     @db.VarChar(255)
-  bank_account      String     @db.VarChar(255)
-  bank_account_name String     @db.VarChar(255)
-  address           String?    @db.Text
-  created_at        DateTime   @default(now()) @db.Timestamptz()
-  updated_at        DateTime   @updatedAt @db.Timestamptz()
+  id                Int         @id @default(autoincrement())
+  company_name      String      @db.VarChar(255)
+  company_phone     String      @db.VarChar(255)
+  pic_name          String      @db.VarChar(255)
+  pic_phone         String      @db.VarChar(255)
+  bank_account      String      @db.VarChar(255)
+  bank_account_name String      @db.VarChar(255)
+  address           String?     @db.Text
+  created_at        DateTime    @default(now()) @db.Timestamptz()
+  updated_at        DateTime    @default(now()) @updatedAt @db.Timestamptz()
   Purchase          Purchase[]
+  SparePart         SparePart[]
 
   @@map("suppliers")
 }
@@ -133,7 +139,7 @@ model SpecialPrice {
   id_user       Int       @db.Integer
   price         BigInt    @db.BigInt
   created_at    DateTime  @default(now()) @db.Timestamptz()
-  updated_at    DateTime  @updatedAt @db.Timestamptz()
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz()
   SparePart     SparePart @relation(fields: [id_spare_part], references: [id], onDelete: Cascade)
   User          User      @relation(fields: [id_user], references: [id], onDelete: Cascade)
 
@@ -150,7 +156,7 @@ model Purchase {
   payment_date    DateTime?        @db.Timestamptz()
   credit_duration Int              @db.Integer
   created_at      DateTime         @default(now()) @db.Timestamptz()
-  updated_at      DateTime         @updatedAt @db.Timestamptz()
+  updated_at      DateTime         @default(now()) @updatedAt @db.Timestamptz()
   Supplier        Supplier         @relation(fields: [id_supplier], references: [id])
   PurchaseDetail  PurchaseDetail[]
 
@@ -166,11 +172,38 @@ model PurchaseDetail {
   discount      Float     @default(0) @db.DoublePrecision
   total_price   BigInt    @db.BigInt
   created_at    DateTime  @default(now()) @db.Timestamptz()
-  updated_at    DateTime  @updatedAt @db.Timestamptz()
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz()
   Purchase      Purchase  @relation(fields: [id_purchase], references: [id])
   SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
 
   @@map("purchase_details")
+}
+
+model Cart {
+  id          Int          @id @default(autoincrement())
+  id_user     Int          @db.Integer
+  grand_total BigInt       @default(0) @db.BigInt
+  created_at  DateTime     @default(now()) @db.Timestamptz()
+  updated_at  DateTime     @default(now()) @updatedAt @db.Timestamptz()
+  User        User         @relation(fields: [id_user], references: [id])
+  CartDetail  CartDetail[]
+
+  @@map("carts")
+}
+
+model CartDetail {
+  id            Int       @id @default(autoincrement())
+  id_cart       Int       @db.Integer
+  id_spare_part Int       @db.Integer
+  quantity      Int       @db.Integer
+  price         BigInt    @db.BigInt
+  total_price   BigInt    @db.BigInt
+  created_at    DateTime  @default(now()) @db.Timestamptz()
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz()
+  Cart          Cart      @relation(fields: [id_cart], references: [id])
+  SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
+
+  @@map("cart_details")
 }
 
 model Complaint {
@@ -178,7 +211,7 @@ model Complaint {
   id_user    Int      @db.Integer
   complaint  String   @db.Text
   created_at DateTime @default(now()) @db.Timestamptz()
-  updated_at DateTime @updatedAt @db.Timestamptz()
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz()
   User       User     @relation(fields: [id_user], references: [id], onDelete: Cascade)
 
   @@map("complaints")
@@ -192,7 +225,7 @@ model StockAdjustment {
   old_quantity  Int       @db.Integer
   new_quantity  Int       @db.Integer
   created_at    DateTime  @default(now()) @db.Timestamptz()
-  updated_at    DateTime  @updatedAt @db.Timestamptz()
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz()
   SparePart     SparePart @relation(fields: [id_spare_part], references: [id], onDelete: Cascade)
 
   @@map("stock_adjustments")
@@ -204,7 +237,7 @@ model File {
   file_model String   @db.VarChar(255)
   name       String   @db.VarChar(255)
   created_at DateTime @default(now()) @db.Timestamptz()
-  updated_at DateTime @updatedAt @db.Timestamptz()
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz()
 
   @@map("files")
 }

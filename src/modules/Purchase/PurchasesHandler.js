@@ -36,7 +36,7 @@ async function purchaseRoute(fastify, options, next) {
                             purchase_date: { type: "string", format: "date-time" },
                             grand_total: { type: "integer" },
                             status: { type: "integer" },
-                            payment_date: { type: "string", format: "date-time" },
+                            payment_date: { type: ["string", null], format: "date-time" },
                             credit_duration: { type: "integer" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" },
@@ -90,7 +90,7 @@ async function purchaseRoute(fastify, options, next) {
                         code: { type: "string" },
                         purchase_date: { type: "string", format: "date-time" },
                         grand_total: { type: "integer" },
-                        payment_date: { type: "string", format: "date-time" },
+                        payment_date: { type: ["string", "null"], format: "date-time" },
                         credit_duration: { type: "integer" },
                         status: { type: "integer" },
                         created_at: { type: "string", format: "date-time" }
@@ -132,7 +132,7 @@ async function purchaseRoute(fastify, options, next) {
                         code: { type: "string" },
                         purchase_date: { type: "string", format: "date-time" },
                         grand_total: { type: "integer" },
-                        payment_date: { type: "string", format: "date-time" },
+                        payment_date: { type: ["string", "null"], format: "date-time" },
                         credit_duration: { type: "integer" },
                         status: { type: "integer" },
                         updated_at: { type: "string", format: "date-time" }

@@ -7,8 +7,33 @@ import {
 } from './SparePartsRepository.js'
 
 export async function getAllSparePartController(request, reply) {
+    const queries = {
+        where: {},
+        include: {
+            SparePartBrand: true,
+            Car: true
+        }
+    };
+    const { id_category, id_car_brand, id_car, name } = request.query;
+
+    if (id_category) {
+        queries.where.id_category = id_category;
+    };
+
+    if (id_car) {
+        queries.where.id_car = id_car;
+    };
+
+    if (id_car_brand) {
+        queries.where.Car.CarBrand = { id: id_car_brand };
+    };
+
+    if (name) {
+        queries.where.name = { contains: name, mode: "insensitive" }
+    }
+
     try {
-        const spareParts = await findAllSparePart();
+        const spareParts = await findAllSparePart(queries);
         return reply.code(200).send(spareParts);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

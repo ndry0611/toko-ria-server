@@ -2,20 +2,20 @@ import prisma from "../../utils/prisma.js";
 import * as fs from 'fs'
 import * as path from 'path'
 
-export async function findAllSparePart() {
+export async function findAllSparePart(queries) {
     try {
-        const spareParts = await prisma.sparePart.findMany();
+        const spareParts = await prisma.sparePart.findMany(queries);
         const sparePartsWithImage = await Promise.all(spareParts.map(async (sparePart) => {
-            const file = await prisma.file.findUnique({
+
+            // Find File
+            const file = await prisma.file.findFirst({
                 where: {
                     file_model: "spare_parts",
                     file_id: sparePart.id
                 }
             });
-            return {
-                sparePart,
-                file_name: file ? file.name : null
-            };
+            sparePart.file_name = file ? file.name : null
+            return sparePart
         }));
         return sparePartsWithImage;
     } catch (error) {

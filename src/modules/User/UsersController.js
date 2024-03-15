@@ -25,8 +25,7 @@ export async function getAllUserController(request, reply) {
     };
     const { name, status } = request.query;
     if (name) {
-        queries.where.name = {};
-        queries.where.name.contains = name
+        queries.where.name = { contains: name, mode: "insensitive" };
     }
     if (status !== undefined && status !== null) {
         queries.where.status = status;
