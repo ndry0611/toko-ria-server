@@ -34,7 +34,7 @@ async function carRoute(fastify, options, next) {
                             },
                             name: { type: "string" },
                             production_year: { type: "string" },
-                            type: { type: ["string", null] },
+                            type: { type: ["string", "null"] },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
@@ -107,7 +107,7 @@ async function carRoute(fastify, options, next) {
                         id_car_brand: { type: "integer" },
                         name: { type: "string" },
                         production_year: { type: "string" },
-                        type: { type: ["string", null] },
+                        type: { type: ["string", "null"] },
                         updated_at: { type: "string", format: "date-time" }
                     },
                     required: ['id', 'id_car_brand', 'name', 'production_year', 'type', 'updated_at']

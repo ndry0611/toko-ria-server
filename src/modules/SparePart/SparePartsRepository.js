@@ -26,7 +26,11 @@ export async function findAllSparePart(queries) {
 export async function findSparePartById(id) {
     try {
         const sparePart = await prisma.sparePart.findUnique({
-            where: { id: Number(id) }
+            where: { id: Number(id) },
+            include: {
+                SparePartBrand: true,
+                Car: true
+            }
         });
         if (sparePart) {
             const sparePartPhoto = await prisma.file.findFirst({

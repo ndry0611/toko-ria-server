@@ -24,7 +24,7 @@ model User {
   Role         Role           @relation(fields: [id_role], references: [id])
   SpecialPrice SpecialPrice[]
   Complaint    Complaint[]
-  Cart         Cart[]
+  Cart         Cart?
 
   @@map("users")
 }
@@ -181,7 +181,7 @@ model PurchaseDetail {
 
 model Cart {
   id          Int          @id @default(autoincrement())
-  id_user     Int          @db.Integer
+  id_user     Int          @unique @db.Integer
   grand_total BigInt       @default(0) @db.BigInt
   created_at  DateTime     @default(now()) @db.Timestamptz()
   updated_at  DateTime     @default(now()) @updatedAt @db.Timestamptz()
