@@ -1,6 +1,7 @@
 import {
     getUserCartController,
-    addCartDetailsController
+    addCartDetailsController,
+    deleteCartDetailController
 } from './CartsController.js'
 
 async function cartRoute(fastify, options, next) {
@@ -107,7 +108,30 @@ async function cartRoute(fastify, options, next) {
         },
         preHandler: [fastify.authenticate]
     }
-    fastify.post('/', addCartDetailsSchema, addCartDetailsController)
+    fastify.post('/details', addCartDetailsSchema, addCartDetailsController)
+
+    const deleteCartDetailsSchema = {
+        schema: {
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    },
+                    required: ['message']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate]
+    }
+    fastify.delete('/details/:id', deleteCartDetailsSchema, deleteCartDetailController)
 
     next()
 }

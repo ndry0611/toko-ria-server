@@ -37,6 +37,26 @@ export async function findCartByIdUser(id_user) {
     }
 }
 
+export async function checkCartDetailBelonging(userId, cartDetailId) {
+    try {
+        const cart = await prisma.cart.findUnique({
+            where: { id_user: userId }
+        });
+        const cartDetail = await prisma.cartDetail.findUnique({
+            where: {
+                id: cartDetailId,
+                id_cart: cart.id
+            }
+        });
+        if (!cartDetail) {
+            return null;
+        }
+        return cartDetail;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 export async function addCartDetailIntoUserCart(userId, inputs) {
     try {
         //Check if cart exists
@@ -73,5 +93,20 @@ export async function addCartDetailIntoUserCart(userId, inputs) {
         return cartDetails;
     } catch (error) {
         throw new Error(error.message)
+    }
+}
+
+export async function deleteCartDetail(cartDetail) {
+    try {
+        await prisma.cart.update({
+            where: { id: cartDetail.id_cart },
+            data: { grand_total: { decrement: cartDetail.total_price } }
+        });
+        await prisma.cartDetail.delete({
+            where: { id: Number(id) }
+        });
+        return;
+    } catch (error) {
+        throw new Error(error.message);
     }
 }
