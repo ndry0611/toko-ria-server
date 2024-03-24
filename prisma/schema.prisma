@@ -25,6 +25,7 @@ model User {
   SpecialPrice SpecialPrice[]
   Complaint    Complaint[]
   Cart         Cart?
+  Sale         Sale[]
 
   @@map("users")
 }
@@ -90,6 +91,7 @@ model SparePart {
   StockAdjustment     StockAdjustment[]
   PurchaseDetail      PurchaseDetail[]
   CartDetail          CartDetail[]
+  SaleDetail          SaleDetail[]
 
   @@map("spare_parts")
 }
@@ -204,6 +206,38 @@ model CartDetail {
   SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
 
   @@map("cart_details")
+}
+
+model Sale {
+  id             Int          @id @default(autoincrement())
+  id_user        Int          @db.Integer
+  code           String       @db.VarChar(255)
+  payment_method Int          @db.Integer
+  grand_total    BigInt       @db.BigInt
+  payment_date   DateTime?    @db.Timestamptz()
+  expired_date   DateTime?    @db.Timestamptz()
+  status         Int          @default(0) @db.Integer
+  created_at     DateTime     @default(now()) @db.Timestamptz()
+  updated_at     DateTime     @default(now()) @updatedAt @db.Timestamptz()
+  User           User         @relation(fields: [id_user], references: [id])
+  SaleDetail     SaleDetail[]
+
+  @@map("sales")
+}
+
+model SaleDetail {
+  id            Int       @id @default(autoincrement())
+  id_sale       Int       @db.Integer
+  id_spare_part Int       @db.Integer
+  quantity      Int       @db.Integer
+  price         BigInt    @db.BigInt
+  total_price   BigInt    @db.BigInt
+  created_at    DateTime  @default(now()) @db.Timestamptz()
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz()
+  Sale          Sale      @relation(fields: [id_sale], references: [id])
+  SparePart     SparePart @relation(fields: [id_spare_part], references: [id])
+
+  @@map("sale_details")
 }
 
 model Complaint {

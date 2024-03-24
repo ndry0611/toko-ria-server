@@ -54,7 +54,7 @@ export async function createPurchase(inputs) {
                 }
             });
         }));
-        return purchase
+        return purchase;
     } catch (error) {
         throw new Error(error.message);
     }

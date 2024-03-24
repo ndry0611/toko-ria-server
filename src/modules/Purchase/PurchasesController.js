@@ -25,13 +25,11 @@ export async function getPurchasesController(request, reply) {
             queries.where.purchase_date.lte = end_date
         };
 
-        queries.orderBy = {};
-        queries.orderBy.purchase_date = 'asc';
+        queries.orderBy = { puchase_date: "asc" };
     };
 
     if (code) {
-        queries.where.code = {}
-        queries.where.code.contains = code
+        queries.where.code = { contains: code }
     };
 
     try {
@@ -46,7 +44,7 @@ export async function createPurchaseController(request, reply) {
     const body = request.body;
     try {
         const purchase = await createPurchase(body);
-        return reply.code(200).send(purchase);
+        return reply.code(201).send(purchase);
     } catch (error) {
         return reply.code(500).send(Error(error.message))
     }

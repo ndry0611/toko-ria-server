@@ -41,7 +41,7 @@ async function purchaseRoute(fastify, options, next) {
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" },
                         },
-                        required: ['id', 'id_supplier', 'code', 'purchase_date', 'grand_total', 'status', 'payment_date', 'credit_duration', 'created_at', 'updated_at']
+                        required: ['id', 'id_supplier', 'Supplier', 'code', 'purchase_date', 'grand_total', 'status', 'payment_date', 'credit_duration', 'created_at', 'updated_at']
                     }
                 }
             }
@@ -82,7 +82,7 @@ async function purchaseRoute(fastify, options, next) {
                 required: ['id_supplier', 'code', 'purchase_date', 'grand_total', 'credit_duration', 'status', 'purchase_detail']
             },
             response: {
-                200: {
+                201: {
                     type: "object",
                     properties: {
                         id: { type: "integer" },

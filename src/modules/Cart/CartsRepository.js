@@ -110,3 +110,18 @@ export async function deleteCartDetail(cartDetail) {
         throw new Error(error.message);
     }
 }
+
+export async function resetUserCart(userId) {
+    try {
+        const cart = await prisma.cart.update({
+            where: { id_user: userId },
+            data: { grand_total: 0 }
+        });
+        await prisma.cartDetail.deleteMany({
+            where: { id_cart: cart.id }
+        });
+        return
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
