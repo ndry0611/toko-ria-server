@@ -69,3 +69,14 @@ export async function createSale(inputs) {
     throw new Error(error.message);
   }
 }
+
+export async function updateSale(id, inputs) {
+  try {
+    const sale = await prisma.sale.update({
+      where: { id: Number(id) }
+    });
+    return sale
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

@@ -1,5 +1,5 @@
 import {
-  getSalesController
+  getSalesController, cartCheckoutController, createCashSaleController, updateSaleController
 } from './SalesController.js'
 
 async function saleRoute(fastify, options, next) {
@@ -125,4 +125,9 @@ async function saleRoute(fastify, options, next) {
     },
     preHandler: [fastify.authenticate]
   }
+  fastify.put('/:id', updateSaleSchema, updateSaleController);
+
+  next()
 }
+
+export default saleRoute;

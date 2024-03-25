@@ -1,7 +1,8 @@
 import {
   checkAvailability,
   createSale,
-  findManySales
+  findManySales,
+  updateSale
 } from './SalesRepository.js'
 import {
   resetUserCart
