@@ -81,7 +81,8 @@ async function userRoute(fastify, options, next) {
 
     const registerSchema = {
         schema: {
-            tags: ['user'],
+            tags: ['auth','user'],
+            description: 'new registered user cannot be used until status is set "true" by admin',
             body: {
                 type: "object",
                 required: ["name", "username", "password", "phone", "address"],
@@ -114,7 +115,7 @@ async function userRoute(fastify, options, next) {
 
     const loginSchema = {
         schema: {
-            tags: ['user'],
+            tags: ['auth', 'user'],
             body: {
                 type: "object",
                 required: ["username", "password"],

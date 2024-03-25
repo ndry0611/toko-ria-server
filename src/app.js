@@ -37,7 +37,7 @@ fastify.register(swagger, {
             version: '1.0.0'
         },
         tags: [
-            { name: 'user' }
+            { name: 'auth', description: "Routes to get token for authentication / authorization" }
         ]
     },
 });
