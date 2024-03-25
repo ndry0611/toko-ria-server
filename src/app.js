@@ -4,6 +4,7 @@ import formbody from '@fastify/formbody';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import multipart from '@fastify/multipart';
+import fcors from '@fastify/cors';
 
 import carRoute from "./modules/Car/CarsHandler.js";
 import cartRoute from "./modules/Cart/CartsHandler.js";
@@ -27,6 +28,10 @@ export const fastify = Fastify({
     logger: true
 })
 fastify.register(formbody);
+fastify.register(fcors, {
+    origin: process.env.FRONT_END_ORIGIN,
+    methods: ['GET','POST','PUT','DELETE'],
+});
 fastify.register(multipart);
 fastify.register(swagger, {
     openapi: {
