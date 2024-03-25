@@ -6,6 +6,7 @@ import {
 async function stockAdjustmentRoute(fastify, options, next) {
     const getAllStockAdjustmentSchema = {
         schema: {
+            tags: ['stock-adjustment'],
             querystring: {
                 type: "object",
                 properties: {
@@ -52,6 +53,7 @@ async function stockAdjustmentRoute(fastify, options, next) {
 
     const createStockAdjustmentSchema = {
         schema: {
+            tags: ['stock-adjustment'],
             body: {
                 type: "object",
                 properties: {

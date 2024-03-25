@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 import multipart from '@fastify/multipart';
 
 import carRoute from "./modules/Car/CarsHandler.js";
@@ -26,6 +28,22 @@ export const fastify = Fastify({
 })
 fastify.register(formbody);
 fastify.register(multipart);
+fastify.register(swagger, {
+    openapi: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Toko Ria Sigli',
+            description: 'API Documentation of Toko Ria Sigli',
+            version: '1.0.0'
+        },
+        tags: [
+            { name: 'user' }
+        ]
+    },
+});
+fastify.register(swaggerUi, { routePrefix: '/swagger/doc' });
+
+
 
 fastify.register(authenticate)
 fastify.register(authorization)
@@ -48,6 +66,7 @@ fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
 async function start() {
     try {
         await fastify.listen({ port: process.env.PORT });
+        fastify.swagger();
         fastify.log.info(`API is running on port ${fastify.server.address().port}`)
     } catch (err) {
         fastify.log.error(err);

@@ -8,6 +8,7 @@ import {
 async function carBrandRoute(fastify, options, next) {
     const getAllCarBrandSchema = {
         schema: {
+            tags: ['car-brand'],
             response: {
                 200: {
                     type: "array",
@@ -31,6 +32,7 @@ async function carBrandRoute(fastify, options, next) {
 
     const createCarBrandSchema = {
         schema: {
+            tags: ['car-brand'],
             body: {
                 type: "object",
                 properties: {
@@ -59,6 +61,7 @@ async function carBrandRoute(fastify, options, next) {
 
     const updateCarBrandSchema = {
         schema: {
+            tags: ['car-brand'],
             params: {
                 type: "object",
                 properties: {
@@ -93,6 +96,7 @@ async function carBrandRoute(fastify, options, next) {
 
     const deleteCarBrandSchema = {
         schema: {
+            tags: ['car-brand'],
             params: {
                 type: "object",
                 properties: {

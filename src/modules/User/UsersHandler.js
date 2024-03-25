@@ -10,6 +10,7 @@ import {
 async function userRoute(fastify, options, next) {
     const getAllUserSchema = {
         schema: {
+            tags: ['user'],
             querystring: {
                 type: "object",
                 properties: {
@@ -45,6 +46,7 @@ async function userRoute(fastify, options, next) {
 
     const createUserSchema = {
         schema: {
+            tags: ['user'],
             body: {
                 type: "object",
                 required: ["name", "username", "password", "phone", "address", "id_role"],
@@ -79,6 +81,7 @@ async function userRoute(fastify, options, next) {
 
     const registerSchema = {
         schema: {
+            tags: ['user'],
             body: {
                 type: "object",
                 required: ["name", "username", "password", "phone", "address"],
@@ -111,6 +114,7 @@ async function userRoute(fastify, options, next) {
 
     const loginSchema = {
         schema: {
+            tags: ['user'],
             body: {
                 type: "object",
                 required: ["username", "password"],
@@ -135,6 +139,7 @@ async function userRoute(fastify, options, next) {
 
     const updateUserSchema = {
         schema: {
+            tags: ['user'],
             params: {
                 type: "object",
                 properties: {
@@ -170,6 +175,7 @@ async function userRoute(fastify, options, next) {
 
     const deleteUserSchema = {
         schema: {
+            tags: ['user'],
             params: {
                 type: "object",
                 properties: {

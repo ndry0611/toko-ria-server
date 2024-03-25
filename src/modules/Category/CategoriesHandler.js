@@ -8,6 +8,7 @@ import {
 async function categoryRoute(fastify, options, next) {
     const getAllCategorySchema = {
         schema: {
+            tags: ['category'],
             response: {
                 200: {
                     type: "array",
@@ -32,6 +33,7 @@ async function categoryRoute(fastify, options, next) {
 
     const createCategorySchema = {
         schema: {
+            tags: ['category'],
             body: {
                 type: "object",
                 properties: {
@@ -60,6 +62,7 @@ async function categoryRoute(fastify, options, next) {
 
     const updateCategorySchema = {
         schema: {
+            tags: ['category'],
             params: {
                 type: "object",
                 properties: {
@@ -94,6 +97,7 @@ async function categoryRoute(fastify, options, next) {
 
     const deleteCategorySchema = {
         schema: {
+            tags: ['category'],
             params: {
                 type: "object",
                 properties: {
@@ -113,7 +117,7 @@ async function categoryRoute(fastify, options, next) {
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.delete('/:id', deleteCategoryController)
+    fastify.delete('/:id', deleteCategorySchema, deleteCategoryController)
 
     next()
 }

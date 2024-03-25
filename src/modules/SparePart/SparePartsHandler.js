@@ -8,6 +8,7 @@ import {
 async function sparePartRoute(fastify, options, next) {
     const getAllSparePartSchema = {
         schema: {
+            tags: ['spare-part'],
             querystring: {
                 type: "object",
                 properties: {
@@ -76,6 +77,7 @@ async function sparePartRoute(fastify, options, next) {
 
     const createSparePartSchema = {
         schema: {
+            tags: ['spare-part'],
             body: {
                 type: "object",
                 properties: {
@@ -128,6 +130,7 @@ async function sparePartRoute(fastify, options, next) {
 
     const updateSparePartSchema = {
         schema: {
+            tags: ['spare-part'],
             params: {
                 type: "object",
                 properties: {
@@ -186,6 +189,7 @@ async function sparePartRoute(fastify, options, next) {
 
     const deleteSparePartSchema = {
         schema: {
+            tags: ['spare-part'],
             params: {
                 type: "object",
                 properties: {

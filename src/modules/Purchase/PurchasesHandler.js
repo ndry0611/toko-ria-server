@@ -7,6 +7,7 @@ import {
 async function purchaseRoute(fastify, options, next) {
     const getPurchasesSchema = {
         schema: {
+            tags: ['purchase'],
             querystring: {
                 type: "object",
                 properties: {
@@ -52,6 +53,7 @@ async function purchaseRoute(fastify, options, next) {
 
     const createPurchaseSchema = {
         schema: {
+            tags: ['purchase'],
             body: {
                 type: "object",
                 properties: {
@@ -105,6 +107,7 @@ async function purchaseRoute(fastify, options, next) {
 
     const updatePurchaseSchema = {
         schema: {
+            tags: ['purchase'],
             params: {
                 type: "object",
                 properties: {

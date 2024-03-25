@@ -8,6 +8,7 @@ import {
 async function sparePartBrandRoute(fastify, options, next) {
     const getAllSparePartBrandSchema = {
         schema: {
+            tags: ['spare-part-brand'],
             response: {
                 200: {
                     type: "array",
@@ -31,6 +32,7 @@ async function sparePartBrandRoute(fastify, options, next) {
 
     const createSparePartBrandSchema = {
         schema: {
+            tags: ['spare-part-brand'],
             body: {
                 type: "object",
                 properties: {
@@ -59,6 +61,7 @@ async function sparePartBrandRoute(fastify, options, next) {
 
     const updateSparePartBrandSchema = {
         schema: {
+            tags: ['spare-part-brand'],
             params: {
                 type: "object",
                 properties: {
@@ -93,6 +96,7 @@ async function sparePartBrandRoute(fastify, options, next) {
 
     const deleteSparePartBrandSchema = {
         schema: {
+            tags: ['spare-part-brand'],
             params: {
                 type: "object",
                 properties: {

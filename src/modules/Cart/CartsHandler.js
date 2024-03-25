@@ -7,6 +7,7 @@ import {
 async function cartRoute(fastify, options, next) {
     const getUserCartSchema = {
         schema: {
+            tags: ['cart'],
             response: {
                 200: {
                     type: "object",
@@ -79,6 +80,7 @@ async function cartRoute(fastify, options, next) {
 
     const addCartDetailsSchema = {
         schema: {
+            tags: ['cart'],
             body: {
                 type: "object",
                 properties: {
@@ -112,6 +114,7 @@ async function cartRoute(fastify, options, next) {
 
     const deleteCartDetailsSchema = {
         schema: {
+            tags: ['cart'],
             params: {
                 type: "object",
                 properties: {

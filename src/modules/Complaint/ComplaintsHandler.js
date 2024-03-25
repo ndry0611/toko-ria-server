@@ -6,6 +6,7 @@ import {
 async function complaintRoute(fastify, options, next) {
     const getAllComplaintSchema = {
         schema: {
+            tags: ['complaint'],
             response: {
                 200: {
                     type: "array",
@@ -35,6 +36,7 @@ async function complaintRoute(fastify, options, next) {
 
     const createComplaintSchema = {
         schema: {
+            tags: ['complaint'],
             body: {
                 type: "object",
                 properties: {

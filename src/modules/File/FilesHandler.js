@@ -5,6 +5,7 @@ import {
 async function fileRoute(fastify, options, next) {
     const uploadFileSchema = {
         schema: {
+            tags: ["file"],
             consumes: ['multipart/form-data'],
             params: {
                 type: 'object',

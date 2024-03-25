@@ -8,6 +8,7 @@ import {
 async function supplierRoute(fastify, options, next) {
     const getAllSupplierSchema = {
         schema: {
+            tags: ['supplier'],
             querystring: {
                 type: "object",
                 properties: {
@@ -43,6 +44,7 @@ async function supplierRoute(fastify, options, next) {
 
     const createSupplierSchema = {
         schema: {
+            tags: ['supplier'],
             body: {
                 type: "object",
                 properties: {
@@ -81,6 +83,7 @@ async function supplierRoute(fastify, options, next) {
 
     const updateSupplierSchema = {
         schema: {
+            tags: ['supplier'],
             params: {
                 type: "object",
                 properties: {
@@ -126,6 +129,7 @@ async function supplierRoute(fastify, options, next) {
 
     const deleteSupplierSchema = {
         schema: {
+            tags: ['supplier'],
             params: {
                 type: "object",
                 properties: {

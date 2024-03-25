@@ -8,6 +8,7 @@ import {
 async function carRoute(fastify, options, next) {
     const getAllCarSchema = {
         schema: {
+            tags: ['car'],
             querystring: {
                 type: "object",
                 properties: {
@@ -49,6 +50,7 @@ async function carRoute(fastify, options, next) {
 
     const createCarSchema = {
         schema: {
+            tags: ['car'],
             body: {
                 type: "object",
                 properties: {
@@ -81,6 +83,7 @@ async function carRoute(fastify, options, next) {
 
     const updateCarSchema = {
         schema: {
+            tags: ['car'],
             params: {
                 type: "object",
                 properties: {
@@ -120,6 +123,7 @@ async function carRoute(fastify, options, next) {
 
     const deleteCarSchema = {
         schema: {
+            tags: ['car'],
             params: {
                 type: "object",
                 properties: {

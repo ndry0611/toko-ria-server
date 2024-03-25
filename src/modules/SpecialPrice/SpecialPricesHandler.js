@@ -7,6 +7,7 @@ import {
 async function specialPriceRoute(fastify, options, next) {
     const getSpecialPriceBySparePartIdSchema = {
         schema: {
+            tags: ['special-price'],
             params: {
                 type: "object",
                 properties: {
@@ -54,6 +55,7 @@ async function specialPriceRoute(fastify, options, next) {
 
     const createSpecialPriceSchema = {
         schema: {
+            tags: ['special-price'],
             body: {
                 type: "object",
                 properties: {
@@ -84,6 +86,7 @@ async function specialPriceRoute(fastify, options, next) {
 
     const deleteSpecialPriceSchema = {
         schema: {
+            tags: ['special-price'],
             params: {
                 type: "object",
                 properties: {

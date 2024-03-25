@@ -5,6 +5,7 @@ import {
 async function saleRoute(fastify, options, next) {
   const getSalesSchema = {
     schema: {
+      tags: ['sale'],
       querystring: {
         type: "object",
         properties: {
@@ -53,6 +54,7 @@ async function saleRoute(fastify, options, next) {
 
   const createSaleSchema = {
     schema: {
+      tags: ['sale'],
       body: {
         type: "object",
         properties: {
@@ -89,6 +91,7 @@ async function saleRoute(fastify, options, next) {
 
   const updateSaleSchema = {
     schema: {
+      tags: ['sale'],
       params: {
         type: "object",
         properties: {
