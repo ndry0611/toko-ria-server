@@ -49,18 +49,18 @@ fastify.register(authenticate)
 fastify.register(authorization)
 
 fastify.register(carRoute, { prefix: "api/v1/car" });
+fastify.register(userRoute, { prefix: "api/v1/user" });
+fastify.register(sparePartRoute, { prefix: "api/v1/spare-part" });
+fastify.register(categoryRoute, { prefix: "api/v1/category" });
+fastify.register(supplierRoute, { prefix: "api/v1/supplier" });
+fastify.register(carBrandRoute, { prefix: "api/v1/car-brand" });
+fastify.register(sparePartBrandRoute, { prefix: "api/v1/spare-part-brand" });
+fastify.register(specialPriceRoute, { prefix: "api/v1/special-price" });
+fastify.register(complaintRoute, { prefix: "api/v1/complaint" });
+fastify.register(purchaseRoute, { prefix: "api/v1/purchase" });
 fastify.register(saleRoute, { prefix: "api/v1/sale" });
 fastify.register(cartRoute, { prefix: "api/v1/cart" });
 fastify.register(fileRoute, { prefix: "api/v1/file" });
-fastify.register(userRoute, { prefix: "api/v1/user" });
-fastify.register(purchaseRoute, { prefix: "api/v1/purchase" });
-fastify.register(supplierRoute, { prefix: "api/v1/supplier" });
-fastify.register(categoryRoute, { prefix: "api/v1/category" });
-fastify.register(carBrandRoute, { prefix: "api/v1/car-brand" });
-fastify.register(complaintRoute, { prefix: "api/v1/complaint" });
-fastify.register(sparePartRoute, { prefix: "api/v1/spare-part" });
-fastify.register(specialPriceRoute, { prefix: "api/v1/special-price" });
-fastify.register(sparePartBrandRoute, { prefix: "api/v1/spare-part-brand" });
 fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
 
 async function start() {
