@@ -82,6 +82,24 @@ async function saleRoute(fastify, options, next) {
         },
         additionalProperties: false,
         required: ['id_user', 'code', 'payment_method', 'grand_total', 'status', 'sale_detail']
+      },
+      response: {
+        201: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            id_user: { type: "integer" },
+            code: { type: "string" },
+            payment_method: { type: "integer" },
+            grand_total: { type: "integer" },
+            payment_date: { type: ["string", "null"], format: "date-time" },
+            expired_date: { type: ["string", "null"], format: "date-time" },
+            status: { type: "integer" },
+            snapToken: { type: "string" }
+          },
+          additionalProperties: false,
+          required: ['id', 'id_user', 'code', 'payment_method', 'grand_total', 'payment_date', 'expired_date', 'status']
+        }
       }
     },
     preHandler: [fastify.authenticate]
