@@ -183,13 +183,14 @@ model PurchaseDetail {
 
 model Cart {
   id          Int          @id @default(autoincrement())
-  id_user     Int          @unique @db.Integer
+  id_user     Int          @db.Integer
   grand_total BigInt       @default(0) @db.BigInt
   created_at  DateTime     @default(now()) @db.Timestamptz()
   updated_at  DateTime     @default(now()) @updatedAt @db.Timestamptz()
   User        User         @relation(fields: [id_user], references: [id])
   CartDetail  CartDetail[]
 
+  @@unique([id_user])
   @@map("carts")
 }
 

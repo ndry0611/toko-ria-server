@@ -22,7 +22,10 @@
     "seed": "node prisma/seed.js"
   },
   "scripts": {
-    "start": "node src/app",
+    "deploy-dev" : "pnpm run  migrate && pnpm run seed && pnpm run start",
+    "seed-dev": "npx prisma db seed && npx prisma db execute --file prisma/ria_sigli_dev_data.sql",
+    "migrate": "npx prisma migrate dev --create-only --name railway_deploy ",
+    "start": "node src/app.js",
     "dev-mac": "node_modules/.bin/nodemon src/app.js",
     "dev-win": "nodemon src/app"
   },
