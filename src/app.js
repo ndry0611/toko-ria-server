@@ -25,12 +25,13 @@ import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
 
 export const fastify = Fastify({
+    ignoreDuplicateSlashes: true,
     logger: true
 })
 fastify.register(formbody);
 fastify.register(fcors, {
     origin: process.env.FRONT_END_ORIGIN,
-    methods: ['GET','POST','PUT','DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 fastify.register(multipart);
 fastify.register(swagger, {
@@ -70,7 +71,7 @@ fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
 
 async function start() {
     try {
-        await fastify.listen({ port: process.env.PORT });
+        await fastify.listen({ host: process.env.HOST_NAME , port: process.env.PORT });
         fastify.swagger();
         fastify.log.info(`API is running on port ${fastify.server.address().port}`)
     } catch (err) {
