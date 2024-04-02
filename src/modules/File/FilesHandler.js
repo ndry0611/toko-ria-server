@@ -10,7 +10,7 @@ async function fileRoute(fastify, options, next) {
             params: {
                 type: 'object',
                 properties: {
-                    model: { type: "string" },
+                    model: { type: "string", enum: ["users", "categories", "spare_parts"] },
                     id: { type: "integer" },
                 },
                 required: ['model', 'id']
