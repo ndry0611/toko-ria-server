@@ -25,7 +25,6 @@ import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
 
 export const fastify = Fastify({
-    ignoreDuplicateSlashes: true,
     logger: true
 })
 fastify.register(formbody);
