@@ -81,4 +81,4 @@ async function start() {
         process.exit(1);
     }
 }
-start()
+export default start
