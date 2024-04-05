@@ -9,12 +9,21 @@ export async function findManyPurchases(queries) {
     }
 }
 
-export async function findPurchaseById(id) {
+export async function findOnePurchase(queries) {
     try {
-        const purchase = await prisma.purchase.findFirst({
-            where: { id: Number(id) }
-        });
-        return purchase
+        const purchase = await prisma.purchase.findFirst(queries);
+        if (purchase.PurchaseDetail) {
+            await Promise.all(purchase.PurchaseDetail.map(async (pDetail) => {
+                const file = await prisma.file.findFirst({
+                    where: {
+                        file_model: "spare_parts",
+                        file_id: pDetail.id_spare_part
+                    }
+                });
+                pDetail.SparePart.file_name = file ? file.name : null
+            }));
+        }
+        return purchase;
     } catch (error) {
         throw new Error(error.message);
     }
