@@ -151,6 +151,7 @@ export async function cartCheckoutController(request, reply) {
 }
 
 export async function createCashSaleController(request, reply) {
+  const body = request.body;
   await handlingItemAvailability(request, reply)
   try {
     const sale = await createSale(body);
