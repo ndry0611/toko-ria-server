@@ -32,9 +32,21 @@ export async function getAllUserController(request, reply) {
     };
     try {
         const users = await findAllUser(queries);
-        reply.code(200).send(users);
+        return reply.code(200).send(users);
     } catch (error) {
-        reply.code(500).send(Error(error.message));
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function getOneUserController(request, reply) {
+    try {
+        const user = await findUserById(request.params.id);
+        if(!user) {
+            return reply.code(404).send(Error("User is not found!"));
+        }
+        return reply.code(200).send(user);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
     }
 }
 
@@ -54,7 +66,7 @@ export async function registerController(request, reply) {
         }
         return reply.code(201).send(response);
     } catch (error) {
-        reply.code(500).send(Error(error.message));
+        return reply.code(500).send(Error(error.message));
     }
 }
 
@@ -73,7 +85,7 @@ export async function createUserController(request, reply) {
         }
         return reply.code(201).send(response);
     } catch (error) {
-        reply.code(500).send(Error(error.message));
+        return reply.code(500).send(Error(error.message));
     }
 }
 
