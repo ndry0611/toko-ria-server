@@ -16,6 +16,18 @@ export async function getAllCarBrandController(request, reply) {
     }
 }
 
+export async function getOneCarBrandController(request, reply) {
+    try {
+        const carBrand = await findCarBrandById(request.params.id);
+        if (!carBrand) {
+            return reply.code(404).send(Error("Car Brand is not found!"));
+        }
+        return reply.code(200).send(carBrand)
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
 export async function createCarBrandController(request, reply) {
     const body = request.body;
     try {
