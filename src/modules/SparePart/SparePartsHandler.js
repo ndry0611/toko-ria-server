@@ -1,5 +1,6 @@
 import {
     getAllSparePartController,
+    getOneSparePartController,
     createSparePartController,
     updateSparePartController,
     deletSparePartController
@@ -74,6 +75,68 @@ async function sparePartRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.get('/', getAllSparePartSchema, getAllSparePartController);
+
+    const getOneSparePartSchema = {
+        schema: {
+            tags: ['spare-part'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" },
+                },
+                required: ['id'],
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        id_spare_part_brand: { type: "integer" },
+                        SparePartBrand: {
+                            type: "object",
+                            properties: {
+                                name: { type: "string" },
+                                manufacture: { type: "string" }
+                            }
+                        },
+                        id_category: { type: "integer" },
+                        id_car: { type: ["integer", "null"] },
+                        Car: {
+                            type: ["object", "null"],
+                            properties: {
+                                id_car_brand: { type: "integer" },
+                                CarBrand: {
+                                    type: "object",
+                                    properties: {
+                                        name: { type: "string" }
+                                    }
+                                },
+                                name: { type: "string" },
+                                production_year: { type: "string" },
+                                type: { type: "string" }
+                            }
+                        },
+                        id_supplier: { type: ["integer", "null"] },
+                        name: { type: "string" },
+                        part_no: { type: "string" },
+                        genuine: { type: "boolean" },
+                        stock: { type: "integer", minimum: 0 },
+                        capital_price: { type: "integer" },
+                        sell_method: { type: "integer" },
+                        is_available: { type: "boolean" },
+                        sale_price: { type: "integer" },
+                        description: { type: "string" },
+                        supply_date: { type: "string", format: "date-time" },
+                        file_name: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
+                    }
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.get('/:id', getOneSparePartSchema, getOneSparePartController)
 
     const createSparePartSchema = {
         schema: {

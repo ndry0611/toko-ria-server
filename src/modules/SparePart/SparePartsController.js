@@ -40,6 +40,15 @@ export async function getAllSparePartController(request, reply) {
     }
 }
 
+export async function getOneSparePartController(request, reply) {
+    try {
+        const sparePart = await findSparePartById(request.params.id);
+        return reply.code(200).send(sparePart)
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
 export async function createSparePartController(request, reply) {
     const body = request.body;
     try {
