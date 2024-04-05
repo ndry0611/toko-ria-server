@@ -25,9 +25,19 @@ export async function findAllCategory() {
 
 export async function findCategoryById(id) {
     try {
-        return await prisma.category.findUnique({
+        const category = await prisma.category.findUnique({
             where: { id: Number(id) }
-        })
+        });
+        if (category) {
+            const categoryPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "categories",
+                    file_id: category.id
+                }
+            });
+            category.file_name = categoryPhoto ? categoryPhoto.name : null;
+        }
+        return category;
     } catch (error) {
         throw new Error(error.message);
     }
