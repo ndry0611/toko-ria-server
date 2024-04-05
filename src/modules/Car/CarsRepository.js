@@ -11,7 +11,8 @@ export async function findManyCars(queries) {
 export async function findCarById(id) {
     try {
         return await prisma.car.findUnique({
-            where: { id: id }
+            include: { CarBrand: true },
+            where: { id: Number(id) }
         });
     } catch (error) {
         throw new Error(error.message);

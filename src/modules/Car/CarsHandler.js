@@ -1,5 +1,6 @@
 import {
     getAllCarController,
+    getOneCarController,
     createCarController,
     updateCarController,
     deleteCarController
@@ -47,6 +48,43 @@ async function carRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.get('/', getAllCarSchema, getAllCarController);
+
+    const getOneCarSchema = {
+        schema: {
+            tags: ['car'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" },
+                },
+                required: ['id'],
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        id_car_brand: { type: "integer" },
+                        CarBrand: {
+                            type: "object",
+                            properties: {
+                                name: { type: "string" },
+                                manufacture: { type: "string" }
+                            }
+                        },
+                        name: { type: "string" },
+                        production_year: { type: "string" },
+                        type: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
+                    },
+                    required: ['id', 'id_car_brand', 'CarBrand', 'name', 'production_year', 'type', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.get('/:id', getOneCarSchema, getOneCarController)
 
     const createCarSchema = {
         schema: {
