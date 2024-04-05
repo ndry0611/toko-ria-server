@@ -20,6 +20,39 @@ export async function findSaleById(id) {
   }
 }
 
+export async function findOneSale(queries) {
+  try {
+    const sale = await prisma.sale.findFirst(queries);
+    if (sale.SaleDetail) {
+      await Promise.all(sale.SaleDetail.map(async (sDetail) => {
+          const file = await prisma.file.findFirst({
+              where: {
+                  file_model: "spare_parts",
+                  file_id: sDetail.id_spare_part
+              }
+          });
+          sDetail.SparePart.file_name = file ? file.name : null
+      }));
+  }
+    return sale
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function checkSaleAuth(user, id) {
+  try {
+    const sale = await prisma.findUnique({ where: { id } });
+    if (sale.id_user !== user.id && user.id_role !== 1) {
+      throw new Error("You don't have access to this data!");
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 export async function checkAvailability(items) {
   try {
     await Promise.all(items.map(async (obj) => {
