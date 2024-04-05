@@ -57,10 +57,10 @@ export async function checkAvailability(items) {
   try {
     await Promise.all(items.map(async (obj) => {
       const sparePart = await prisma.sparePart.findUnique({
-        where: { id: items.id_spare_part }
+        where: { id: obj.id_spare_part }
       });
-      if (sparePart.stock < items.quantity) {
-        throw new Error(`Insufficient Stock for item with ID: ${item.id_spare_part}`);
+      if (sparePart.stock < obj.quantity) {
+        throw new Error(`Insufficient Stock for item with ID: ${obj.id_spare_part}`);
       }
     }));
     return true;
