@@ -42,8 +42,9 @@ export async function findOneSale(queries) {
 
 export async function checkSaleAuth(user, id) {
   try {
-    const sale = await prisma.findUnique({ where: { id } });
+    const sale = await prisma.sale.findUnique({ where: { id } });
     if (sale.id_user !== user.id && user.id_role !== 1) {
+      
       throw new Error("You don't have access to this data!");
     }
     return true;
@@ -88,7 +89,7 @@ export async function createSale(inputs) {
         }
       },
       include: { SaleDetail: true }
-    })
+    });
 
     //Update item stocks in spare_part table
     await Promise.all(inputs.sale_detail.map(async (saleDetail) => {

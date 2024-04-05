@@ -2,6 +2,7 @@ import {
   checkAvailability,
   createSale,
   findManySales,
+  findOneSale,
   checkSaleAuth,
   findSaleById,
   updateSale
@@ -28,7 +29,7 @@ export async function getSalesController(request, reply) {
       } else {
         queries.where.status = { in: [1, 2, 3] }
       }
-    } else {
+    } else if (daftar === "pesanan") {
       queries.where.status = 0
     }
 
@@ -61,7 +62,6 @@ export async function getSalesController(request, reply) {
     }
     queries.orderBy.created_at = "asc"
   }
-
   try {
     const sales = await findManySales(queries);
     return reply.code(200).send(sales);
@@ -71,7 +71,7 @@ export async function getSalesController(request, reply) {
 }
 
 export async function getOneSaleController(request, reply) {
-  const isUserOrAdmin = checkSaleAuth(request.user, request.params.id);
+  const isUserOrAdmin = await checkSaleAuth(request.user, request.params.id);
   if (!isUserOrAdmin) {
     return reply.code(403).send(Error("You don't have access to this data!"));
   }
@@ -155,7 +155,7 @@ export async function createCashSaleController(request, reply) {
   await handlingItemAvailability(request, reply)
   try {
     const sale = await createSale(body);
-    return reply.code(200).send(sale);
+    return reply.code(201).send(sale);
   } catch (error) {
     return reply.code(500).send(Error(error.message));
   }
