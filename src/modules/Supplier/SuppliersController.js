@@ -23,6 +23,15 @@ export async function getAllSupplierController(request, reply) {
     }
 }
 
+export async function getOneSupplierController(request, reply) {
+    try {
+        const supplier = await findSupplierById(request.params.id);
+        return reply.code(200).send(supplier)
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
 export async function createSupplierController(request, reply) {
     const body = request.body;
     try {
