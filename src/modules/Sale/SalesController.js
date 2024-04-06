@@ -163,6 +163,10 @@ export async function createCashSaleController(request, reply) {
 
 export async function updateSaleController(request, reply) {
   const body = request.body;
+  const isUserOrAdmin = await checkSaleAuth(request.user, request.params.id)
+  if (!isUserOrAdmin) {
+    return reply.code(403).send(Error("You don't have access to this data!"))
+  }
   if (!await findSaleById(request.params.id)) {
     return reply.code(404).send(Error('Sale is not found!'));
   }
