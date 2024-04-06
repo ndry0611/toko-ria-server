@@ -15,6 +15,15 @@ export async function getAllSparePartBrandController(request, reply) {
     }
 }
 
+export async function getOneSparePartBrandController(request, reply) {
+    try {
+        const sparePartBrand = await findSparePartBrandById(request.params.id);
+        return reply.code(200).send(sparePartBrand);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
 export async function createSparePartBrandController(request, reply) {
     const body = request.body;
     try {

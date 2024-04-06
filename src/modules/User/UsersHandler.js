@@ -2,6 +2,7 @@ import {
     createUserController,
     deleteUserController,
     getAllUserController,
+    getOneUserController,
     loginController,
     registerController,
     updateUserController
@@ -44,6 +45,38 @@ async function userRoute(fastify, options, next) {
     }
     fastify.get('/', getAllUserSchema, getAllUserController);
 
+    const getOneUserSchema = {
+        schema: {
+            tags: ['user'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" },
+                },
+                required: ['id'],
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        username: { type: "string" },
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        status: { type: "boolean" },
+                        file_name: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" },
+                    },
+                    required: ['id', 'username', 'name', 'phone', 'address', 'status', 'file_name', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isUserOrAdmin]
+    }
+    fastify.get('/:id', getOneUserSchema, getOneUserController);
+
     const createUserSchema = {
         schema: {
             tags: ['user'],
@@ -81,7 +114,7 @@ async function userRoute(fastify, options, next) {
 
     const registerSchema = {
         schema: {
-            tags: ['auth','user'],
+            tags: ['auth', 'user'],
             description: 'new registered user cannot be used until status is set "true" by admin',
             body: {
                 type: "object",

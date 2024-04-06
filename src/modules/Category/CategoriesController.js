@@ -15,6 +15,18 @@ export async function getAllCategoryController(request, reply) {
     }
 }
 
+export async function getOneCategoryController(request, reply) {
+    try {
+        const category = await findCategoryById(request.params.id);
+        if (!category) {
+            return reply.code(404).send(Error("Category is not found!"));
+        }
+        return reply.code(200).send(category);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
 export async function createCategoryController(request, reply) {
     const body = request.body;
     try {

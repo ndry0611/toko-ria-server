@@ -67,7 +67,9 @@ async function cartRoute(fastify, options, next) {
                                     updated_at: { type: "string", format: "date-time" }
                                 }
                             }
-                        }
+                        },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
                     },
                     additionalProperties: false,
                     required: ['id', 'id_user', 'grand_total', 'cart_details']

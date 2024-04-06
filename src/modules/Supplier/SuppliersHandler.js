@@ -1,5 +1,6 @@
 import {
     getAllSupplierController,
+    getOneSupplierController,
     createSupplierController,
     updateSupplierController,
     deleteSupplierController,
@@ -41,6 +42,39 @@ async function supplierRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.get('/', getAllSupplierSchema, getAllSupplierController);
+
+    const getOneSupplierSchema = {
+        schema: {
+            tags: ['supplier'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        company_name: { type: "string" },
+                        company_phone: { type: "string" },
+                        pic_name: { type: "string" },
+                        pic_phone: { type: "string" },
+                        bank_account: { type: "string" },
+                        bank_account_name: { type: "string" },
+                        address: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
+                    },
+                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.get('/:id', getOneSupplierSchema, getOneSupplierController)
 
     const createSupplierSchema = {
         schema: {

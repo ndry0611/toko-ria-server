@@ -12,7 +12,9 @@ export async function findCartByIdUser(id_user) {
                         SparePart: {
                             include: {
                                 SparePartBrand: true,
-                                Car: true
+                                Car: {
+                                    include: { CarBrand: true }
+                                }
                             }
                         }
                     }

@@ -68,16 +68,16 @@ fastify.register(cartRoute, { prefix: "api/v1/cart" });
 fastify.register(fileRoute, { prefix: "api/v1/file" });
 fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
 
-    async function start() {
-        const HOST = process.env.HOST_NAME || '0.0.0.0';
-        const port = process.env.PORT || 3000;
-        try {
-            await fastify.listen({ host: "0.0.0.0", port: port });
-            fastify.swagger();
-            fastify.log.info(`API is running on port ${fastify.server.address().port}`)
-        } catch (err) {
-            fastify.log.error(err);
-            process.exit(1);
-        }
+async function start() {
+    const HOST = process.env.HOST_NAME || '0.0.0.0';
+    const port = process.env.PORT || 3000;
+    try {
+        await fastify.listen({ host: HOST, port: port });
+        fastify.swagger();
+        fastify.log.info(`API is running on port ${fastify.server.address().port}`)
+    } catch (err) {
+        fastify.log.error(err);
+        process.exit(1);
     }
+}
 start()

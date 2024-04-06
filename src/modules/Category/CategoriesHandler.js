@@ -1,5 +1,6 @@
 import {
     getAllCategoryController,
+    getOneCategoryController,
     createCategoryController,
     updateCategoryController,
     deleteCategoryController
@@ -30,6 +31,35 @@ async function categoryRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.get('/', getAllCategorySchema, getAllCategoryController);
+
+    const getOneCategorySchema = {
+        schema: {
+            tags: ['category'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" },
+                },
+                required: ['id'],
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        name: { type: "string" },
+                        description: { type: "string" },
+                        file_name: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
+                    },
+                    required: ['id', 'name', 'description', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.get('/:id', getOneCategorySchema, getOneCategoryController)
 
     const createCategorySchema = {
         schema: {

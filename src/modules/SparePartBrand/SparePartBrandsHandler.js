@@ -1,5 +1,6 @@
 import {
     getAllSparePartBrandController,
+    getOneSparePartBrandController,
     createSparePartBrandController,
     updateSparePartBrandController,
     deleteSparePartBrandController
@@ -29,6 +30,34 @@ async function sparePartBrandRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.get('/', getAllSparePartBrandSchema, getAllSparePartBrandController);
+
+    const getOneSparePartBrandSchema = {
+        schema: {
+            tags: ['spare-part-brand'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "integer" }
+                },
+                required: ['id']
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        name: { type: "string" },
+                        manufacture: { type: "string" },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" }
+                    },
+                    required: ['id', 'name', 'manufacture', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate]
+    }
+    fastify.get('/:id', getOneSparePartBrandSchema, getOneSparePartBrandController)
 
     const createSparePartBrandSchema = {
         schema: {
