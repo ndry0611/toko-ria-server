@@ -43,7 +43,17 @@ fastify.register(swagger, {
         },
         tags: [
             { name: 'auth', description: "Routes to get token for authentication / authorization" }
-        ]
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT"
+                }
+            }
+        },
+        security: [{ bearerAuth: [] }]
     },
 });
 fastify.register(swaggerUi, { routePrefix: '/swagger/doc' });
