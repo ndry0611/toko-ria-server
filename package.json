@@ -26,7 +26,7 @@
     "deploy-dev": "pnpm run generate && pnpm run migrate && pnpm run seed-dev && pnpm run start",
     "seed-dev": "npx prisma db seed && npx prisma db execute --file prisma/ria_sigli_dev_data.sql",
     "migrate": "npx prisma migrate deploy",
-    "generate": "npx prisma generate",
+    "generate": "npx prisma db push && npx prisma generate",
     "start": "node src/app.js",
     "dev-mac": "node_modules/.bin/nodemon src/app.js",
     "dev-win": "nodemon src/app"

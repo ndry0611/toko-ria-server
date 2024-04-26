@@ -71,7 +71,7 @@ export async function deleteCategory(id) {
         await prisma.category.delete({
             where: { id: Number(id) }
         });
-        categoryPhoto = await prisma.file.findFirst({
+        const categoryPhoto = await prisma.file.findFirst({
             where: {
                 file_model: "categories",
                 file_id: id

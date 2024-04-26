@@ -35,7 +35,7 @@ async function sparePartRoute(fastify, options, next) {
                                     manufacture: { type: "string" }
                                 }
                             },
-                            id_category: { type: "integer" },
+                            id_category: { type: ["integer", "null"] },
                             id_car: { type: ["integer", "null"] },
                             Car: {
                                 type: ["object", "null"],
@@ -99,7 +99,7 @@ async function sparePartRoute(fastify, options, next) {
                                 manufacture: { type: "string" }
                             }
                         },
-                        id_category: { type: "integer" },
+                        id_category: { type: ["integer", "null"] },
                         id_car: { type: ["integer", "null"] },
                         Car: {
                             type: ["object", "null"],
@@ -168,7 +168,7 @@ async function sparePartRoute(fastify, options, next) {
                     properties: {
                         id: { type: "integer" },
                         id_spare_part_brand: { type: "integer" },
-                        id_category: { type: "integer" },
+                        id_category: { type: ["integer", "null"] },
                         id_car: { type: ["integer", "null"] },
                         id_supplier: { type: ["integer", "null"] },
                         name: { type: "string" },
@@ -227,7 +227,7 @@ async function sparePartRoute(fastify, options, next) {
                     properties: {
                         id: { type: "integer" },
                         id_spare_part_brand: { type: "integer" },
-                        id_category: { type: "integer" },
+                        id_category: { type: ["integer", "null"] },
                         id_car: { type: ["integer", "null"] },
                         id_supplier: { type: ["integer", "null"] },
                         name: { type: "string" },
