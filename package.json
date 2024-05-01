@@ -37,6 +37,5 @@
   "license": "ISC",
   "devDependencies": {
     "prisma": "^5.11.0"
-  },
-  "engines.node": "20.x"
+  }
 }
