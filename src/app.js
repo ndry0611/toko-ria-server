@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import * as path from 'path';
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
 import swagger from '@fastify/swagger';
@@ -37,7 +36,7 @@ fastify.register(fcors, {
 fastify.register(multipart);
 
 fastify.register(fastifyStatic, {
-    root: path.join(import.meta.dirname, "/public"),
+    root: import.meta.dirname + "/public",
     prefix: "/public/"
 });
 
