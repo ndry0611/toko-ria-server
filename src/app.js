@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import * as path from "path";
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
 import swagger from '@fastify/swagger';
@@ -27,19 +28,18 @@ import authorization from "./middleware/authorization.js";
 
 export const fastify = Fastify({
     logger: true
-})
+});
+
 fastify.register(formbody);
 fastify.register(fcors, {
     origin: process.env.FRONT_END_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
-fastify.register(multipart);
-
 fastify.register(fastifyStatic, {
-    root: import.meta.dirname + "/public",
+    root: path.resolve(import.meta.dirname, "public"),
     prefix: "/public/"
 });
-
+fastify.register(multipart);
 fastify.register(swagger, {
     openapi: {
         openapi: '3.0.0',
