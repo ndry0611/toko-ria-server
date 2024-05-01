@@ -1,10 +1,12 @@
 import 'dotenv/config';
+import * as path from 'path';
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import multipart from '@fastify/multipart';
 import fcors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
 
 import carRoute from "./modules/Car/CarsHandler.js";
 import cartRoute from "./modules/Cart/CartsHandler.js";
@@ -33,6 +35,12 @@ fastify.register(fcors, {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 fastify.register(multipart);
+
+fastify.register(fastifyStatic, {
+    root: path.join(import.meta.dirname, "/public"),
+    prefix: "/public/"
+});
+
 fastify.register(swagger, {
     openapi: {
         openapi: '3.0.0',
@@ -57,8 +65,6 @@ fastify.register(swagger, {
     },
 });
 fastify.register(swaggerUi, { routePrefix: '/swagger/doc' });
-
-
 
 fastify.register(authenticate)
 fastify.register(authorization)
