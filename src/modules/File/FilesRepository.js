@@ -7,6 +7,8 @@ const pump = util.promisify(pipeline)
 
 export async function saveFile(data, model, id) {
     const folderPath = path.join('public', 'uploads', model);
+    const fileName = data.filename.split(".")
+    const newFileName = [id, fileName[fileName.length - 1]].join('.')
 
     if (!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath, { recursive: true });
@@ -26,7 +28,7 @@ export async function saveFile(data, model, id) {
             await prisma.file.update({
                 where: { id: previousFile.id },
                 data: {
-                    name: data.filename,
+                    name: newFileName,
                 }
             });
         } else {
@@ -34,11 +36,11 @@ export async function saveFile(data, model, id) {
                 data: {
                     file_model: model,
                     file_id: id,
-                    name: data.filename
+                    name: newFileName
                 }
             });
         }
-        await pump(data.file, fs.createWriteStream(path.join(folderPath, data.filename)));
+        await pump(data.file, fs.createWriteStream(path.join(folderPath, newFileName)));
     } catch (error) {
         throw new Error(error)
     }
