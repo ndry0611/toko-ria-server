@@ -40,7 +40,7 @@ fastify.register(fcors, {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 fastify.register(fastifyStatic, {
-    root: path.resolve(__dirname, "public"),
+    root: path.resolve(__dirname, "../public"),
     prefix: "/public/"
 });
 fastify.register(multipart);
