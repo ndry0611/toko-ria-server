@@ -24,7 +24,9 @@ export async function saveFile(data, model, id) {
 
         // Replace previous file if exist
         if (previousFile) {
-            fs.unlinkSync(path.join(folderPath, previousFile.name));
+            if (fs.existsSync(path.join(folderPath, previousFile.name))) {
+                fs.unlinkSync(path.join(folderPath, previousFile.name));
+            }
             await prisma.file.update({
                 where: { id: previousFile.id },
                 data: {
