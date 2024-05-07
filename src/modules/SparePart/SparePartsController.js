@@ -33,7 +33,6 @@ export async function getAllSparePartController(request, reply) {
     if (name) {
         queries.where.name = { contains: name, mode: "insensitive" }
     }
-    console.log(queries)
 
     try {
         const spareParts = await findAllSparePart(queries);
