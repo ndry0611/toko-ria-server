@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import path from "path";
+import { fileURLToPath } from 'url';
 import Fastify from "fastify";
 import formbody from '@fastify/formbody';
 import swagger from '@fastify/swagger';
@@ -25,21 +27,23 @@ import stockAdjustmentRoute from './modules/StockAdjustment/StockAdjustmentsHand
 import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
 
+const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
+
 export const fastify = Fastify({
     logger: true
-})
+});
+
 fastify.register(formbody);
 fastify.register(fcors, {
     origin: process.env.FRONT_END_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
-fastify.register(multipart);
-
 fastify.register(fastifyStatic, {
-    root: import.meta.dirname + "/public",
+    root: path.resolve(__dirname, "../public"),
     prefix: "/public/"
 });
-
+fastify.register(multipart);
 fastify.register(swagger, {
     openapi: {
         openapi: '3.0.0',

@@ -11,7 +11,9 @@ export async function getAllSparePartController(request, reply) {
         where: {},
         include: {
             SparePartBrand: true,
-            Car: true
+            Car: {
+                include: { CarBrand: true }
+            }
         }
     };
     const { id_category, id_car_brand, id_car, name } = request.query;
@@ -25,7 +27,7 @@ export async function getAllSparePartController(request, reply) {
     };
 
     if (id_car_brand) {
-        queries.where.Car.CarBrand = { id: id_car_brand };
+        queries.where.Car = { id_car_brand };
     };
 
     if (name) {
