@@ -75,7 +75,7 @@ export async function deleteSparePart(id) {
         await prisma.sparePart.delete({
             where: { id: Number(id) }
         });
-        sparePartPhoto = await prisma.file.findFirst({
+        const sparePartPhoto = await prisma.file.findFirst({
             where: {
                 file_model: "spare_parts",
                 file_id: id
