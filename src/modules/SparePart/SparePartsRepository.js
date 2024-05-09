@@ -83,6 +83,7 @@ export async function deleteSparePart(id) {
         });
         if (sparePartPhoto) {
             fs.unlinkSync(path.join('public/uploads/spare_parts', sparePartPhoto.name));
+            await prisma.file.delete({ where: { id: sparePartPhoto.id } })
         }
         return;
     } catch (error) {

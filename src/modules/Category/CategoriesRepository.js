@@ -79,6 +79,7 @@ export async function deleteCategory(id) {
         });
         if (categoryPhoto) {
             fs.unlinkSync(path.join('public/uploads/categories', categoryPhoto.name));
+            await prisma.file.delete({ where: { id: categoryPhoto.id } })
         }
         return;
     } catch (error) {
