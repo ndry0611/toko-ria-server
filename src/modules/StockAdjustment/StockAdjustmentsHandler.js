@@ -23,6 +23,7 @@ async function stockAdjustmentRoute(fastify, options, next) {
                         properties: {
                             id: { type: "integer" },
                             code: { type: "string" },
+                            description: { type: "string" },
                             id_spare_part: { type: "integer" },
                             SparePart: {
                                 type: "object",
@@ -43,7 +44,7 @@ async function stockAdjustmentRoute(fastify, options, next) {
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'code', 'id_spare_part', 'SparePart', 'old_quantity', 'new_quantity', 'created_at', 'updated_at']
+                        required: ['id', 'code', 'description', 'id_spare_part', 'SparePart', 'old_quantity', 'new_quantity', 'created_at', 'updated_at']
                     }
                 }
             }
