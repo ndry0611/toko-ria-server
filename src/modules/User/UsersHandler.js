@@ -16,7 +16,8 @@ async function userRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     name: { type: "string" },
-                    status: { type: "integer" }
+                    status: { type: "integer" },
+                    id_role: { type: "integer" }
                 },
                 additionalProperties: false
             },

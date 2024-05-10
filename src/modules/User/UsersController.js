@@ -23,13 +23,16 @@ export async function getAllUserController(request, reply) {
             updated_at: true
         }, where: {}
     };
-    const { name, status } = request.query;
+    const { name, status, id_role } = request.query;
     if (name) {
         queries.where.name = { contains: name, mode: "insensitive" };
     }
     if (status !== undefined && status !== null) {
         queries.where.status = status;
     };
+    if (id_role) {
+        queries.where.id_role = id_role;
+    }
     try {
         const users = await findAllUser(queries);
         return reply.code(200).send(users);
@@ -41,7 +44,7 @@ export async function getAllUserController(request, reply) {
 export async function getOneUserController(request, reply) {
     try {
         const user = await findUserById(request.params.id);
-        if(!user) {
+        if (!user) {
             return reply.code(404).send(Error("User is not found!"));
         }
         return reply.code(200).send(user);
