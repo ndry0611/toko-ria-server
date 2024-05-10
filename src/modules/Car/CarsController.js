@@ -11,8 +11,7 @@ export async function getAllCarController(request, reply) {
     const { id_car_brand, name, production_year } = request.query;
 
     if (name) {
-        queries.where.name = {};
-        queries.where.name.contains = name
+        queries.where.name = { contains: name }
     }
 
     if (id_car_brand) {
@@ -20,7 +19,7 @@ export async function getAllCarController(request, reply) {
     }
 
     if (production_year) {
-        queries.where.production_year = production_year;
+        queries.where.production_year = { contains: production_year };
     }
 
     try {
