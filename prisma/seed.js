@@ -37,10 +37,9 @@ async function main() {
     }
 
     await prisma.$executeRaw`COMMENT ON COLUMN suppliers.bank_account IS '(BANK)REKENING';`
-    await prisma.$executeRaw`COMMENT ON COLUMN spare_parts.sell_method IS '0=pcs,1=set';`
-    await prisma.$executeRaw`COMMENT ON COLUMN purchases.status IS '0=aktif,1=selesai,2=dibatalkan'`
-    await prisma.$executeRaw`COMMENT ON COLUMN sales.payment_method IS '0=offline,1=online'`
-    await prisma.$executeRaw`COMMENT ON COLUMN sales.status IS '0=packing,1=dikirim,2=dibatalkan,3=selesai'`
+    await prisma.$executeRaw`COMMENT ON COLUMN purchases.status IS '1=aktif,2=selesai,3=dibatalkan'`
+    await prisma.$executeRaw`COMMENT ON COLUMN sales.payment_method IS '1=offline,2=online'`
+    await prisma.$executeRaw`COMMENT ON COLUMN sales.status IS '1=packing,2=dikirim,3=dibatalkan,4=selesai'`
 }
 main()
     .then(async () => {

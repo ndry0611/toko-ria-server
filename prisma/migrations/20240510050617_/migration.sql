@@ -52,15 +52,15 @@ CREATE TABLE "car_brands" (
 CREATE TABLE "spare_parts" (
     "id" SERIAL NOT NULL,
     "id_spare_part_brand" INTEGER NOT NULL,
-    "id_category" INTEGER NOT NULL,
+    "id_category" INTEGER,
     "id_car" INTEGER,
     "id_supplier" INTEGER,
     "name" VARCHAR(255) NOT NULL,
     "part_no" VARCHAR(255) NOT NULL,
-    "genuine" BOOLEAN NOT NULL,
+    "genuine" VARCHAR(255) NOT NULL,
     "stock" INTEGER NOT NULL DEFAULT 0,
     "capital_price" BIGINT NOT NULL,
-    "sell_method" INTEGER NOT NULL DEFAULT 0,
+    "sell_method" VARCHAR(255) NOT NULL,
     "is_available" BOOLEAN NOT NULL DEFAULT false,
     "sale_price" BIGINT NOT NULL,
     "description" TEXT NOT NULL,
@@ -257,7 +257,7 @@ ALTER TABLE "users" ADD CONSTRAINT "users_id_role_fkey" FOREIGN KEY ("id_role") 
 ALTER TABLE "cars" ADD CONSTRAINT "cars_id_car_brand_fkey" FOREIGN KEY ("id_car_brand") REFERENCES "car_brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "spare_parts" ADD CONSTRAINT "spare_parts_id_category_fkey" FOREIGN KEY ("id_category") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "spare_parts" ADD CONSTRAINT "spare_parts_id_category_fkey" FOREIGN KEY ("id_category") REFERENCES "categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "spare_parts" ADD CONSTRAINT "spare_parts_id_spare_part_brand_fkey" FOREIGN KEY ("id_spare_part_brand") REFERENCES "spare_part_brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

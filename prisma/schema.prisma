@@ -73,10 +73,10 @@ model SparePart {
   id_supplier         Int?              @db.Integer
   name                String            @db.VarChar(255)
   part_no             String            @db.VarChar(255)
-  genuine             Boolean           @db.Boolean
+  genuine             String            @db.VarChar(255)
   stock               Int               @default(0) @db.Integer
   capital_price       BigInt            @db.BigInt
-  sell_method         Int               @default(0) @db.Integer
+  sell_method         String            @db.VarChar(255)
   is_available        Boolean           @default(false) @db.Boolean
   sale_price          BigInt            @db.BigInt
   description         String            @db.Text
