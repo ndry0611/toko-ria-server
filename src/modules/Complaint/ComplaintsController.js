@@ -4,8 +4,16 @@ import {
 } from "./ComplaintsRepository.js";
 
 export async function getAllComplaintController(request, reply) {
+    const queries = {
+        where: {},
+        include: { User: true }
+    }
+    const { name } = request.query;
+    if (name) {
+        queries.where.User = { name: { contains: name, mode: "insensitive" } }
+    }
     try {
-        const complaints = await findAllComplaints();
+        const complaints = await findAllComplaints(queries);
         return reply.code(200).send(complaints);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

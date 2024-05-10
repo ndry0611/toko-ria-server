@@ -1,10 +1,8 @@
 import prisma from "../../utils/prisma.js";
 
-export async function findAllComplaints() {
+export async function findAllComplaints(queries) {
     try {
-        const complaints = await prisma.complaint.findMany({
-            include: { User: true }
-        });
+        const complaints = await prisma.complaint.findMany(queries);
         return complaints;
     } catch (error) {
         throw new Error(error.message);

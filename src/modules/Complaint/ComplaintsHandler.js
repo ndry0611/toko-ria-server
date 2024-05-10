@@ -7,6 +7,13 @@ async function complaintRoute(fastify, options, next) {
     const getAllComplaintSchema = {
         schema: {
             tags: ['complaint'],
+            querystring: {
+                type: "object",
+                properties: {
+                    name: { type: "string" },
+                },
+                additionalProperties: false
+            },
             response: {
                 200: {
                     type: "array",
@@ -22,10 +29,11 @@ async function complaintRoute(fastify, options, next) {
                                     phone: { type: "string" }
                                 }
                             },
+                            complaint: { type: "string" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'id_user', 'User', 'created_at', 'updated_at']
+                        required: ['id', 'id_user', 'User', 'complaint', 'created_at', 'updated_at']
                     }
                 }
             }
