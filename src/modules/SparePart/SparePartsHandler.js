@@ -221,7 +221,7 @@ async function sparePartRoute(fastify, options, next) {
                 },
                 additionalProperties: false,
             },
-            responses: {
+            response: {
                 200: {
                     type: "object",
                     properties: {
