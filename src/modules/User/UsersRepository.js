@@ -80,7 +80,7 @@ export async function deleteUser(id) {
         await prisma.user.delete({
             where: { id: Number(id) }
         });
-        userPhoto = await prisma.file.findFirst({
+        const userPhoto = await prisma.file.findFirst({
             where: {
                 file_model: "users",
                 file_id: id
