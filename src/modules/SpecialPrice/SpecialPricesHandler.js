@@ -10,7 +10,7 @@ async function specialPriceRoute(fastify, options, next) {
     const getSpecialPriceSchema = {
         schema: {
             tags: ['special-price'],
-            queryString: {
+            querystring: {
                 type: "object",
                 properties: {
                     id_spare_part: { type: "integer" },
