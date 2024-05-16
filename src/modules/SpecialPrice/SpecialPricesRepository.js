@@ -2,10 +2,7 @@ import prisma from "../../utils/prisma.js";
 
 export async function findManySpecialPriceBySparePartId(sparePartId) {
     try {
-        const specialPrices = await prisma.specialPrice.findMany({
-            where: { id_spare_part: sparePartId },
-            include: { User: true, SparePart: true }
-        });
+        const specialPrices = await prisma.specialPrice.findMany(queries);
         return specialPrices;
     } catch (error) {
         throw new Error(error.message);

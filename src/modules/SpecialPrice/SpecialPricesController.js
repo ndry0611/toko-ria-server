@@ -5,9 +5,14 @@ import {
 } from './SpecialPricesRepository.js'
 
 export async function getSpecialPriceBySparePartIdController(request, reply) {
-    const sparePartId = request.params.sparePartId
+    const queries = {
+        where: {
+            id_spare_part: request.params.sparePartId
+        },
+        include: { User: true, SparePart: true }
+    }
     try {
-        const specialPrices = await findManySpecialPriceBySparePartId(sparePartId);
+        const specialPrices = await findManySpecialPriceBySparePartId(queries);
         return reply.code(200).send(specialPrices);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
