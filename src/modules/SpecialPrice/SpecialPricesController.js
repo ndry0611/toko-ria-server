@@ -1,8 +1,28 @@
 import {
-    findManySpecialPriceBySparePartId,
+    findManySpecialPrice,
     createSpecialPrice,
     deleteSpecialPrice
 } from './SpecialPricesRepository.js'
+
+export async function getSpecialPriceController(request, reply) {
+    const { id_spare_part, id_user } = request.query
+    const queries = {
+        where: {},
+        include: { User: true, SparePart: true }
+    }
+    if (id_spare_part) {
+        queries.where.id_spare_part = id_spare_part
+    }
+    if (id_user) {
+        queries.where.id_user = id_user
+    }
+    try {
+        const specialPrices = await findManySpecialPrice(queries);
+        return reply.code(200).send(specialPrices);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
 
 export async function getSpecialPriceBySparePartIdController(request, reply) {
     const queries = {
@@ -12,7 +32,7 @@ export async function getSpecialPriceBySparePartIdController(request, reply) {
         include: { User: true, SparePart: true }
     }
     try {
-        const specialPrices = await findManySpecialPriceBySparePartId(queries);
+        const specialPrices = await findManySpecialPrice(queries);
         return reply.code(200).send(specialPrices);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

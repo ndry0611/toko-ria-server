@@ -1,6 +1,6 @@
 import prisma from "../../utils/prisma.js";
 
-export async function findManySpecialPriceBySparePartId(sparePartId) {
+export async function findManySpecialPrice(queries) {
     try {
         const specialPrices = await prisma.specialPrice.findMany(queries);
         return specialPrices;
