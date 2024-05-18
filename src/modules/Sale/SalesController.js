@@ -24,13 +24,13 @@ export async function getSalesController(request, reply) {
   if (user.id_role == 1) {
     // Admin Special Queries
     if (daftar === "penjualan") {
-      if (status !== undefined && status !== null) {
+      queries.where.status = { in: [3, 4] }
+    } else if (daftar === "pesanan") {
+      if (status) {
         queries.where.status = status
       } else {
-        queries.where.status = { in: [1, 2, 3] }
+        queries.where.status = { in: [1, 2] }
       }
-    } else if (daftar === "pesanan") {
-      queries.where.status = 0
     }
 
     if (id_user) {
