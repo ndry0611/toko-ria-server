@@ -1,7 +1,8 @@
 import {
     findManyPurchases,
     createPurchase,
-    findOnePurchase
+    findOnePurchase,
+    updatePurchase
 } from './PurchasesRepository.js'
 
 export async function getPurchasesController(request, reply) {
