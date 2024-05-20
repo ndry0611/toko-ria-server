@@ -35,10 +35,16 @@ export const fastify = Fastify({
 });
 
 fastify.register(formbody);
-fastify.register(fcors, {
-    origin: [process.env.FRONT_END_ORIGIN,'https://tokoriasigli.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-});
+fastify.register(fcors, [
+    {
+        origin: process.env.FRONT_END_ORIGIN,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    },
+    {
+        origin: "https://tokoriasigli.vercel.app/",
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    }
+]);
 fastify.register(fastifyStatic, {
     root: path.resolve(__dirname, "../public"),
     prefix: "/public/"
