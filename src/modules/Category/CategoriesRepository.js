@@ -5,7 +5,7 @@ import * as path from 'path'
 export async function findAllCategory() {
     try {
         // find all categories
-        const categories = await prisma.category.findMany()
+        const categories = await prisma.category.findMany({ orderBy: { id: "asc" }})
         // map all categories and search for the files, thru models.
         const categoriesWithImage = await Promise.all(categories.map(async (category) => {
             const file = await prisma.file.findFirst({

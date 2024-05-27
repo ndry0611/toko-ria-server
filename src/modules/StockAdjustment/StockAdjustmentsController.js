@@ -11,7 +11,8 @@ export async function getAllStockAdjustmentController(request, reply) {
                 include: { SparePartBrand: true }
             }
         },
-        where: {}
+        where: {},
+        orderBy: {created_at: "desc"}
     }
     const { id_spare_part, start_date, end_date } = request.query;
     if (id_spare_part) {

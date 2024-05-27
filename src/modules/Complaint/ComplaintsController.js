@@ -6,7 +6,8 @@ import {
 export async function getAllComplaintController(request, reply) {
     const queries = {
         where: {},
-        include: { User: true }
+        include: { User: true },
+        orderBy: {created_at: "desc"}
     }
     const { name } = request.query;
     if (name) {

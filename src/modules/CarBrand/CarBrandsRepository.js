@@ -2,7 +2,7 @@ import prisma from "../../utils/prisma.js";
 
 export async function findAllCarBrand() {
     try {
-        return await prisma.carBrand.findMany()
+        return await prisma.carBrand.findMany({ orderBy: { id: "asc" } })
     } catch (error) {
         throw new Error(error.message)
     }

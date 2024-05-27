@@ -2,7 +2,7 @@ import prisma from "../../utils/prisma.js";
 
 export async function findAllSparePartBrands() {
     try {
-        return await prisma.sparePartBrand.findMany()
+        return await prisma.sparePartBrand.findMany({ orderBy: { id: "asc" } })
     } catch (error) {
         throw new Error(error.message)
     }

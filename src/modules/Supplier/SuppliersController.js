@@ -7,7 +7,7 @@ import {
 } from './SuppliersRepository.js'
 
 export async function getAllSupplierController(request, reply) {
-    const queries = { where: {} }
+    const queries = { where: {}, orderBy: {id:"asc"} }
     const { name_keyword } = request.query;
     if (name_keyword) {
         queries.where.OR = [

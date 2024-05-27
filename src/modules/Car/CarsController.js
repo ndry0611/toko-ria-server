@@ -7,7 +7,11 @@ import {
 } from './CarsRepository.js';
 
 export async function getAllCarController(request, reply) {
-    const queries = { include: { CarBrand: true }, where: {} };
+    const queries = { 
+        include: { CarBrand: true }, 
+        where: {} ,
+        orderBy: {id: "asc"}
+    };
     const { id_car_brand, name, production_year } = request.query;
 
     if (name) {

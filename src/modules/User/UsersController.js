@@ -21,7 +21,9 @@ export async function getAllUserController(request, reply) {
             id_role: true,
             created_at: true,
             updated_at: true
-        }, where: {}
+        }, 
+        where: {},
+        orderBy: {created_at: "desc"}
     };
     const { name, status, id_role } = request.query;
     if (name) {

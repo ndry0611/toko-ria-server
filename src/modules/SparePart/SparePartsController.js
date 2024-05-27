@@ -14,7 +14,8 @@ export async function getAllSparePartController(request, reply) {
             Car: {
                 include: { CarBrand: true }
             }
-        }
+        },
+        orderBy: {id: "asc"}
     };
     const { id_category, id_car_brand, id_car, name } = request.query;
 

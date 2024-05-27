@@ -6,7 +6,11 @@ import {
 } from './PurchasesRepository.js'
 
 export async function getPurchasesController(request, reply) {
-    const queries = { include: { Supplier: true }, where: {} };
+    const queries = { 
+        include: { Supplier: true }, 
+        where: {},
+        orderBy: {created_at: "desc"} 
+    };
     const { id_supplier, code, start_date, end_date, status } = request.query;
 
     if (status !== undefined && status !== null) {

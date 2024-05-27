@@ -8,7 +8,8 @@ export async function getSpecialPriceController(request, reply) {
     const { id_spare_part, id_user } = request.query
     const queries = {
         where: {},
-        include: { User: true, SparePart: true }
+        include: { User: true, SparePart: true },
+        orderBy: {id: "asc"}
     }
     if (id_spare_part) {
         queries.where.id_spare_part = id_spare_part
