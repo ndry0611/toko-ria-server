@@ -1,8 +1,26 @@
 import {
-    uploadFileController
+    uploadFileController,
+    uploadUserPhotoController
 } from './FilesController.js'
 
 async function fileRoute(fastify, options, next) {
+    const uploadUserPhotoSchema = {
+        schema: {
+            tags: ['file'],
+            consumes: ['multipart/form-data'],
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            }
+        },
+        preHandler: [fastify.authenticate]
+    }
+    fastify.post('/upload/me', uploadUserPhotoSchema, uploadUserPhotoController);
+
     const uploadFileSchema = {
         schema: {
             tags: ["file"],
