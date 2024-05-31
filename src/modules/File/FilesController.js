@@ -26,7 +26,7 @@ export async function uploadUserPhotoController(request, reply) {
         const data = await request.file();
         if ('file' in data) {
             if (data.mimetype.startsWith('image')) {
-                await saveFile(data, "users", user.id.toString());
+                await saveFile(data, "users", user.id);
                 return reply.code(200).send({ message: 'File successfully uploaded' });
             } else {
                 return reply.code(415).send(Error('File uploaded have to be an image'))
