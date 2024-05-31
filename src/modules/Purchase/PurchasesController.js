@@ -30,7 +30,7 @@ export async function getPurchasesController(request, reply) {
             queries.where.purchase_date.lte = end_date
         };
 
-        queries.orderBy = { puchase_date: "asc" };
+        queries.orderBy = { purchase_date: "asc" };
     };
 
     if (code) {
