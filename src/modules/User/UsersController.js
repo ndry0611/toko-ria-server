@@ -6,7 +6,7 @@ import {
     updateUser,
     deleteUser
 } from "./UsersRepository.js";
-import { comparePassword } from "../../utils/bcrypt.js";
+import { comparePassword, hashPassword } from "../../utils/bcrypt.js";
 import { fastify } from "../../app.js";
 
 export async function getAllUserController(request, reply) {
@@ -21,9 +21,9 @@ export async function getAllUserController(request, reply) {
             id_role: true,
             created_at: true,
             updated_at: true
-        }, 
+        },
         where: {},
-        orderBy: {created_at: "desc"}
+        orderBy: { created_at: "desc" }
     };
     const { name, status, id_role } = request.query;
     if (name) {
@@ -50,6 +50,16 @@ export async function getOneUserController(request, reply) {
             return reply.code(404).send(Error("User is not found!"));
         }
         return reply.code(200).send(user);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function getMeController(request, reply) {
+    try {
+        const user = request.user;
+        const me = await findUserById(user.id);
+        return reply.code(200).send(me);
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }
@@ -148,6 +158,22 @@ export async function updateUserController(request, reply) {
             updated_at: user.updated_at
         };
         return reply.code(200).send(response);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message))
+    }
+}
+
+export async function changePasswordController(request, reply) {
+    const { body, user } = request;
+    const me = await findUserById(user.id);
+    const passwordMatch = await comparePassword(body.old_password, me.password);
+    if (!passwordMatch) {
+        return reply.code(401).send(Error("Password Salah!"));
+    }
+    try {
+        const newPassword = await hashPassword(body.new_password);
+        const updatedUser = await updateUser(me.id, { password: newPassword });
+        return reply.code(200).send(updatedUser);
     } catch (error) {
         return reply.code(500).send(Error(error.message))
     }

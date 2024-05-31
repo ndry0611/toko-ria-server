@@ -1,11 +1,13 @@
 import {
+    loginController,
+    getMeController,
+    registerController,
     createUserController,
     deleteUserController,
     getAllUserController,
     getOneUserController,
-    loginController,
-    registerController,
-    updateUserController
+    updateUserController,
+    changePasswordController
 } from './UsersController.js'
 
 async function userRoute(fastify, options, next) {
@@ -45,6 +47,31 @@ async function userRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.get('/', getAllUserSchema, getAllUserController);
+
+    const getMeSchema = {
+        schema: {
+            tags: ['user'],
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        username: { type: "string" },
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        status: { type: "boolean" },
+                        file_name: { type: ["string", "null"] },
+                        created_at: { type: "string", format: "date-time" },
+                        updated_at: { type: "string", format: "date-time" },
+                    },
+                    required: ['id', 'username', 'name', 'phone', 'address', 'status', 'file_name', 'created_at', 'updated_at']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate]
+    }
+    fastify.get('/me', getMeSchema, getMeController);
 
     const getOneUserSchema = {
         schema: {
@@ -171,6 +198,34 @@ async function userRoute(fastify, options, next) {
         }
     }
     fastify.post('/login', loginSchema, loginController);
+
+
+    const changePasswordSchema = {
+        schema: {
+            tags: ['user'],
+            body: {
+                type: "object",
+                properties: {
+                    old_password: { type: "string" },
+                    new_password: { type: "string" },
+                },
+                additionalProperties: false
+            },
+            response: {
+                200: {
+                    type:"object",
+                    properties: {
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        status: { type: "boolean" }
+                    }
+                }
+            }
+        },
+        preHandler: [fastify.authenticate]
+    }
+    fastify.put("/change-password", changePasswordSchema, changePasswordController);
 
     const updateUserSchema = {
         schema: {
