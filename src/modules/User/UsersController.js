@@ -25,9 +25,16 @@ export async function getAllUserController(request, reply) {
         where: {},
         orderBy: { created_at: "desc" }
     };
-    const { name, status, id_role } = request.query;
+    const { name, status, id_role, daftar } = request.query;
     if (name) {
         queries.where.name = { contains: name, mode: "insensitive" };
+    }
+    if (daftar) {
+        if (daftar === "aktif") {
+            queries.where.status = { in: ["ACTIVE", "INACTIVE"] }
+        } else if (daftar === "pending") {
+            queries.where.status = { in: ["PENDING"] }
+        }
     }
     if (status) {
         queries.where.status = status;

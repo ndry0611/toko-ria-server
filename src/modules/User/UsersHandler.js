@@ -18,6 +18,7 @@ async function userRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     name: { type: "string" },
+                    daftar: { type: "string", enum: ["aktif", "pending"] },
                     status: { type: "string", enum: ["ACTIVE", "PENDING", "INACTIVE"] },
                     id_role: { type: "integer" }
                 },
