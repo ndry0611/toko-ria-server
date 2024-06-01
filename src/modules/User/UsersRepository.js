@@ -57,6 +57,9 @@ export async function createUser(inputs) {
         });
         return user;
     } catch (error) {
+        if(error.code && error.code === "P2002") {
+            throw new Error("Username is already exist!");
+        }
         throw new Error(error.message);
     }
 }

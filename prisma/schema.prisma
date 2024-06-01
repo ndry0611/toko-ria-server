@@ -150,7 +150,7 @@ model SpecialPrice {
 
 model Purchase {
   id              Int              @id @default(autoincrement())
-  id_supplier     Int?              @db.Integer
+  id_supplier     Int?             @db.Integer
   code            String           @db.VarChar(255)
   purchase_date   DateTime         @db.Timestamptz()
   grand_total     BigInt           @db.BigInt
@@ -159,7 +159,7 @@ model Purchase {
   credit_duration Int              @db.Integer
   created_at      DateTime         @default(now()) @db.Timestamptz()
   updated_at      DateTime         @default(now()) @updatedAt @db.Timestamptz()
-  Supplier        Supplier?         @relation(fields: [id_supplier], references: [id], onDelete: SetNull)
+  Supplier        Supplier?        @relation(fields: [id_supplier], references: [id], onDelete: SetNull)
   PurchaseDetail  PurchaseDetail[]
 
   @@map("purchases")
@@ -211,7 +211,7 @@ model CartDetail {
 
 model Sale {
   id             Int          @id @default(autoincrement())
-  id_user        Int?          @db.Integer
+  id_user        Int?         @db.Integer
   code           String       @db.VarChar(255)
   payment_method Int          @db.Integer
   grand_total    BigInt       @db.BigInt
@@ -220,7 +220,7 @@ model Sale {
   status         Int          @default(0) @db.Integer
   created_at     DateTime     @default(now()) @db.Timestamptz()
   updated_at     DateTime     @default(now()) @updatedAt @db.Timestamptz()
-  User           User?         @relation(fields: [id_user], references: [id], onDelete: SetNull)
+  User           User?        @relation(fields: [id_user], references: [id], onDelete: SetNull)
   SaleDetail     SaleDetail[]
 
   @@map("sales")
