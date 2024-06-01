@@ -33,7 +33,7 @@ export async function getAllUserController(request, reply) {
         if (daftar === "aktif") {
             queries.where.status = { in: ["ACTIVE", "INACTIVE"] }
         } else if (daftar === "pending") {
-            queries.where.status = { in: ["PENDING"] }
+            queries.where.status = "PENDING"
         }
     }
     if (status) {
