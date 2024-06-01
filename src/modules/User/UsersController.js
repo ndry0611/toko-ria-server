@@ -94,6 +94,7 @@ export async function createUserController(request, reply) {
             username: user.username,
             name: user.name,
             phone: user.phone,
+            status: user.status,
             address: user.address,
             created_at: user.created_at,
         }
