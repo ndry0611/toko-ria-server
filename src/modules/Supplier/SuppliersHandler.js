@@ -13,7 +13,8 @@ async function supplierRoute(fastify, options, next) {
             querystring: {
                 type: "object",
                 properties: {
-                    name_keyword: { type: "string" }
+                    name_keyword: { type: "string" },
+                    status: { type: "string", enum: ["ACTIVE", "INACTIVE"] }
                 },
                 additionalProperties: false
             },
@@ -31,10 +32,11 @@ async function supplierRoute(fastify, options, next) {
                             bank_account: { type: "string" },
                             bank_account_name: { type: "string" },
                             address: { type: ["string", "null"] },
+                            status: { type: "string" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at', 'updated_at']
+                        required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
                     }
                 }
             }
@@ -65,10 +67,11 @@ async function supplierRoute(fastify, options, next) {
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
+                        status: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" }
                     },
-                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at', 'updated_at']
+                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
                 }
             }
         },
@@ -89,9 +92,10 @@ async function supplierRoute(fastify, options, next) {
                     bank_account: { type: "string" },
                     bank_account_name: { type: "string" },
                     address: { type: "string" },
+                    status: {type:"string", enum: ["ACTIVE", "INACTIVE"]}
                 },
                 additionalProperties: false,
-                required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name']
+                required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'status']
             },
             response: {
                 201: {
@@ -105,9 +109,10 @@ async function supplierRoute(fastify, options, next) {
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
+                        status: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
                     },
-                    required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'created_at']
+                    required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at']
                 }
             }
         },
@@ -135,6 +140,7 @@ async function supplierRoute(fastify, options, next) {
                     bank_account: { type: "string" },
                     bank_account_name: { type: "string" },
                     address: { type: "string" },
+                    status: {type:"string", enum: ["ACTIVE", "INACTIVE"]}
                 },
                 additionalProperties: false,
             },
@@ -150,10 +156,11 @@ async function supplierRoute(fastify, options, next) {
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
+                        status: { type: "string" },
                         updated_at: { type: "string", format: "date-time" }
                     },
                     additionalProperties: false,
-                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'updated_at']
+                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'updated_at']
                 }
             }
         },

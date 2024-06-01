@@ -8,12 +8,15 @@ import {
 
 export async function getAllSupplierController(request, reply) {
     const queries = { where: {}, orderBy: {id:"asc"} }
-    const { name_keyword } = request.query;
+    const { name_keyword, status } = request.query;
     if (name_keyword) {
         queries.where.OR = [
             { company_name: { contains: name_keyword, mode: 'insensitive' } },
             { pic_name: { contains: name_keyword, mode: 'insensitive' } }
         ];
+    }
+    if (status) {
+        queries.where.status = status
     }
     try {
         const suppliers = await findAllSupplier(queries);
