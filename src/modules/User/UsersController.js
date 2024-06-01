@@ -87,7 +87,6 @@ export async function registerController(request, reply) {
 
 export async function createUserController(request, reply) {
     const body = request.body;
-    body.status = "ACTIVE";
     try {
         const user = await createUser(body);
         const response = {
