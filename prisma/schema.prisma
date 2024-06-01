@@ -18,7 +18,7 @@ model User {
   name         String         @db.VarChar(255)
   phone        String         @db.VarChar(255)
   address      String         @db.Text
-  status       Boolean        @default(false)
+  status       String         @db.VarChar(255) @default("PENDING")
   created_at   DateTime       @default(now()) @db.Timestamptz()
   updated_at   DateTime       @default(now()) @updatedAt @db.Timestamptz()
   Role         Role           @relation(fields: [id_role], references: [id])
@@ -127,6 +127,7 @@ model Supplier {
   bank_account      String      @db.VarChar(255)
   bank_account_name String      @db.VarChar(255)
   address           String?     @db.Text
+  status            String      @db.VarChar(255) @default("ACTIVE")
   created_at        DateTime    @default(now()) @db.Timestamptz()
   updated_at        DateTime    @default(now()) @updatedAt @db.Timestamptz()
   Purchase          Purchase[]
@@ -159,7 +160,7 @@ model Purchase {
   credit_duration Int              @db.Integer
   created_at      DateTime         @default(now()) @db.Timestamptz()
   updated_at      DateTime         @default(now()) @updatedAt @db.Timestamptz()
-  Supplier        Supplier?        @relation(fields: [id_supplier], references: [id], onDelete: SetNull)
+  Supplier        Supplier?        @relation(fields: [id_supplier], references: [id])
   PurchaseDetail  PurchaseDetail[]
 
   @@map("purchases")
@@ -220,7 +221,7 @@ model Sale {
   status         Int          @default(0) @db.Integer
   created_at     DateTime     @default(now()) @db.Timestamptz()
   updated_at     DateTime     @default(now()) @updatedAt @db.Timestamptz()
-  User           User?        @relation(fields: [id_user], references: [id], onDelete: SetNull)
+  User           User?        @relation(fields: [id_user], references: [id])
   SaleDetail     SaleDetail[]
 
   @@map("sales")

@@ -29,7 +29,7 @@ export async function getAllUserController(request, reply) {
     if (name) {
         queries.where.name = { contains: name, mode: "insensitive" };
     }
-    if (status !== undefined && status !== null) {
+    if (status) {
         queries.where.status = status;
     };
     if (id_role) {
@@ -68,7 +68,7 @@ export async function getMeController(request, reply) {
 export async function registerController(request, reply) {
     const body = request.body;
     body.id_role = 2;
-    body.status = false;
+    body.status = "PENDING";
     try {
         const user = await createUser(body);
         const response = {
@@ -87,7 +87,7 @@ export async function registerController(request, reply) {
 
 export async function createUserController(request, reply) {
     const body = request.body;
-    body.status = true;
+    body.status = "ACTIVE";
     try {
         const user = await createUser(body);
         const response = {
@@ -117,7 +117,7 @@ export async function loginController(request, reply) {
             return reply.code(401).send(Error("Wrong Password!"));
         }
 
-        if (!user.status) {
+        if (user.status !== "ACTIVE") {
             return reply.code(403).send(Error("Account is not active!"));
         }
 
@@ -136,7 +136,7 @@ export async function loginController(request, reply) {
 export async function updateUserController(request, reply) {
     const body = request.body;
 
-    if (typeof body.status !== undefined) {
+    if (typeof body.status) {
         if (request.user.id_role != 1) {
             delete body.status;
         }

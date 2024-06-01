@@ -31,7 +31,7 @@ async function main() {
                 password: hash,
                 phone: "081328282727",
                 address: "Jalan Iskandar Muda No 5 Sigli",
-                status: true
+                status: "ACTIVE"
             }
         });
     }

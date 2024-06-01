@@ -18,7 +18,7 @@ async function userRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     name: { type: "string" },
-                    status: { type: "boolean" },
+                    status: { type: "string", enum: ["ACTIVE", "PENDING", "INACTIVE"] },
                     id_role: { type: "integer" }
                 },
                 additionalProperties: false
@@ -34,7 +34,7 @@ async function userRoute(fastify, options, next) {
                             name: { type: "string" },
                             phone: { type: "string" },
                             address: { type: "string" },
-                            status: { type: "boolean" },
+                            status: { type: "string" },
                             id_role: { type: "integer" },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" },
@@ -110,14 +110,15 @@ async function userRoute(fastify, options, next) {
             tags: ['user'],
             body: {
                 type: "object",
-                required: ["name", "username", "password", "phone", "address", "id_role"],
+                required: ["name", "username", "password", "phone", "address", "id_role", "string"],
                 properties: {
                     name: { type: "string" },
                     username: { type: "string" },
                     password: { type: "string" },
                     phone: { type: "string" },
                     address: { type: "string" },
-                    id_role: { type: "integer" }
+                    status: {type:"string"},
+                    id_role: { type: "integer" },
                 },
                 additionalProperties: false,
             },
@@ -130,9 +131,10 @@ async function userRoute(fastify, options, next) {
                         name: { type: "string" },
                         phone: { type: "string" },
                         address: { type: "string" },
+                        status: {type:"string"},
                         created_at: { type: "string", format: "date-time" }
                     },
-                    required: ["id", "username", "phone", "address", "created_at"]
+                    required: ["id", "username", "phone", "address", "status", "created_at"]
                 }
             }
         },
@@ -243,7 +245,7 @@ async function userRoute(fastify, options, next) {
                     name: { type: "string" },
                     phone: { type: "string" },
                     address: { type: "string" },
-                    status: { type: "boolean" }
+                    status: { type: "string", enum: ["ACTIVE", "PENDING", "INACTIVE"] }
                 },
                 additionalProperties: false
             },
@@ -254,7 +256,7 @@ async function userRoute(fastify, options, next) {
                         name: { type: "string" },
                         phone: { type: "string" },
                         address: { type: "string" },
-                        status: { type: "boolean" }
+                        status: { type: "string" }
                     }
                 }
             }
