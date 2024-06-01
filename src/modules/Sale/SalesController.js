@@ -113,6 +113,9 @@ async function handlingItemAvailability(request, reply) {
 export async function cartCheckoutController(request, reply) {
   const body = request.body;
   const user = await findUserById(body.id_user);
+  if (body.sale_detail.length === 0) {
+    return reply.code(400).send(Error("Daftar Belanja Tidak Boleh Kosong!"));
+  }
   await handlingItemAvailability(request, reply)
   try {
     const sale = await createSale(body);
@@ -152,6 +155,9 @@ export async function cartCheckoutController(request, reply) {
 
 export async function createCashSaleController(request, reply) {
   const body = request.body;
+  if (body.sale_detail.length === 0) {
+    return reply.code(400).send(Error("Daftar Belanja Tidak Boleh Kosong!"));
+  }
   await handlingItemAvailability(request, reply)
   try {
     const sale = await createSale(body);

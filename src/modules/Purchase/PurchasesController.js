@@ -73,6 +73,9 @@ export async function getOnePurchaseController(request, reply) {
 
 export async function createPurchaseController(request, reply) {
     const body = request.body;
+    if (body.purchase_detail.length === 0 ) {
+        return reply.code(400).send(Error("Daftar Pembelian Tidak Boleh Kosong!"));
+    }
     try {
         const purchase = await createPurchase(body);
         return reply.code(201).send(purchase);
