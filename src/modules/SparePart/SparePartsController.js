@@ -13,9 +13,14 @@ export async function getAllSparePartController(request, reply) {
             SparePartBrand: true,
             Car: {
                 include: { CarBrand: true }
+            },
+            SpecialPrice: {
+                where: { id_user: request.user.id },
+                take: 1,
+                orderBy: { created_at: "desc" }
             }
         },
-        orderBy: {id: "asc"}
+        orderBy: { id: "asc" }
     };
     const { id_category, id_car_brand, id_car, name } = request.query;
 
@@ -44,8 +49,22 @@ export async function getAllSparePartController(request, reply) {
 }
 
 export async function getOneSparePartController(request, reply) {
+    const queries = {
+        where: { id: Number(request.params.id) },
+        include: {
+            SparePartBrand: true,
+            Car: {
+                include: { CarBrand: true }
+            },
+            SpecialPrice: {
+                where: { id_user: request.user.id },
+                take: 1,
+                orderBy: { created_at: "desc" }
+            }
+        }
+    }
     try {
-        const sparePart = await findSparePartById(request.params.id);
+        const sparePart = await findSparePartById(queries);
         return reply.code(200).send(sparePart)
     } catch (error) {
         return reply.code(500).send(Error(error.message))

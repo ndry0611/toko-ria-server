@@ -64,6 +64,16 @@ async function sparePartRoute(fastify, options, next) {
                             description: { type: "string" },
                             supply_date: { type: "string", format: "date-time" },
                             file_name: { type: ["string", "null"] },
+                            SpecialPrice: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id: { type: "integer" },
+                                        price: { type: "integer" }
+                                    }
+                                }
+                            },
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
@@ -128,13 +138,23 @@ async function sparePartRoute(fastify, options, next) {
                         description: { type: "string" },
                         supply_date: { type: "string", format: "date-time" },
                         file_name: { type: ["string", "null"] },
+                        SpecialPrice: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    id: { type: "integer" },
+                                    price: { type: "integer" }
+                                }
+                            }
+                        },
                         created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" }
                     }
                 }
             }
         },
-        preHandler: [fastify.authenticate, fastify.isAdmin]
+        preHandler: [fastify.authenticate]
     }
     fastify.get('/:id', getOneSparePartSchema, getOneSparePartController)
 
