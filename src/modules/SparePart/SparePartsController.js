@@ -83,7 +83,7 @@ export async function createSparePartController(request, reply) {
 
 export async function updateSparePartController(request, reply) {
     const body = request.body;
-    if (!await findSparePartById(request.params.id)) {
+    if (!await findSparePartById({where: {id: Number(request.params.id)}})) {
         return reply.code(404).send(Error("Spare Part is not found!"));
     }
     try {
