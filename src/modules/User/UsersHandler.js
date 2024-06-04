@@ -7,6 +7,7 @@ import {
     getAllUserController,
     getOneUserController,
     updateUserController,
+    forgetPasswordController,
     changePasswordController
 } from './UsersController.js'
 
@@ -229,6 +230,35 @@ async function userRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.put("/change-password", changePasswordSchema, changePasswordController);
+
+    const forgetPasswordSchema = {
+        schema: {
+            tags: ['user'],
+            body: {
+                type: "object",
+                required: ["username", "name", "phone", "new_password",],
+                properties: {
+                    username: { type: "string" },
+                    name: { type: "string" },
+                    phone: { type: "string" },
+                    password: { type: "string" },
+                },
+                additionalProperties: false,
+            },
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        name: { type: "string" },
+                        phone: { type: "string" },
+                        address: { type: "string" },
+                        status: { type: "boolean" }
+                    }
+                }
+            }
+        },
+    }
+    fastify.put("/forget-password", forgetPasswordSchema, forgetPasswordController);
 
     const updateUserSchema = {
         schema: {

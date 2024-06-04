@@ -175,7 +175,7 @@ export async function changePasswordController(request, reply) {
     const me = await findUserById(user.id);
     const passwordMatch = await comparePassword(body.old_password, me.password);
     if (!passwordMatch) {
-        return reply.code(401).send(Error("Password Salah!"));
+        return reply.code(401).send(Error("Wrong Password!"));
     }
     try {
         const newPassword = await hashPassword(body.new_password);
@@ -183,6 +183,20 @@ export async function changePasswordController(request, reply) {
         return reply.code(200).send(updatedUser);
     } catch (error) {
         return reply.code(500).send(Error(error.message))
+    }
+}
+
+export async function forgetPasswordController(request, reply) {
+    const {body} = request;
+    const user = await findUserByUsername(body.username);
+    if (!user || user.id_role === 1) return reply.code(404).send(Error("User is not found!"));
+    if (user.name !== body.name || user.phone !== body.phone) return reply.code(401).send(Error("Credentials Unmatched!"));
+    try {
+        const newPassword = await hashPassword(body.password);
+        const updatedUser = await updateUser(user.id, {password: newPassword});
+        return reply.code(200).send(updatedUser);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
     }
 }
 
