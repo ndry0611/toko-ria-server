@@ -236,7 +236,7 @@ async function userRoute(fastify, options, next) {
             tags: ['user'],
             body: {
                 type: "object",
-                required: ["username", "name", "phone", "new_password",],
+                required: ["username", "name", "phone", "password",],
                 properties: {
                     username: { type: "string" },
                     name: { type: "string" },
