@@ -57,7 +57,7 @@ export async function createUser(inputs) {
         });
         return user;
     } catch (error) {
-        if(error.code && error.code === "P2002") {
+        if (error.code && error.code === "P2002") {
             throw new Error("Username is already exist!");
         }
         throw new Error(error.message);
@@ -80,16 +80,23 @@ export async function updateUser(id, inputs) {
 
 export async function deleteUser(id) {
     try {
-        await prisma.user.delete({
-            where: { id: Number(id) }
+        const result = await prisma.$transaction(async (prisma) => {
+            await prisma.user.delete({
+                where: { id: Number(id) }
+            });
+            const userPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "users",
+                    file_id: id
+                }
+            });
+            if (userPhoto) {
+                await prisma.file.delete({ where: { id: userPhoto.id } });
+                return userPhoto.name
+            };
+            return null
         });
-        const userPhoto = await prisma.file.findFirst({
-            where: {
-                file_model: "users",
-                file_id: id
-            }
-        });
-        if (userPhoto) {
+        if (result) {
             fs.unlinkSync(path.join('public/uploads/users', userPhoto.name));
         }
         return;

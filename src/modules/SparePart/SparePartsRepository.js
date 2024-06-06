@@ -66,18 +66,24 @@ export async function updateSparePart(id, inputs) {
 
 export async function deleteSparePart(id) {
     try {
-        await prisma.sparePart.delete({
-            where: { id: Number(id) }
-        });
-        const sparePartPhoto = await prisma.file.findFirst({
-            where: {
-                file_model: "spare_parts",
-                file_id: id
+        const result = await prisma.$transaction(async (prisma) => {
+            await prisma.sparePart.delete({
+                where: { id: Number(id) }
+            });
+            const sparePartPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "spare_parts",
+                    file_id: id
+                }
+            });
+            if (sparePartPhoto) {
+                await prisma.file.delete({ where: { id: sparePartPhoto.id } })
+                return sparePartPhoto.name;
             }
+            return null;
         });
-        if (sparePartPhoto) {
+        if (result) {
             fs.unlinkSync(path.join('public/uploads/spare_parts', sparePartPhoto.name));
-            await prisma.file.delete({ where: { id: sparePartPhoto.id } })
         }
         return;
     } catch (error) {

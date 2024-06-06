@@ -5,7 +5,7 @@ import * as path from 'path'
 export async function findAllCategory() {
     try {
         // find all categories
-        const categories = await prisma.category.findMany({ orderBy: { id: "asc" }})
+        const categories = await prisma.category.findMany({ orderBy: { id: "asc" } })
         // map all categories and search for the files, thru models.
         const categoriesWithImage = await Promise.all(categories.map(async (category) => {
             const file = await prisma.file.findFirst({
@@ -68,18 +68,24 @@ export async function updateCategory(id, inputs) {
 
 export async function deleteCategory(id) {
     try {
-        await prisma.category.delete({
-            where: { id: Number(id) }
-        });
-        const categoryPhoto = await prisma.file.findFirst({
-            where: {
-                file_model: "categories",
-                file_id: id
+        const result = await prisma.$transaction(async (prisma) => {
+            await prisma.category.delete({
+                where: { id: Number(id) }
+            });
+            const categoryPhoto = await prisma.file.findFirst({
+                where: {
+                    file_model: "categories",
+                    file_id: id
+                }
+            });
+            if (categoryPhoto) {
+                await prisma.file.delete({ where: { id: categoryPhoto.id } })
+                return categoryPhoto.name
             }
+            return null;
         });
-        if (categoryPhoto) {
-            fs.unlinkSync(path.join('public/uploads/categories', categoryPhoto.name));
-            await prisma.file.delete({ where: { id: categoryPhoto.id } })
+        if (result) {
+            fs.unlinkSync(path.join('public/uploads/categories', result));
         }
         return;
     } catch (error) {

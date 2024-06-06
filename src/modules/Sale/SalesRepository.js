@@ -73,32 +73,35 @@ export async function checkAvailability(items) {
 
 export async function createSale(inputs) {
   try {
-    const sale = await prisma.sale.create({
-      data: {
-        id_user: inputs.id_user,
-        code: inputs.code,
-        payment_method: inputs.payment_method,
-        grand_total: inputs.grand_total,
-        status: inputs.status,
-        payment_date: (inputs.payment_date === undefined ? null : inputs.payment_date),
-        expired_date: (inputs.expired_date === undefined ? null : inputs.expired_date),
-        SaleDetail: {
-          createMany: {
-            data: inputs.sale_detail
+    const result = await prisma.$transaction(async (prisma) => {
+      const sale = await prisma.sale.create({
+        data: {
+          id_user: inputs.id_user,
+          code: inputs.code,
+          payment_method: inputs.payment_method,
+          grand_total: inputs.grand_total,
+          status: inputs.status,
+          payment_date: (inputs.payment_date === undefined ? null : inputs.payment_date),
+          expired_date: (inputs.expired_date === undefined ? null : inputs.expired_date),
+          SaleDetail: {
+            createMany: {
+              data: inputs.sale_detail
+            }
           }
-        }
-      },
-      include: { SaleDetail: true }
-    });
+        },
+        include: { SaleDetail: true }
+      });
 
-    //Update item stocks in spare_part table
-    await Promise.all(inputs.sale_detail.map(async (saleDetail) => {
-      await prisma.sparePart.update({
-        where: { id: saleDetail.id_spare_part },
-        data: { stock: { decrement: saleDetail.quantity } }
-      })
-    }));
-    return sale;
+      //Update item stocks in spare_part table
+      await Promise.all(inputs.sale_detail.map(async (saleDetail) => {
+        await prisma.sparePart.update({
+          where: { id: saleDetail.id_spare_part },
+          data: { stock: { decrement: saleDetail.quantity } }
+        })
+      }));
+      return sale;
+    });
+    return result;
   } catch (error) {
     throw new Error(error.message);
   }
