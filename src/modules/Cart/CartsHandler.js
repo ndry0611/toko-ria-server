@@ -123,7 +123,7 @@ async function cartRoute(fastify, options, next) {
                     type: "object",
                     properties: {
                         id: { type: "integer" },
-                        id_user: { type: "integer" },
+                        id_user: { type: ["integer","null"] },
                         code: { type: "string" },
                         payment_method: { type: "integer" },
                         grand_total: { type: "integer" },
@@ -134,8 +134,9 @@ async function cartRoute(fastify, options, next) {
                     },
                     additionalProperties: false
                 }
-            }
-        }
+            },
+        },
+        preHandler: [fastify.authenticate]
     }
     fastify.post('/checkout', cartCheckoutSchema, cartCheckoutController)
 

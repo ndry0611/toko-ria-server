@@ -33,9 +33,10 @@ export async function addCartDetailsController(request, reply) {
 }
 
 export async function cartCheckoutController(request, reply) {
-    const user = await findUserById(request.user.id);
+    const userCred = request.user;
+    const user = await findUserById(userCred.id);
     const cart = await findCartByIdUser(user.id);
-    if (cart.CartDetail.length === 0) {
+    if (!cart || cart.CartDetail.length === 0) {
         return reply.code(400).send(Error("Daftar Belanja Tidak Boleh Kosong!"));
     }
     const itemsAvailable = checkAvailability(cart.CartDetail);
@@ -44,7 +45,7 @@ export async function cartCheckoutController(request, reply) {
     }
     const grandTotal = cart.CartDetail.reduce((total, item) => {
         return total + item.total_price
-    }, 0);
+    }, BigInt(0));
 
     const sale_detail = cart.CartDetail.map((item) => ({
         id_spare_part: item.id_spare_part,
@@ -58,23 +59,25 @@ export async function cartCheckoutController(request, reply) {
         code: generateCode(),
         payment_method: 2,
         grand_total: grandTotal,
+        status: 1,
         payment_date: null,
         expired_date: null,
         sale_detail: sale_detail,
     }
 
     // Midtrans Snap
-    const itemDetails = cart.CartDetail.map(item => ({
+    const item_details = cart.CartDetail.map((item) => ({
         id: item.id_spare_part.toString(),
-        price: item.price,
-        quantity: item.quantity,
+        name: item.SparePart.name,
+        price: Number(item.price),
+        quantity: Number(item.quantity)
     }));
     const midtransParams = {
         transaction_details: {
             order_id: newSales.code,
-            gross_amount: grandTotal
+            gross_amount: Number(grandTotal)
         },
-        item_details: itemDetails,
+        item_details,
         customer_details: {
             first_name: user.name,
             phone: user.phone,
