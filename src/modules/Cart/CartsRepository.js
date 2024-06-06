@@ -61,38 +61,41 @@ export async function checkCartDetailBelonging(userId, cartDetailId) {
 
 export async function addCartDetailIntoUserCart(userId, inputs) {
     try {
-        //Check if cart exists
-        const userCart = await prisma.cart.upsert({
-            where: { id_user: userId },
-            update: {},
-            create: { id_user: userId }
-        });
-        inputs.id_cart = userCart.id
+        const result = await prisma.$transaction(async (prisma) => {
+            //Check if cart exists
+            const userCart = await prisma.cart.upsert({
+                where: { id_user: userId },
+                update: {},
+                create: { id_user: userId }
+            });
+            inputs.id_cart = userCart.id
 
-        //Look after special Price
-        const specialPrice = await prisma.specialPrice.findFirst({
-            where: {
-                id_spare_part: inputs.id_spare_part,
-                id_user: userId
-            },
-            orderBy: { price: 'asc' }
-        });
-        if (specialPrice) {
-            inputs.price = specialPrice.price
-        }
-        inputs.total_price = Number(inputs.price) * Number(inputs.quantity)
+            //Look after special Price
+            const specialPrice = await prisma.specialPrice.findFirst({
+                where: {
+                    id_spare_part: inputs.id_spare_part,
+                    id_user: userId
+                },
+                orderBy: { price: 'asc' }
+            });
+            if (specialPrice) {
+                inputs.price = specialPrice.price
+            }
+            inputs.total_price = Number(inputs.price) * Number(inputs.quantity)
 
-        const cartDetails = await prisma.cartDetail.create({
-            data: inputs
-        });
+            const cartDetails = await prisma.cartDetail.create({
+                data: inputs
+            });
 
-        //Update the cart grand_total
-        await prisma.cart.update({
-            where: { id: userCart.id },
-            data: { grand_total: { increment: inputs.total_price } }
-        });
+            //Update the cart grand_total
+            await prisma.cart.update({
+                where: { id: userCart.id },
+                data: { grand_total: { increment: inputs.total_price } }
+            });
 
-        return cartDetails;
+            return cartDetails;
+        });
+        return result;
     } catch (error) {
         throw new Error(error.message)
     }
@@ -108,8 +111,8 @@ export async function deleteCartDetail(cartDetail) {
             await prisma.cartDetail.delete({
                 where: { id: Number(cartDetail.id) }
             });
-            return;
         });
+        return;
     } catch (error) {
         throw new Error(error.message);
     }
