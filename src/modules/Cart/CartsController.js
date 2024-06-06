@@ -2,8 +2,13 @@ import {
     findCartByIdUser,
     addCartDetailIntoUserCart,
     checkCartDetailBelonging,
-    deleteCartDetail
+    deleteCartDetail,
+    resetUserCart
 } from './CartsRepository.js'
+import { generateCode } from "../../utils/string.js";
+import { findUserById } from '../User/UsersRepository.js';
+import { createSale } from '../Sale/SalesRepository.js';
+import { createSnapTransaction } from "../../utils/snap.js";
 
 export async function getUserCartController(request, reply) {
     const user = request.user;
@@ -25,6 +30,89 @@ export async function addCartDetailsController(request, reply) {
     } catch (error) {
         return reply.code(500).send(Error(error.message));
     }
+}
+
+export async function cartCheckoutController(request, reply) {
+    const user = await findUserById(request.user.id);
+    const cart = await findCartByIdUser(user.id);
+    if (cart.CartDetail.length === 0) {
+        return reply.code(400).send(Error("Daftar Belanja Tidak Boleh Kosong!"));
+    }
+    const itemsAvailable = checkAvailability(cart.CartDetail);
+    if (itemsAvailable.error) {
+        return reply.code(400).send(Error(itemsAvailable.error));
+    }
+    const grandTotal = cart.CartDetail.reduce((total, item) => {
+        return total + item.total_price
+    }, 0);
+
+    const sale_detail = cart.CartDetail.map((item) => ({
+        id_spare_part: item.id_spare_part,
+        quantity: item.quantity,
+        price: item.price,
+        total_price: item.total_price
+    }));
+
+    const newSales = {
+        id_user: user.id,
+        code: generateCode(),
+        payment_method: 2,
+        grand_total: grandTotal,
+        payment_date: null,
+        expired_date: new Date(),
+        sale_detail: sale_detail,
+    }
+
+    // Midtrans Snap
+    const itemDetails = cart.CartDetail.map(item => ({
+        id: item.id_spare_part.toString(),
+        price: item.price,
+        quantity: item.quantity,
+    }));
+    const midtransParams = {
+        transaction_details: {
+            order_id: newSales.code,
+            gross_amount: grandTotal
+        },
+        item_details: itemDetails,
+        customer_details: {
+            first_name: user.name,
+            phone: user.phone,
+            shipping_address: {
+                first_name: user.name,
+                phone: user.phone,
+                address: user.address
+            }
+        },
+    }
+
+    let snapToken;
+    try {
+        snapToken = await createSnapTransaction(midtransParams);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+    newSales.snap_token = snapToken;
+
+    try {
+        const sale = await createSale(newSales);
+        await resetUserCart(user.id);
+        return reply.code(201).send(sale);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+function checkAvailability(cartDetails) {
+    const result = { status: false, error: null }
+    for (const item of cartDetails) {
+        if (item.SparePart.stock < item.quantity) {
+            result.error = `Insufficient Stock for ${item.SparePart.name}`;
+            return result;
+        }
+    }
+    result.status = true;
+    return result;
 }
 
 export async function deleteCartDetailController(request, reply) {

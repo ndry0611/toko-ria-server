@@ -18,7 +18,7 @@ model User {
   name         String         @db.VarChar(255)
   phone        String         @db.VarChar(255)
   address      String         @db.Text
-  status       String         @db.VarChar(255) @default("PENDING")
+  status       String         @default("PENDING") @db.VarChar(255)
   created_at   DateTime       @default(now()) @db.Timestamptz()
   updated_at   DateTime       @default(now()) @updatedAt @db.Timestamptz()
   Role         Role           @relation(fields: [id_role], references: [id])
@@ -127,7 +127,7 @@ model Supplier {
   bank_account      String      @db.VarChar(255)
   bank_account_name String      @db.VarChar(255)
   address           String?     @db.Text
-  status            String      @db.VarChar(255) @default("ACTIVE")
+  status            String      @default("ACTIVE") @db.VarChar(255)
   created_at        DateTime    @default(now()) @db.Timestamptz()
   updated_at        DateTime    @default(now()) @updatedAt @db.Timestamptz()
   Purchase          Purchase[]
@@ -219,6 +219,7 @@ model Sale {
   payment_date   DateTime?    @db.Timestamptz()
   expired_date   DateTime?    @db.Timestamptz()
   status         Int          @default(0) @db.Integer
+  snap_token     String?      @db.VarChar(255)
   created_at     DateTime     @default(now()) @db.Timestamptz()
   updated_at     DateTime     @default(now()) @updatedAt @db.Timestamptz()
   User           User?        @relation(fields: [id_user], references: [id])

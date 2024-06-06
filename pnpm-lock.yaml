@@ -32,6 +32,9 @@ dependencies:
   bcrypt:
     specifier: ^5.1.1
     version: 5.1.1
+  date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
@@ -44,6 +47,9 @@ dependencies:
   midtrans-client:
     specifier: ^1.3.1
     version: 1.3.1
+  nanoid:
+    specifier: ^5.0.7
+    version: 5.0.7
   nodemon:
     specifier: ^3.1.0
     version: 3.1.0
@@ -495,6 +501,10 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: false
+
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
     dev: false
 
   /debug@4.3.4(supports-color@5.5.0):
@@ -992,6 +1002,12 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: false
+
+  /nanoid@5.0.7:
+    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
     dev: false
 
   /node-addon-api@5.1.0:

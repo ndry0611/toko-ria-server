@@ -7,14 +7,6 @@ import {
   findSaleById,
   updateSale
 } from './SalesRepository.js'
-import {
-  resetUserCart
-} from '../Cart/CartsRepository.js'
-
-import {
-  findUserById
-} from '../User/UsersRepository.js'
-import { createSnapTransaction } from '../../utils/snap.js';
 
 export async function getSalesController(request, reply) {
   const user = request.user;
@@ -107,49 +99,6 @@ async function handlingItemAvailability(request, reply) {
   const itemsAvailable = await checkAvailability(body.sale_detail);
   if (!itemsAvailable) {
     return reply.code(400).send(Error('Some items are not available'));
-  }
-}
-
-export async function cartCheckoutController(request, reply) {
-  const body = request.body;
-  const user = await findUserById(body.id_user);
-  if (body.sale_detail.length === 0) {
-    return reply.code(400).send(Error("Daftar Belanja Tidak Boleh Kosong!"));
-  }
-  await handlingItemAvailability(request, reply)
-  try {
-    const sale = await createSale(body);
-    await resetUserCart(body.id_user);
-
-    // Midtrans Snap
-    const itemDetails = body.sale_detail.map(item => ({
-      id: item.id_spare_part.toString(),
-      price: item.price,
-      quantity: item.quantity,
-    }));
-
-    const midtransParams = {
-      transaction_details: {
-        order_id: sale.id,
-        gross_amount: sale.grand_total
-      },
-      item_details: itemDetails,
-      customer_details: {
-        first_name: user.name,
-        phone: user.phone,
-        shipping_address: {
-          first_name: user.name,
-          phone: user.phone,
-          address: user.address
-        }
-      },
-    }
-    const snapToken = await createSnapTransaction(midtransParams);
-    sale.snapToken = snapToken;
-
-    return reply.code(201).send(sale);
-  } catch (error) {
-    return reply.code(500).send(Error(error.message));
   }
 }
 

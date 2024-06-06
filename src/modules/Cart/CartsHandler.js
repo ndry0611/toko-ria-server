@@ -1,6 +1,7 @@
 import {
     getUserCartController,
     addCartDetailsController,
+    cartCheckoutController,
     deleteCartDetailController
 } from './CartsController.js'
 
@@ -113,6 +114,14 @@ async function cartRoute(fastify, options, next) {
         preHandler: [fastify.authenticate]
     }
     fastify.post('/details', addCartDetailsSchema, addCartDetailsController)
+
+    const cartCheckoutSchema = {
+        schema: {
+          tags: ['cart'],
+          
+        }
+      }
+      fastify.post('/checkout', cartCheckoutSchema, cartCheckoutController)
 
     const deleteCartDetailsSchema = {
         schema: {

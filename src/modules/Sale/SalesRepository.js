@@ -83,6 +83,7 @@ export async function createSale(inputs) {
           status: inputs.status,
           payment_date: (inputs.payment_date === undefined ? null : inputs.payment_date),
           expired_date: (inputs.expired_date === undefined ? null : inputs.expired_date),
+          snap_token: (inputs.snap_token || null),
           SaleDetail: {
             createMany: {
               data: inputs.sale_detail

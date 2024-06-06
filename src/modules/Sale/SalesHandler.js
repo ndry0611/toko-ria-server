@@ -1,5 +1,5 @@
 import {
-  getSalesController, getOneSaleController, cartCheckoutController, createCashSaleController, updateSaleController
+  getSalesController, getOneSaleController, createCashSaleController, updateSaleController
 } from './SalesController.js'
 
 async function saleRoute(fastify, options, next) {
@@ -188,17 +188,15 @@ async function saleRoute(fastify, options, next) {
             payment_date: { type: ["string", "null"], format: "date-time" },
             expired_date: { type: ["string", "null"], format: "date-time" },
             status: { type: "integer" },
-            snapToken: { type: "string" }
           },
           additionalProperties: false,
           required: ['id', 'id_user', 'code', 'payment_method', 'grand_total', 'payment_date', 'expired_date', 'status']
         }
       }
     },
-    preHandler: [fastify.authenticate]
+    preHandler: [fastify.authenticate, fastify.isAdmin]
   }
-  fastify.post('/cart-checkout', createSaleSchema, cartCheckoutController)
-  fastify.post('/create', { ...createSaleSchema, preHandler: [...createSaleSchema.preHandler, fastify.isAdmin] }, createCashSaleController);
+  fastify.post('/create', createSaleSchema, createCashSaleController);
 
   const updateSaleSchema = {
     schema: {
