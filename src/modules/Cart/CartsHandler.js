@@ -117,11 +117,27 @@ async function cartRoute(fastify, options, next) {
 
     const cartCheckoutSchema = {
         schema: {
-          tags: ['cart'],
-          
+            tags: ['cart'],
+            response: {
+                201: {
+                    type: "object",
+                    properties: {
+                        id: { type: "integer" },
+                        id_user: { type: "integer" },
+                        code: { type: "string" },
+                        payment_method: { type: "integer" },
+                        grand_total: { type: "integer" },
+                        payment_date: { type: ["string", "null"], format: "date-time" },
+                        expired_date: { type: ["string", "null"], format: "date-time" },
+                        status: { type: "integer" },
+                        snap_token: {type:"string"}
+                    },
+                    additionalProperties: false
+                }
+            }
         }
-      }
-      fastify.post('/checkout', cartCheckoutSchema, cartCheckoutController)
+    }
+    fastify.post('/checkout', cartCheckoutSchema, cartCheckoutController)
 
     const deleteCartDetailsSchema = {
         schema: {

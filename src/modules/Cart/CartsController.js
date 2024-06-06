@@ -59,7 +59,7 @@ export async function cartCheckoutController(request, reply) {
         payment_method: 2,
         grand_total: grandTotal,
         payment_date: null,
-        expired_date: new Date(),
+        expired_date: null,
         sale_detail: sale_detail,
     }
 
