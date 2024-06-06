@@ -106,7 +106,7 @@ export async function deleteCartDetail(cartDetail) {
                 data: { grand_total: { decrement: cartDetail.total_price } }
             });
             await prisma.cartDetail.delete({
-                where: { id: Number(id) }
+                where: { id: Number(cartDetail.id) }
             });
             return;
         });
