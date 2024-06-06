@@ -97,7 +97,7 @@ export async function deleteUser(id) {
             return null
         });
         if (result) {
-            fs.unlinkSync(path.join('public/uploads/users', userPhoto.name));
+            fs.unlinkSync(path.join('public/uploads/users', result));
         }
         return;
     } catch (error) {

@@ -83,7 +83,7 @@ export async function deleteSparePart(id) {
             return null;
         });
         if (result) {
-            fs.unlinkSync(path.join('public/uploads/spare_parts', sparePartPhoto.name));
+            fs.unlinkSync(path.join('public/uploads/spare_parts', result));
         }
         return;
     } catch (error) {
