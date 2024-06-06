@@ -100,14 +100,16 @@ export async function addCartDetailIntoUserCart(userId, inputs) {
 
 export async function deleteCartDetail(cartDetail) {
     try {
-        await prisma.cart.update({
-            where: { id: cartDetail.id_cart },
-            data: { grand_total: { decrement: cartDetail.total_price } }
+        await prisma.$transaction(async (prisma) => {
+            await prisma.cart.update({
+                where: { id: cartDetail.id_cart },
+                data: { grand_total: { decrement: cartDetail.total_price } }
+            });
+            await prisma.cartDetail.delete({
+                where: { id: Number(id) }
+            });
+            return;
         });
-        await prisma.cartDetail.delete({
-            where: { id: Number(id) }
-        });
-        return;
     } catch (error) {
         throw new Error(error.message);
     }
