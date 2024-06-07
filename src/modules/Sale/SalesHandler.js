@@ -41,6 +41,7 @@ async function saleRoute(fastify, options, next) {
               payment_date: { type: ["string", "null"], format: "date-time" },
               expired_date: { type: ["string", "null"], format: "date-time" },
               status: { type: "integer" },
+              snap_token: {type: "string"},
               created_at: { type: "string", format: "date-time" },
               updated_at: { type: "string", format: "date-time" }
             },
@@ -83,6 +84,7 @@ async function saleRoute(fastify, options, next) {
             payment_date: { type: ["string", "null"], format: "date-time" },
             expired_date: { type: ["string", "null"], format: "date-time" },
             status: { type: "integer" },
+            snap_token: {type:"string"},
             SaleDetail: {
               type: "array",
               items: {
