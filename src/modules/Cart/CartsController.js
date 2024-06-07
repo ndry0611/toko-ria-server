@@ -61,7 +61,7 @@ export async function cartCheckoutController(request, reply) {
         grand_total: grandTotal,
         status: 1,
         payment_date: null,
-        expired_date: null,
+        expired_date: new Date(now.getTime() + 10 * 60 * 1000),
         sale_detail: sale_detail,
     }
 
