@@ -213,7 +213,7 @@ model CartDetail {
 model Sale {
   id             Int          @id @default(autoincrement())
   id_user        Int?         @db.Integer
-  code           String       @db.VarChar(255)
+  code           String       @unique @db.VarChar(255)
   payment_method Int          @db.Integer
   grand_total    BigInt       @db.BigInt
   payment_date   DateTime?    @db.Timestamptz()
