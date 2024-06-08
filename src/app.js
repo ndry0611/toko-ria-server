@@ -46,11 +46,11 @@ fastify.register(fcors, [
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     {
-        origin: "https://app.sandbox.midtrans.com",
+        origin: "https://app.sandbox.midtrans.com/",
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     {
-        origin: "https://app.midtrans.com",
+        origin: "https://app.midtrans.com/",
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     }
 ]);

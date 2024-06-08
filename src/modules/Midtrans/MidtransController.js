@@ -1,4 +1,4 @@
-import { handlingNotification } from "../../utils/snap";
+import { handlingNotification } from "../../utils/snap.js";
 
 export async function notificationHandlingController(request, reply) {
   const body = request.body;
