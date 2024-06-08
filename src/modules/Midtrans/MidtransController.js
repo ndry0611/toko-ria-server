@@ -18,7 +18,6 @@ export async function notificationHandlingController(request, reply) {
           const queries = {
             where: { code: orderId },
             data: {
-              status: 4,
               payment_date: new Date(statusResponse.transaction_time),
             },
           };
@@ -31,7 +30,6 @@ export async function notificationHandlingController(request, reply) {
         const queries = {
           where: { code: orderId },
           data: {
-            status: 4,
             payment_date: new Date(statusResponse.transaction_time),
           },
         };
@@ -50,8 +48,19 @@ export async function notificationHandlingController(request, reply) {
             status: 3,
             expired_date: new Date(statusResponse.transaction_time),
           },
+          include: { SaleDetail: true },
         };
         const sale = await prisma.sale.update(queries);
+
+        await Promise.all(
+          sale.SaleDetail.map(async (item) => {
+            await prisma.sparePart.update({
+              where: { id: item.id_spare_part },
+              data: { stock: { increment: item.quantity } },
+            });
+          })
+        );
+
         reply.code(200).send({ message: summary });
       } else if (transactionStatus == "pending") {
         // TODO set transaction status on your database to 'pending' / waiting payment
