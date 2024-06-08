@@ -3,7 +3,6 @@ import { snap } from "../../utils/snap.js";
 import prisma from "../../utils/prisma.js";
 
 export async function notificationHandlingController(request, reply) {
-  console.log("trigger");
   const notificationJson = request.body;
   snap.transaction
     .notification(notificationJson)
@@ -20,7 +19,7 @@ export async function notificationHandlingController(request, reply) {
             where: { code: orderId },
             data: {
               status: 4,
-              payment_date: new Date(statusResponse.transaction_time).getTime(),
+              payment_date: new Date(statusResponse.transaction_time),
             },
           };
           const sale = await prisma.sale.update(queries);
@@ -33,7 +32,7 @@ export async function notificationHandlingController(request, reply) {
           where: { code: orderId },
           data: {
             status: 4,
-            payment_date: new Date(statusResponse.transaction_time).getTime(),
+            payment_date: new Date(statusResponse.transaction_time),
           },
         };
         const sale = await prisma.sale.update(queries);
@@ -49,7 +48,7 @@ export async function notificationHandlingController(request, reply) {
           where: { code: orderId },
           data: {
             status: 3,
-            expired_date: new Date(statusResponse.transaction_time).getTime(),
+            expired_date: new Date(statusResponse.transaction_time),
           },
         };
         const sale = await prisma.sale.update(queries);
