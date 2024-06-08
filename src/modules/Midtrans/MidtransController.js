@@ -1,3 +1,4 @@
+import { fastify } from "../../app.js";
 import { snap } from "../../utils/snap.js";
 
 export async function notificationHandlingController(request, reply) {
@@ -25,7 +26,7 @@ export async function notificationHandlingController(request, reply) {
         // TODO set transaction status on your database to 'pending' / waiting payment
         // and response with 200 OK
       }
-      console.log(summary)
+      fastify.log.info(summary)
       reply.code(200).send({message: summary});
     });
 }
