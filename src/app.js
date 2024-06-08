@@ -23,6 +23,7 @@ import sparePartRoute from './modules/SparePart/SparePartsHandler.js';
 import specialPriceRoute from './modules/SpecialPrice/SpecialPricesHandler.js'
 import sparePartBrandRoute from './modules/SparePartBrand/SparePartBrandsHandler.js';
 import stockAdjustmentRoute from './modules/StockAdjustment/StockAdjustmentsHandler.js';
+import midtransRoute from './modules/Midtrans/MidtransHandler.js';
 
 import authenticate from "./middleware/authenticate.js";
 import authorization from "./middleware/authorization.js";
@@ -86,8 +87,8 @@ fastify.register(swaggerUi, { routePrefix: '/swagger/doc' });
 fastify.register(authenticate)
 fastify.register(authorization)
 
-fastify.register(carRoute, { prefix: "api/v1/car" });
 fastify.register(userRoute, { prefix: "api/v1/user" });
+fastify.register(carRoute, { prefix: "api/v1/car" });
 fastify.register(sparePartRoute, { prefix: "api/v1/spare-part" });
 fastify.register(categoryRoute, { prefix: "api/v1/category" });
 fastify.register(supplierRoute, { prefix: "api/v1/supplier" });
@@ -100,6 +101,7 @@ fastify.register(saleRoute, { prefix: "api/v1/sale" });
 fastify.register(cartRoute, { prefix: "api/v1/cart" });
 fastify.register(fileRoute, { prefix: "api/v1/file" });
 fastify.register(stockAdjustmentRoute, { prefix: "api/v1/stock-adjustment" });
+fastify.register(midtransRoute, {prefix: "api/v1/notification"});
 
 async function start() {
     const port = process.env.PORT || 3000;
