@@ -3,7 +3,8 @@ import midtransClient from 'midtrans-client';
 
 const snap = new midtransClient.Snap({
   isProduction: false,
-  serverKey: process.env.SERVER_KEYS_MT
+  serverKey: process.env.SERVER_KEYS_MT,
+  clientKey: process.env.CLIENT_KEYS_MT
 });
 
 export async function createSnapTransaction(parameter) {

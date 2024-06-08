@@ -43,6 +43,14 @@ fastify.register(fcors, [
     {
         origin: "https://tokoriasigli.vercel.app/",
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    },
+    {
+        origin: "https://app.sandbox.midtrans.com",
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    },
+    {
+        origin: "https://app.midtrans.com",
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
     }
 ]);
 fastify.register(fastifyStatic, {
