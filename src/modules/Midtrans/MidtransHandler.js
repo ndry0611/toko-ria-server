@@ -1,3 +1,5 @@
+import { notificationHandlingController } from "./MidtransController.js"
+
 async function midtransRoute(fastify, options, next) {
   const postNotificationSchema = {
     schema: {
