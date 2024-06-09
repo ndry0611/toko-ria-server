@@ -113,6 +113,10 @@ function checkAvailability(cartDetails) {
             result.error = `Insufficient Stock for ${item.SparePart.name}`;
             return result;
         }
+        if (item.SparePart.is_available === false) {
+            result.error = `Item ${item.SparePart.name} is not available for sale!`;
+            return result;
+        }
     }
     result.status = true;
     return result;

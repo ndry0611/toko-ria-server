@@ -61,7 +61,10 @@ export async function checkAvailability(items) {
         where: { id: obj.id_spare_part }
       });
       if (sparePart.stock < obj.quantity) {
-        throw new Error(`Insufficient Stock for item with ID: ${obj.id_spare_part}`);
+        throw new Error(`Insufficient Stock for item: ${sparePart.name}`);
+      }
+      if (sparePart.is_available === false) {
+        throw new Error(`Item ${sparePart.name} is not available for sale!`);
       }
     }));
     return true;
