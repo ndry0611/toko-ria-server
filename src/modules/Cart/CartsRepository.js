@@ -83,17 +83,44 @@ export async function addCartDetailIntoUserCart(userId, inputs) {
             }
             inputs.total_price = Number(inputs.price) * Number(inputs.quantity)
 
-            const cartDetails = await prisma.cartDetail.create({
-                data: inputs
+            //Check if cart had the same spare_part
+            const existingCartDetails = await prisma.cartDetail.findFirst({
+                where: {
+                    id_cart: userCart.id,
+                    id_spare_part: inputs.id_spare_part
+                }
             });
 
-            //Update the cart grand_total
-            await prisma.cart.update({
-                where: { id: userCart.id },
-                data: { grand_total: { increment: inputs.total_price } }
-            });
+            //if yes, modify the quantity and total_price
+            if (existingCartDetails) {
+                const updatedCartDetail = await prisma.cartDetail.update({
+                    where: { id: existingCartDetails.id },
+                    data: {
+                        quantity: { increment: inputs.quantity },
+                        total_price: { increment: inputs.total_price }
+                    }
+                });
 
-            return cartDetails;
+                //Update the cart grand_total
+                await prisma.cart.update({
+                    where: { id: userCart.id },
+                    data: { grand_total: { increment: inputs.total_price } }
+                });
+
+                return updatedCartDetail;
+
+            } else {
+                //if no, create a new cartDetail
+                const newCartDetail = await prisma.cartDetail.create({
+                    data: inputs
+                });
+                //Update the cart grand_total
+                await prisma.cart.update({
+                    where: { id: userCart.id },
+                    data: { grand_total: { increment: inputs.total_price } }
+                });
+                return newCartDetail;
+            }
         });
         return result;
     } catch (error) {
