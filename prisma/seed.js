@@ -43,7 +43,7 @@ async function main() {
         await prisma.user.create({
             data: {
                 name: 'cash',
-                id_role: 1,
+                id_role: 2,
                 username: 'cash',
                 password: hash,
                 phone: "-",
