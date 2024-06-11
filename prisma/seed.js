@@ -35,6 +35,23 @@ async function main() {
             }
         });
     }
+    const cashUser = await prisma.user.findUnique({
+        where: { id: 2 }
+    });
+    if (!cashUser) {
+        const hash = await hashPassword(process.env.ADMIN_PASSWORD);
+        await prisma.user.create({
+            data: {
+                name: 'cash',
+                id_role: 1,
+                username: 'cash',
+                password: hash,
+                phone: "-",
+                address: "-",
+                status: "ACTIVE"
+            }
+        });
+    }
 
     await prisma.$executeRaw`COMMENT ON COLUMN suppliers.bank_account IS '(BANK)REKENING';`
     await prisma.$executeRaw`COMMENT ON COLUMN purchases.status IS '1=aktif,2=selesai,3=dibatalkan'`
