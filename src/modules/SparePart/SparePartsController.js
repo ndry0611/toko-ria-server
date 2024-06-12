@@ -22,7 +22,7 @@ export async function getAllSparePartController(request, reply) {
         },
         orderBy: { id: "asc" }
     };
-    const { id_category, id_car_brand, id_car, name } = request.query;
+    const { id_category, id_car_brand, id_car, name, available } = request.query;
 
     if (id_category) {
         queries.where.id_category = id_category;
@@ -38,6 +38,10 @@ export async function getAllSparePartController(request, reply) {
 
     if (name) {
         queries.where.name = { contains: name, mode: "insensitive" }
+    }
+
+    if (available) {
+        queries.where.is_available = (available === "true" ? true : false)
     }
 
     try {

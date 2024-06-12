@@ -16,7 +16,8 @@ async function sparePartRoute(fastify, options, next) {
                     id_category: { type: "integer" },
                     id_car_brand: { type: "integer" },
                     id_car: { type: "integer" },
-                    name: { type: "string" }
+                    name: { type: "string" },
+                    available : {type: "string", enum: ["true", "false"]  }
                 },
                 additionalProperties: false
             },
