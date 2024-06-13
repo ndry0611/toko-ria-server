@@ -2,7 +2,7 @@ import {
     findManySpecialPrice,
     createSpecialPrice,
     deleteSpecialPrice,
-    createManyUserSpecialPrice
+    createMultipleSpecialPrice
 } from './SpecialPricesRepository.js'
 
 export async function getSpecialPriceController(request, reply) {
@@ -51,13 +51,13 @@ export async function createSpecialPriceController(request, reply) {
     }
 }
 
-export async function createMultipleUserSpecialPriceController(request, reply) {
+export async function createMultipleSpecialPriceController(request, reply) {
     const body = request.body;
-    if (body.id_user.length === 0) {
-        return reply.code(400).send(Error("User cannot be empty!"));
+    if (body.special_prices.length === 0) {
+        return reply.code(400).send(Error("Special Prices can't be empty!"));
     }
     try {
-        const specialPrice = await createManyUserSpecialPrice(body);
+        const specialPrice = await createMultipleSpecialPrice(body);
         return reply.code(201).send(specialPrice);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

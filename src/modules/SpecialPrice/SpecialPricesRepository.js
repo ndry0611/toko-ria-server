@@ -20,13 +20,13 @@ export async function createSpecialPrice(inputs) {
     }
 }
 
-export async function createManyUserSpecialPrice(inputs) {
+export async function createMultipleSpecialPrice(inputs) {
     try {
         await prisma.$transaction(async (prisma) => {
-            for (const userId of inputs.id_user) {
+            for (const eachSP of inputs.special_prices) {
                 const sPrice = await prisma.specialPrice.findFirst({
                     where: {
-                        id_user: userId,
+                        id_user: eachSP.id_user,
                         id_spare_part: inputs.id_spare_part
                     }
                 });
@@ -36,15 +36,15 @@ export async function createManyUserSpecialPrice(inputs) {
                             id: sPrice.id
                         },
                         data: {
-                            price: inputs.price
+                            price: eachSP.price
                         }
                     });
                 } else {
                     await prisma.specialPrice.create({
                         data: {
                             id_spare_part: inputs.id_spare_part,
-                            id_user: userId,
-                            price: inputs.price
+                            id_user: eachSP.id_user,
+                            price: eachSP.price
                         }
                     });
                 }

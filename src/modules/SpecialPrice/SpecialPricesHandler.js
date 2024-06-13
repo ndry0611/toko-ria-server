@@ -3,7 +3,7 @@ import {
     createSpecialPriceController,
     deleteSpecialPriceController,
     getSpecialPriceBySparePartIdController,
-    createMultipleUserSpecialPriceController
+    createMultipleSpecialPriceController
 } from './SpecialPricesController.js'
 
 async function specialPriceRoute(fastify, options, next) {
@@ -137,21 +137,26 @@ async function specialPriceRoute(fastify, options, next) {
     }
     fastify.post('/', createSpecialPriceSchema, createSpecialPriceController);
 
-    const createMultipleUserSpecialPriceSchema = {
+    const createMultipleSpecialPriceSchema = {
         schema: {
             tags: ['special-price'],
             body: {
                 type: "object",
                 properties: {
                     id_spare_part: { type: "integer" },
-                    id_user: {
+                    special_prices: {
                         type: "array",
-                        items: { type: "integer" }
-                    },
-                    price: { type: "integer" }
+                        items: {
+                            type: "object",
+                            properties: {
+                                id_user: { type: "integer" },
+                                price: { type: "integer" }
+                            }
+                        }
+                    }
                 },
                 additionalProperties: false,
-                required: ['id_spare_part', 'id_user', 'price']
+                required: ['id_spare_part', 'special_prices']
             },
             response: {
                 201: {
@@ -166,7 +171,7 @@ async function specialPriceRoute(fastify, options, next) {
         },
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
-    fastify.post('/multiple', createMultipleUserSpecialPriceSchema, createMultipleUserSpecialPriceController);
+    fastify.post('/multiple', createMultipleSpecialPriceSchema, createMultipleSpecialPriceController);
 
     const deleteSpecialPriceSchema = {
         schema: {
