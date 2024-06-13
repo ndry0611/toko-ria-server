@@ -1,7 +1,8 @@
 import {
     findManySpecialPrice,
     createSpecialPrice,
-    deleteSpecialPrice
+    deleteSpecialPrice,
+    createManyUserSpecialPrice
 } from './SpecialPricesRepository.js'
 
 export async function getSpecialPriceController(request, reply) {
@@ -9,7 +10,7 @@ export async function getSpecialPriceController(request, reply) {
     const queries = {
         where: {},
         include: { User: true, SparePart: true },
-        orderBy: {id: "asc"}
+        orderBy: { id: "asc" }
     }
     if (id_spare_part) {
         queries.where.id_spare_part = id_spare_part
@@ -44,6 +45,19 @@ export async function createSpecialPriceController(request, reply) {
     const body = request.body;
     try {
         const specialPrice = await createSpecialPrice(body);
+        return reply.code(201).send(specialPrice);
+    } catch (error) {
+        return reply.code(500).send(Error(error.message));
+    }
+}
+
+export async function createMultipleUserSpecialPriceController(request, reply) {
+    const body = request.body;
+    if (body.id_user.length === 0) {
+        return reply.code(400).send(Error("User cannot be empty!"));
+    }
+    try {
+        const specialPrice = await createManyUserSpecialPrice(body);
         return reply.code(201).send(specialPrice);
     } catch (error) {
         return reply.code(500).send(Error(error.message));

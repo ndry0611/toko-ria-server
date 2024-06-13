@@ -1,8 +1,9 @@
 import {
     getSpecialPriceController,
-    getSpecialPriceBySparePartIdController,
     createSpecialPriceController,
-    deleteSpecialPriceController
+    deleteSpecialPriceController,
+    getSpecialPriceBySparePartIdController,
+    createMultipleUserSpecialPriceController
 } from './SpecialPricesController.js'
 
 async function specialPriceRoute(fastify, options, next) {
@@ -135,6 +136,37 @@ async function specialPriceRoute(fastify, options, next) {
         preHandler: [fastify.authenticate, fastify.isAdmin]
     }
     fastify.post('/', createSpecialPriceSchema, createSpecialPriceController);
+
+    const createMultipleUserSpecialPriceSchema = {
+        schema: {
+            tags: ['special-price'],
+            body: {
+                type: "object",
+                properties: {
+                    id_spare_part: { type: "integer" },
+                    id_user: {
+                        type: "array",
+                        items: { type: "integer" }
+                    },
+                    price: { type: "integer" }
+                },
+                additionalProperties: false,
+                required: ['id_spare_part', 'id_user', 'price']
+            },
+            response: {
+                201: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    },
+                    additionalProperties: false,
+                    required: ['message']
+                }
+            }
+        },
+        preHandler: [fastify.authenticate, fastify.isAdmin]
+    }
+    fastify.post('/multiple', createMultipleUserSpecialPriceSchema, createMultipleUserSpecialPriceController);
 
     const deleteSpecialPriceSchema = {
         schema: {
