@@ -16,7 +16,11 @@ export async function getSalesController(request, reply) {
   if (user.id_role == 1) {
     // Admin Special Queries
     if (daftar === "penjualan") {
-      queries.where.status = { in: [3, 4] }
+      if (status) {
+        queries.where.status = status
+      } else {
+        queries.where.status = { in: [3, 4] }
+      }
     } else if (daftar === "pesanan") {
       if (status) {
         queries.where.status = status
