@@ -32,7 +32,8 @@ const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
 export const fastify = Fastify({
-    logger: true
+    logger: true,
+    bodyLimit: 10485760
 });
 
 fastify.register(formbody);
@@ -58,7 +59,7 @@ fastify.register(fastifyStatic, {
     root: path.resolve(__dirname, "../public"),
     prefix: "/public/"
 });
-fastify.register(multipart);
+fastify.register(multipart, {limits: {fileSize: 5242880}});
 fastify.register(swagger, {
     openapi: {
         openapi: '3.0.0',
