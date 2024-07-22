@@ -20,7 +20,7 @@ export async function getAllSparePartController(request, reply) {
                 orderBy: { created_at: "desc" }
             }
         },
-        orderBy: { id: "asc" }
+        orderBy: { stock: "asc" }
     };
     const { id_category, id_car_brand, id_car, name, available } = request.query;
 
