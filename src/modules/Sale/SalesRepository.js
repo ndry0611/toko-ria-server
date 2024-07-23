@@ -43,7 +43,7 @@ export async function findOneSale(queries) {
 export async function checkSaleAuth(user, id) {
   try {
     const sale = await prisma.sale.findUnique({ where: { id } });
-    if (sale.id_user !== user.id && user.id_role !== 1) {
+    if (sale.id_user !== user.id && (user.id_role !== 1 && user.id_role !== 3)) {
 
       throw new Error("You don't have access to this data!");
     }

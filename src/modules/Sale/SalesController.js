@@ -13,7 +13,7 @@ export async function getSalesController(request, reply) {
   const queries = { include: { User: true }, where: {}, orderBy: { created_at: "desc" } };
   const { id_user, code, payment_method, start_date, end_date, status, daftar } = request.query;
 
-  if (user.id_role == 1) {
+  if (user.id_role == 1 || user.id_role == 3) {
     // Admin Special Queries
     if (daftar === "penjualan") {
       if (status) {

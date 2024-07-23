@@ -4,8 +4,8 @@ export default fp(async (fastify, opts) => {
     fastify.decorate('isAdmin', async (request, reply) => {
         const { user } = request;
         try {
-            if (user.id_role != 1) {
-                reply.code(403).send(Error("Admin access required"));
+            if (user.id_role != 1 && user.id_role != 3) {
+                reply.code(403).send(Error("Internal access required"));
             }
             return;
         } catch (error) {

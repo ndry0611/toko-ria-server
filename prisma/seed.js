@@ -17,6 +17,13 @@ async function main() {
             name: 'customer'
         }
     });
+    await prisma.role.upsert({
+        where: { id: 3 },
+        update: {},
+        create: {
+            name: "employee"
+        }
+    })
 
     const userAdmin = await prisma.user.findUnique({
         where: { id: 1 }
