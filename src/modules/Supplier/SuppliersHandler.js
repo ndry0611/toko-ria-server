@@ -26,9 +26,9 @@ async function supplierRoute(fastify, options, next) {
                         properties: {
                             id: { type: "integer" },
                             company_name: { type: "string" },
-                            company_phone: { type: "string" },
+                            company_phone: { type: ["string", "null"] },
                             pic_name: { type: "string" },
-                            pic_phone: { type: "string" },
+                            pic_phone: { type: ["string", "null"] },
                             bank_account: { type: "string" },
                             bank_account_name: { type: "string" },
                             address: { type: ["string", "null"] },
@@ -36,7 +36,7 @@ async function supplierRoute(fastify, options, next) {
                             created_at: { type: "string", format: "date-time" },
                             updated_at: { type: "string", format: "date-time" }
                         },
-                        required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
+                        required: ['id', 'company_name', 'pic_name', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
                     }
                 }
             }
@@ -61,9 +61,9 @@ async function supplierRoute(fastify, options, next) {
                     properties: {
                         id: { type: "integer" },
                         company_name: { type: "string" },
-                        company_phone: { type: "string" },
+                        company_phone: { type: ["string", "null"] },
                         pic_name: { type: "string" },
-                        pic_phone: { type: "string" },
+                        pic_phone: { type: ["string", "null"] },
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
@@ -71,7 +71,7 @@ async function supplierRoute(fastify, options, next) {
                         created_at: { type: "string", format: "date-time" },
                         updated_at: { type: "string", format: "date-time" }
                     },
-                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
+                    required: ['id', 'company_name', 'pic_name', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at', 'updated_at']
                 }
             }
         },
@@ -86,16 +86,16 @@ async function supplierRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     company_name: { type: "string" },
-                    company_phone: { type: "string" },
+                    company_phone: { type: ["string", "null"] },
                     pic_name: { type: "string" },
-                    pic_phone: { type: "string" },
+                    pic_phone: { type: ["string", "null"] },
                     bank_account: { type: "string" },
                     bank_account_name: { type: "string" },
                     address: { type: "string" },
                     status: {type:"string", enum: ["ACTIVE", "INACTIVE"]}
                 },
                 additionalProperties: false,
-                required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'status']
+                required: ['company_name', 'pic_name', 'bank_account', 'bank_account_name', 'status']
             },
             response: {
                 201: {
@@ -103,16 +103,16 @@ async function supplierRoute(fastify, options, next) {
                     properties: {
                         id: { type: "integer" },
                         company_name: { type: "string" },
-                        company_phone: { type: "string" },
+                        company_phone: { type: ["string", "null"] },
                         pic_name: { type: "string" },
-                        pic_phone: { type: "string" },
+                        pic_phone: { type: ["string", "null"] },
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
                         status: { type: "string" },
                         created_at: { type: "string", format: "date-time" },
                     },
-                    required: ['company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at']
+                    required: ['company_name',  'pic_name', 'bank_account', 'bank_account_name', 'address', 'status', 'created_at']
                 }
             }
         },
@@ -134,9 +134,9 @@ async function supplierRoute(fastify, options, next) {
                 type: "object",
                 properties: {
                     company_name: { type: "string" },
-                    company_phone: { type: "string" },
+                    company_phone: { type: ["string", "null"] },
                     pic_name: { type: "string" },
-                    pic_phone: { type: "string" },
+                    pic_phone: { type: ["string", "null"] },
                     bank_account: { type: "string" },
                     bank_account_name: { type: "string" },
                     address: { type: "string" },
@@ -150,9 +150,9 @@ async function supplierRoute(fastify, options, next) {
                     properties: {
                         id: { type: "integer" },
                         company_name: { type: "string" },
-                        company_phone: { type: "string" },
+                        company_phone: { type: ["string", "null"] },
                         pic_name: { type: "string" },
-                        pic_phone: { type: "string" },
+                        pic_phone: { type: ["string", "null"] },
                         bank_account: { type: "string" },
                         bank_account_name: { type: "string" },
                         address: { type: ["string", "null"] },
@@ -160,7 +160,7 @@ async function supplierRoute(fastify, options, next) {
                         updated_at: { type: "string", format: "date-time" }
                     },
                     additionalProperties: false,
-                    required: ['id', 'company_name', 'company_phone', 'pic_name', 'pic_phone', 'bank_account', 'bank_account_name', 'address', 'status', 'updated_at']
+                    required: ['id', 'company_name', 'pic_name', 'bank_account', 'bank_account_name', 'address', 'status', 'updated_at']
                 }
             }
         },

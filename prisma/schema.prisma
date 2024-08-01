@@ -121,9 +121,9 @@ model Category {
 model Supplier {
   id                Int         @id @default(autoincrement())
   company_name      String      @db.VarChar(255)
-  company_phone     String      @db.VarChar(255)
+  company_phone     String?      @db.VarChar(255)
   pic_name          String      @db.VarChar(255)
-  pic_phone         String      @db.VarChar(255)
+  pic_phone         String?      @db.VarChar(255)
   bank_account      String      @db.VarChar(255)
   bank_account_name String      @db.VarChar(255)
   address           String?     @db.Text
